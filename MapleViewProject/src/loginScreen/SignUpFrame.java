@@ -89,9 +89,9 @@ public class SignUpFrame extends javax.swing.JFrame {
         signUpNowLabel.setBounds(550, 420, 170, 15);
 
         nameLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
-        nameLabel.setText("Name");
+        nameLabel.setText("Username");
         getContentPane().add(nameLabel);
-        nameLabel.setBounds(460, 60, 40, 15);
+        nameLabel.setBounds(460, 60, 70, 15);
 
         nameField.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         nameField.addActionListener(new java.awt.event.ActionListener() {
