@@ -4,6 +4,8 @@
  */
 package loginScreen;
 
+import SignupScreen.SignupFrame;
+
 /**
  *
  * @author usman
@@ -83,17 +85,17 @@ public class LoginFrame extends javax.swing.JFrame {
         signUpNowLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         signUpNowLabel.setText("Don't Have an Account?");
         getContentPane().add(signUpNowLabel);
-        signUpNowLabel.setBounds(560, 410, 159, 15);
+        signUpNowLabel.setBounds(560, 410, 159, 16);
 
         emailLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         emailLabel.setText("Email");
         getContentPane().add(emailLabel);
-        emailLabel.setBounds(460, 170, 34, 15);
+        emailLabel.setBounds(460, 170, 32, 16);
 
         passLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         passLabel.setText("Password");
         getContentPane().add(passLabel);
-        passLabel.setBounds(460, 240, 60, 15);
+        passLabel.setBounds(460, 240, 56, 16);
 
         emailField.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         emailField.addActionListener(new java.awt.event.ActionListener() {
@@ -111,12 +113,12 @@ public class LoginFrame extends javax.swing.JFrame {
         forgotPassword.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         forgotPassword.setText("Forgot Password?");
         getContentPane().add(forgotPassword);
-        forgotPassword.setBounds(580, 370, 112, 15);
+        forgotPassword.setBounds(580, 370, 101, 16);
 
         orLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         orLabel.setText("OR");
         getContentPane().add(orLabel);
-        orLabel.setBounds(620, 390, 19, 15);
+        orLabel.setBounds(620, 390, 18, 16);
 
         leftPane.setBackground(new java.awt.Color(0, 153, 255));
         leftPane.setLayout(null);
@@ -129,7 +131,7 @@ public class LoginFrame extends javax.swing.JFrame {
         mapleLabel1.setForeground(new java.awt.Color(255, 255, 255));
         mapleLabel1.setText("MapleView by MapleTech");
         leftPane.add(mapleLabel1);
-        mapleLabel1.setBounds(30, 120, 274, 50);
+        mapleLabel1.setBounds(50, 120, 274, 50);
 
         jLabel1.setFont(new java.awt.Font("Montserrat ExtraBold", 0, 14)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
@@ -160,7 +162,10 @@ public class LoginFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        // TODO add your handling code here:
+        setVisible(false);
+        SignupFrame s1=new SignupFrame();
+        s1.setVisible(true);
+       // TODO add your handling code here:
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
