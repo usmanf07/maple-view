@@ -4,6 +4,17 @@
  */
 package EditorMain;
 
+
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+import static javax.swing.JFileChooser.APPROVE_OPTION;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author usman
@@ -13,8 +24,13 @@ public class EditorMain extends javax.swing.JFrame {
     /**
      * Creates new form EditorMain
      */
+    
+    int baseWidth;
+    int baseHeight;
     public EditorMain() {
         initComponents();
+        
+       // settingStartImage();
     }
 
     /**
@@ -54,6 +70,7 @@ public class EditorMain extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel6 = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -340,15 +357,24 @@ public class EditorMain extends javax.swing.JFrame {
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
+        jLabel5.setMaximumSize(new java.awt.Dimension(500, 350));
+        jLabel5.setMinimumSize(new java.awt.Dimension(500, 350));
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 636, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(138, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(74, 74, 74))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(574, Short.MAX_VALUE)
+                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(128, 128, 128))
         );
 
         jTabbedPane1.addTab("tab1", jPanel6);
@@ -356,6 +382,11 @@ public class EditorMain extends javax.swing.JFrame {
         jMenu1.setText("File");
 
         jMenuItem1.setText("New Image");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem1);
 
         jMenuItem2.setText("Open From File");
@@ -496,6 +527,59 @@ public class EditorMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       JFileChooser browserImageFile = new JFileChooser();
+       int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
+       
+       String path;
+       if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
+       {
+           path=browserImageFile.getSelectedFile().getAbsolutePath();
+         
+           displayImage(path);
+       }
+        
+        
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+   
+     public BufferedImage rescale(BufferedImage originalImage)
+    {
+        BufferedImage resizedImage = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D g = resizedImage.createGraphics();
+        g.drawImage(originalImage, 0, 0, baseWidth, baseHeight, null);
+        g.dispose();
+        return resizedImage;
+    }
+    void displayImage(String path)
+    {
+   
+        baseWidth=jLabel5.getWidth();
+        baseHeight=jLabel5.getHeight();
+        try{
+         BufferedImage img = ImageIO.read(new File(path));
+         img=rescale(img);
+         ImageIcon icon = new ImageIcon(img);
+         jLabel5.setIcon(icon);
+        }
+        catch(IOException ex)
+        {
+            System.out.print(ex);
+        }
+                
+             jLabel5.setVisible(true);
+        
+        
+    }
+    void settingStartImage() 
+    {
+           jLabel5.setVisible(false);
+           
+
+        
+    }
     /**
      * @param args the command line arguments
      */
@@ -553,6 +637,7 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
