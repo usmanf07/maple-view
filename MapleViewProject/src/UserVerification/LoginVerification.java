@@ -29,7 +29,7 @@ public class LoginVerification
         }
         
         else{
-            String name, phoneNum; 
+            String name; 
             int userID, userType;
             
             String query = "select * from User where email = ? and password = ?";

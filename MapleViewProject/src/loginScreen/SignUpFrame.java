@@ -4,6 +4,8 @@
  */
 package loginScreen;
 
+import UserVerification.SignupVerification;
+
 /**
  *
  * @author usman
@@ -13,9 +15,6 @@ public class SignUpFrame extends javax.swing.JFrame {
     /**
      * Creates new form HomeFrame
      */
-    private static final String EMAIL_PATTERN = 
-    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 
     public SignUpFrame() {
         initComponents();
@@ -48,6 +47,7 @@ public class SignUpFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         loginCredLabel = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapleView");
@@ -68,7 +68,7 @@ public class SignUpFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(loginButton);
-        loginButton.setBounds(580, 450, 108, 36);
+        loginButton.setBounds(580, 460, 108, 36);
 
         signUpButton.setBackground(new java.awt.Color(0, 102, 255));
         signUpButton.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
@@ -81,12 +81,12 @@ public class SignUpFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(signUpButton);
-        signUpButton.setBounds(540, 350, 170, 36);
+        signUpButton.setBounds(540, 360, 170, 36);
 
         signUpNowLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         signUpNowLabel.setText("Already Have an Account?");
         getContentPane().add(signUpNowLabel);
-        signUpNowLabel.setBounds(550, 420, 170, 15);
+        signUpNowLabel.setBounds(550, 430, 170, 15);
 
         nameLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         nameLabel.setText("Username");
@@ -137,7 +137,7 @@ public class SignUpFrame extends javax.swing.JFrame {
         orLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         orLabel.setText("OR");
         getContentPane().add(orLabel);
-        orLabel.setBounds(620, 400, 19, 15);
+        orLabel.setBounds(620, 410, 19, 15);
 
         leftPane.setBackground(new java.awt.Color(0, 153, 255));
         leftPane.setLayout(null);
@@ -173,15 +173,36 @@ public class SignUpFrame extends javax.swing.JFrame {
         getContentPane().add(loginCredLabel);
         loginCredLabel.setBounds(420, 10, 430, 50);
 
+        errorLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(255, 51, 51));
+        errorLabel.setVisible(false);
+        getContentPane().add(errorLabel);
+        errorLabel.setBounds(510, 330, 280, 16);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new LoginFrame().setVisible(true);
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        // TODO add your handling code here:
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String cnfrmPassword = cnfrmPasswordField.getText();
+        String userName = nameField.getText();
+        String result = SignupVerification.verifySignup(email, password, cnfrmPassword, userName);
+        if(result.equals("success"))
+        {
+            this.dispose();
+            new selectHomeType().setVisible(true);
+        }
+        else
+        {
+            errorLabel.setText(result);
+            errorLabel.setVisible(true);
+        }
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
@@ -235,6 +256,7 @@ public class SignUpFrame extends javax.swing.JFrame {
     private javax.swing.JPasswordField cnfrmPasswordField;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel leftPane;
