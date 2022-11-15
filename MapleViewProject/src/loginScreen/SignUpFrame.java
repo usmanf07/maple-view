@@ -30,7 +30,6 @@ public class SignUpFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         loginButton = new javax.swing.JButton();
-        signUpButton = new javax.swing.JButton();
         signUpNowLabel = new javax.swing.JLabel();
         nameLabel = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
@@ -44,10 +43,11 @@ public class SignUpFrame extends javax.swing.JFrame {
         leftPane = new javax.swing.JPanel();
         logoImage = new javax.swing.JLabel();
         mapleLabel1 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        contactBtn = new javax.swing.JButton();
         loginCredLabel = new javax.swing.JLabel();
         errorLabel = new javax.swing.JLabel();
+        signUpButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapleView");
@@ -69,19 +69,6 @@ public class SignUpFrame extends javax.swing.JFrame {
         });
         getContentPane().add(loginButton);
         loginButton.setBounds(580, 460, 108, 36);
-
-        signUpButton.setBackground(new java.awt.Color(0, 102, 255));
-        signUpButton.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
-        signUpButton.setForeground(new java.awt.Color(255, 255, 255));
-        signUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-user-male-50.png"))); // NOI18N
-        signUpButton.setText("Sign Up Now!");
-        signUpButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signUpButtonActionPerformed(evt);
-            }
-        });
-        getContentPane().add(signUpButton);
-        signUpButton.setBounds(540, 360, 170, 36);
 
         signUpNowLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         signUpNowLabel.setText("Already Have an Account?");
@@ -152,18 +139,24 @@ public class SignUpFrame extends javax.swing.JFrame {
         leftPane.add(mapleLabel1);
         mapleLabel1.setBounds(30, 120, 274, 50);
 
-        jLabel1.setFont(new java.awt.Font("Montserrat ExtraBold", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gmail-logo-50.png"))); // NOI18N
-        jLabel1.setText("Contact Support");
-        leftPane.add(jLabel1);
-        jLabel1.setBounds(70, 490, 160, 16);
-
         jLabel2.setFont(new java.awt.Font("Montserrat Medium", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("<html>An image editor with a place to edit & share art with your loved onlines!</html>");
         leftPane.add(jLabel2);
         jLabel2.setBounds(10, 220, 320, 100);
+
+        contactBtn.setBackground(new java.awt.Color(255, 102, 102));
+        contactBtn.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
+        contactBtn.setForeground(new java.awt.Color(255, 255, 255));
+        contactBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gmail-logo-50_1.png"))); // NOI18N
+        contactBtn.setText("Contact Us!");
+        contactBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                contactBtnActionPerformed(evt);
+            }
+        });
+        leftPane.add(contactBtn);
+        contactBtn.setBounds(70, 450, 150, 36);
 
         getContentPane().add(leftPane);
         leftPane.setBounds(0, 0, 310, 520);
@@ -177,7 +170,20 @@ public class SignUpFrame extends javax.swing.JFrame {
         errorLabel.setForeground(new java.awt.Color(255, 51, 51));
         errorLabel.setVisible(false);
         getContentPane().add(errorLabel);
-        errorLabel.setBounds(510, 330, 280, 16);
+        errorLabel.setBounds(520, 330, 280, 16);
+
+        signUpButton.setBackground(new java.awt.Color(51, 102, 255));
+        signUpButton.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
+        signUpButton.setForeground(new java.awt.Color(255, 255, 255));
+        signUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-add-user-male-50.png"))); // NOI18N
+        signUpButton.setText("Sign Up Now!");
+        signUpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                signUpButtonActionPerformed(evt);
+            }
+        });
+        getContentPane().add(signUpButton);
+        signUpButton.setBounds(540, 360, 190, 36);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -212,6 +218,10 @@ public class SignUpFrame extends javax.swing.JFrame {
     private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameFieldActionPerformed
+
+    private void contactBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_contactBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -254,10 +264,10 @@ public class SignUpFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cnfrmPassLabel;
     private javax.swing.JPasswordField cnfrmPasswordField;
+    private javax.swing.JButton contactBtn;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel errorLabel;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel leftPane;
     private javax.swing.JButton loginButton;
