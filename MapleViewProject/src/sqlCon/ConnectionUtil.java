@@ -18,7 +18,8 @@ public class ConnectionUtil {
     {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3308/mapleview?autoReconnect=true", "root", "18august");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/mapleview?zeroDateTimeBehavior=CONVERT_TO_NULL", "root", "beltahassan");
+            
             if(con != null)
                     return con;           
         } catch (ClassNotFoundException | SQLException ex) {
