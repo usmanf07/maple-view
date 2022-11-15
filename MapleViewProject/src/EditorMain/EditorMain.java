@@ -29,7 +29,8 @@ public class EditorMain extends javax.swing.JFrame {
     int baseHeight;
     public EditorMain() {
         initComponents();
-        
+        System.out.print(jPanel6.getX());
+        System.out.print(" "+jLabel5.getX());
        // settingStartImage();
     }
 
@@ -69,7 +70,8 @@ public class EditorMain extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
-        jPanel6 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JScrollPane();
+        jPanel2 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -357,25 +359,10 @@ public class EditorMain extends javax.swing.JFrame {
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
-        jLabel5.setMaximumSize(new java.awt.Dimension(500, 350));
-        jLabel5.setMinimumSize(new java.awt.Dimension(500, 350));
+        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanel2.add(jLabel5, new java.awt.GridBagConstraints());
 
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(138, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(74, 74, 74))
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                .addContainerGap(574, Short.MAX_VALUE)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(128, 128, 128))
-        );
+        jPanel6.setViewportView(jPanel2);
 
         jTabbedPane1.addTab("tab1", jPanel6);
 
@@ -547,6 +534,7 @@ public class EditorMain extends javax.swing.JFrame {
    
      public BufferedImage rescale(BufferedImage originalImage)
     {
+       // orignalImage
         BufferedImage resizedImage = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D g = resizedImage.createGraphics();
         g.drawImage(originalImage, 0, 0, baseWidth, baseHeight, null);
@@ -560,7 +548,7 @@ public class EditorMain extends javax.swing.JFrame {
         baseHeight=jLabel5.getHeight();
         try{
          BufferedImage img = ImageIO.read(new File(path));
-         img=rescale(img);
+        // img=rescale(img);
          ImageIcon icon = new ImageIcon(img);
          jLabel5.setIcon(icon);
         }
@@ -656,7 +644,8 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jPanel6;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
