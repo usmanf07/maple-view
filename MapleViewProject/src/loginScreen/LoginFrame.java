@@ -4,6 +4,8 @@
  */
 package loginScreen;
 
+import UserVerification.LoginVerification;
+
 /**
  *
  * @author usman
@@ -13,10 +15,6 @@ public class LoginFrame extends javax.swing.JFrame {
     /**
      * Creates new form HomeFrame
      */
-    private static final String EMAIL_PATTERN = 
-    "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-    + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-
     public LoginFrame() {
         initComponents();
     }
@@ -45,6 +43,7 @@ public class LoginFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         loginCredLabel = new javax.swing.JLabel();
+        errorLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapleView");
@@ -65,7 +64,7 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(loginButton);
-        loginButton.setBounds(580, 320, 108, 36);
+        loginButton.setBounds(580, 330, 108, 36);
 
         signUpButton.setBackground(new java.awt.Color(0, 102, 255));
         signUpButton.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
@@ -78,12 +77,12 @@ public class LoginFrame extends javax.swing.JFrame {
             }
         });
         getContentPane().add(signUpButton);
-        signUpButton.setBounds(550, 430, 170, 36);
+        signUpButton.setBounds(550, 440, 170, 36);
 
         signUpNowLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         signUpNowLabel.setText("Don't Have an Account?");
         getContentPane().add(signUpNowLabel);
-        signUpNowLabel.setBounds(560, 410, 159, 15);
+        signUpNowLabel.setBounds(560, 420, 159, 15);
 
         emailLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         emailLabel.setText("Email");
@@ -111,12 +110,12 @@ public class LoginFrame extends javax.swing.JFrame {
         forgotPassword.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         forgotPassword.setText("Forgot Password?");
         getContentPane().add(forgotPassword);
-        forgotPassword.setBounds(580, 370, 112, 15);
+        forgotPassword.setBounds(580, 380, 112, 15);
 
         orLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         orLabel.setText("OR");
         getContentPane().add(orLabel);
-        orLabel.setBounds(620, 390, 19, 15);
+        orLabel.setBounds(620, 400, 19, 15);
 
         leftPane.setBackground(new java.awt.Color(0, 153, 255));
         leftPane.setLayout(null);
@@ -152,15 +151,35 @@ public class LoginFrame extends javax.swing.JFrame {
         getContentPane().add(loginCredLabel);
         loginCredLabel.setBounds(450, 90, 400, 50);
 
+        errorLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        errorLabel.setForeground(new java.awt.Color(255, 51, 51));
+        errorLabel.setText("Incorrect Email/Password");
+        getContentPane().add(errorLabel);
+        errorLabel.setBounds(540, 300, 240, 20);
+        errorLabel.setVisible(false);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
-        // TODO add your handling code here:
+        String email = emailField.getText();
+        String password = passwordField.getText();
+        String result = LoginVerification.verifyLogin(email, password);
+        if(result.equals("success"))
+        {
+            this.dispose();
+            new selectHomeType().setVisible(true);
+        }
+        else
+        {
+            errorLabel.setText(result);
+            errorLabel.setVisible(true);
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
-        // TODO add your handling code here:
+        this.dispose();
+        new SignUpFrame().setVisible(true);
     }//GEN-LAST:event_signUpButtonActionPerformed
 
     private void emailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailFieldActionPerformed
@@ -206,6 +225,7 @@ public class LoginFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
+    private javax.swing.JLabel errorLabel;
     private javax.swing.JLabel forgotPassword;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

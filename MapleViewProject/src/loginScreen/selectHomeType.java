@@ -4,6 +4,8 @@
  */
 package loginScreen;
 
+import static UserVerification.User.*;
+
 /**
  *
  * @author usman
@@ -27,12 +29,12 @@ public class selectHomeType extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        loginButton = new javax.swing.JButton();
-        signUpButton = new javax.swing.JButton();
+        galleryBtn = new javax.swing.JButton();
+        editorBtn = new javax.swing.JButton();
         orLabel = new javax.swing.JLabel();
         loginCredLabel = new javax.swing.JLabel();
         logoImage = new javax.swing.JLabel();
-        loginCredLabel1 = new javax.swing.JLabel();
+        welcomeLabel = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("MapleView");
@@ -42,31 +44,31 @@ public class selectHomeType extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(1000, 555));
         getContentPane().setLayout(null);
 
-        loginButton.setBackground(new java.awt.Color(255, 102, 102));
-        loginButton.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
-        loginButton.setForeground(new java.awt.Color(255, 255, 255));
-        loginButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gallery-25.png"))); // NOI18N
-        loginButton.setText("Open Social Gallery");
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
+        galleryBtn.setBackground(new java.awt.Color(255, 102, 102));
+        galleryBtn.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
+        galleryBtn.setForeground(new java.awt.Color(255, 255, 255));
+        galleryBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gallery-25.png"))); // NOI18N
+        galleryBtn.setText("Open Social Gallery");
+        galleryBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loginButtonActionPerformed(evt);
+                galleryBtnActionPerformed(evt);
             }
         });
-        getContentPane().add(loginButton);
-        loginButton.setBounds(510, 270, 210, 36);
+        getContentPane().add(galleryBtn);
+        galleryBtn.setBounds(510, 270, 210, 36);
 
-        signUpButton.setBackground(new java.awt.Color(0, 102, 255));
-        signUpButton.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
-        signUpButton.setForeground(new java.awt.Color(255, 255, 255));
-        signUpButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-edit-image-25.png"))); // NOI18N
-        signUpButton.setText(" Open Photo Editor");
-        signUpButton.addActionListener(new java.awt.event.ActionListener() {
+        editorBtn.setBackground(new java.awt.Color(0, 102, 255));
+        editorBtn.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
+        editorBtn.setForeground(new java.awt.Color(255, 255, 255));
+        editorBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-edit-image-25.png"))); // NOI18N
+        editorBtn.setText(" Open Photo Editor");
+        editorBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                signUpButtonActionPerformed(evt);
+                editorBtnActionPerformed(evt);
             }
         });
-        getContentPane().add(signUpButton);
-        signUpButton.setBounds(240, 270, 210, 36);
+        getContentPane().add(editorBtn);
+        editorBtn.setBounds(240, 270, 210, 36);
 
         orLabel.setFont(new java.awt.Font("Montserrat Medium", 0, 12)); // NOI18N
         orLabel.setText("OR");
@@ -82,21 +84,21 @@ public class selectHomeType extends javax.swing.JFrame {
         getContentPane().add(logoImage);
         logoImage.setBounds(400, 20, 150, 110);
 
-        loginCredLabel1.setFont(new java.awt.Font("Montserrat ExtraBold", 0, 24)); // NOI18N
-        loginCredLabel1.setText("Welcome, Username");
-        getContentPane().add(loginCredLabel1);
-        loginCredLabel1.setBounds(340, 130, 280, 50);
+        welcomeLabel.setFont(new java.awt.Font("Montserrat ExtraBold", 0, 24)); // NOI18N
+        welcomeLabel.setText("Welcome " + currentUser.userName);
+        getContentPane().add(welcomeLabel);
+        welcomeLabel.setBounds(360, 130, 280, 50);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
+    private void galleryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_galleryBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_loginButtonActionPerformed
+    }//GEN-LAST:event_galleryBtnActionPerformed
 
-    private void signUpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signUpButtonActionPerformed
+    private void editorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editorBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_signUpButtonActionPerformed
+    }//GEN-LAST:event_editorBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,11 +143,11 @@ public class selectHomeType extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton loginButton;
+    private javax.swing.JButton editorBtn;
+    private javax.swing.JButton galleryBtn;
     private javax.swing.JLabel loginCredLabel;
-    private javax.swing.JLabel loginCredLabel1;
     private javax.swing.JLabel logoImage;
     private javax.swing.JLabel orLabel;
-    private javax.swing.JButton signUpButton;
+    private javax.swing.JLabel welcomeLabel;
     // End of variables declaration//GEN-END:variables
 }
