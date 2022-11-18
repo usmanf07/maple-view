@@ -24,9 +24,11 @@ public class EditorMain extends javax.swing.JFrame {
     /**
      * Creates new form EditorMain
      */
-    int count=0;
+    int count=1;
     int baseWidth;
     int baseHeight;
+    public static Image myImage;
+    
     public EditorMain() {
         initComponents();
 //        System.out.print(jPanel6.getX());
@@ -72,7 +74,7 @@ public class EditorMain extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        NewImage = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -363,15 +365,15 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem3.setText("New");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        NewImage.setText("New Image");
+        NewImage.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                NewImageActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(NewImage);
 
-        jMenuItem1.setText("New Image");
+        jMenuItem1.setText("Open Image");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItem1ActionPerformed(evt);
@@ -468,15 +470,9 @@ public class EditorMain extends javax.swing.JFrame {
 
     private void cropBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn1ActionPerformed
         
-        JButton my = new JButton ();
-        my.setVisible(true);
-        my.setText("usman");
-        my.setSize(50,50);
-        ConfigPanel.add(my);
-        ConfigPanel.setVisible(true);
-        
-
-
+        CropFunction crop = new CropFunction();
+        crop.CropImage();
+        imagePanel.add(crop, new java.awt.GridBagConstraints());
         // TODO add your handling code here:
     }//GEN-LAST:event_cropBtn1ActionPerformed
 
@@ -591,46 +587,30 @@ public class EditorMain extends javax.swing.JFrame {
         }
         return path;
     }
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+    private void NewImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewImageActionPerformed
         
+        imagePanel = new JPanel();
+        imagePanel.setLayout(new java.awt.GridBagLayout());
         
-      
+        NewLoadImage loadNewImage = new NewLoadImage() ;
+        loadNewImage.setPreferredSize(new Dimension(600, 500));
+        myImage = NewLoadImage.image;
         
-    
-//       JPanel panel = new JPanel();
-//       panel.setLayout(new java.awt.GridBagLayout());
-//       JLabel j2=new JLabel();
-//      // j2.setText("hello");
-//       
-//       panel.add(j2, new java.awt.GridBagConstraints());
-//       JScrollPane j1=new JScrollPane(panel);
-//       String name="panel "+count;
-//       count++;
-//       jTabbedPane1.addTab(name,j1);
-
-//
-    JPanel panel = new JPanel();
-    panel.setLayout(new java.awt.GridBagLayout());
-    DrawArea drawArea=new DrawArea() ;
-    drawArea.setPreferredSize(new Dimension(600, 500));
-    drawArea.OpenImage();
-    //drawArea.setSize(500,500);
-    panel.add(drawArea, new java.awt.GridBagConstraints());
-    JScrollPane j1=new JScrollPane(panel);
-    String name="panel "+count;
-    count++;
-    jTabbedPane1.addTab(name,j1);
-////       
-////      
-
-
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+        imagePanel.add(loadNewImage, new java.awt.GridBagConstraints());
+        imageScroll = new JScrollPane(imagePanel);
+        String name="Untitled " + count;
+        count++;
+        jTabbedPane1.addTab(name, imageScroll);
+    }//GEN-LAST:event_NewImageActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1ActionPerformed
-   
+    
+    public static Image getImage()
+    {
+        return myImage;
+    }
      public BufferedImage rescale(BufferedImage originalImage)
     {
 //       // orignalImage
@@ -691,11 +671,13 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
     }
-
+    private javax.swing.JScrollPane imageScroll;
+    private javax.swing.JPanel imagePanel;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JPanel EditorPanel;
     private javax.swing.JPanel LayersPanel;
+    private javax.swing.JMenuItem NewImage;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cropBtn;
     private javax.swing.JButton cropBtn1;
@@ -724,7 +706,6 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;

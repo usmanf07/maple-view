@@ -27,7 +27,7 @@ import javax.swing.JComponent;
 public class DrawArea extends JComponent {
  
   // Image in which we're going to draw
-  private Image image;
+  public static Image image;
   // Graphics2D object ==> used to draw on
   private Graphics2D g2;
   // Mouse coordinates
@@ -91,7 +91,7 @@ public class DrawArea extends JComponent {
     {
         g2.dispose();
     }
-     String path="D:\\FAST\\semester 5\\scd\\project working2\\MapleView\\MapleViewProject\\src\\images\\download.png";
+     String path="C:\\Users\\usman\\OneDrive\\Desktop\\1339.jpg\\";
      BufferedImage img=null;
     try {    
            img = ImageIO.read(new File(path));
@@ -106,12 +106,15 @@ public class DrawArea extends JComponent {
       BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
       Graphics g = bi.getGraphics();
       image=img;
-      g.drawImage(image, 0, 0, null);
-      g2 = (Graphics2D) image.getGraphics();
+      //g.drawImage(image, 0, 0, null);
+      //g2 = (Graphics2D) image.getGraphics();
      // g2.setPaint(Color.black);
       
   }
-  
+  public static Image getImage()
+  {
+      return image;
+  }
   // now we create exposed methods
   public void clear() {
     g2.setPaint(Color.white);
