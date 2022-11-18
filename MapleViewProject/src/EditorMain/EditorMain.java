@@ -72,7 +72,7 @@ public class EditorMain extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem3 = new javax.swing.JMenuItem();
+        newButton = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
@@ -363,13 +363,13 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
 
-        jMenuItem3.setText("New");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        newButton.setText("New");
+        newButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                newButtonActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        jMenu1.add(newButton);
 
         jMenuItem1.setText("New Image");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -464,16 +464,37 @@ public class EditorMain extends javax.swing.JFrame {
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
         // TODO add your handling code here:
+        
+        int index=jTabbedPane1.getSelectedIndex();
+        if(index!=-1)
+        {
+            Component temp= jTabbedPane1.getComponentAt(index);
+            JScrollPane selected=(JScrollPane)temp;
+            JViewport mypanel =(JViewport)selected.getComponent(0);
+            JPanel t = (JPanel)mypanel.getComponent(0);
+            DrawArea c =(DrawArea) t.getComponent(0);
+            int h=c.getHeight();
+            int w=c.getWidth();
+            
+            DrawRect D1=new DrawRect();
+            D1.setPreferredSize(new Dimension(w, h));
+            c.setLayout(new java.awt.GridBagLayout());
+//            c.setPreferredSize(new Dimension(w, h));
+            c.add(D1, new java.awt.GridBagConstraints());
+//            t.setPreferredSize(new Dimension(w, h));
+//            t.add(c,new java.awt.GridBagConstraints());
+//            mypanel.add(t);
+////            mypanel.setPreferredSize(new Dimension(w, h));
+//            selected.add(mypanel);
+        }
+        
+        
+        
     }//GEN-LAST:event_cropBtnActionPerformed
 
     private void cropBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn1ActionPerformed
         
-        JButton my = new JButton ();
-        my.setVisible(true);
-        my.setText("usman");
-        my.setSize(50,50);
-        ConfigPanel.add(my);
-        ConfigPanel.setVisible(true);
+       
         
 
 
@@ -526,96 +547,77 @@ public class EditorMain extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
     
-       int index=jTabbedPane1.getSelectedIndex();
-       if(index==-1)
-       {
-            JPanel panel = new JPanel();
-            panel.setLayout(new java.awt.GridBagLayout());
-            JLabel j2=new JLabel();
-            String path=Path();
-            try{
-               BufferedImage img = ImageIO.read(new File(path));
-
-                ImageIcon icon = new ImageIcon(img);
-                j2.setIcon(icon);
-                panel.add(j2, new java.awt.GridBagConstraints());
-                JScrollPane j1=new JScrollPane(panel);
-                String name="panel "+count;
-                count++;
-                jTabbedPane1.addTab(name,j1);
-            }
-            catch(IOException ex)
-            {
-                JOptionPane.showMessageDialog(null, ex);
-                return; 
-            }
-           
-       }
-       else
-       {
-            Component temp= jTabbedPane1.getComponentAt(index);
-            JScrollPane selected=(JScrollPane)temp;
-            JViewport mypanel =(JViewport)selected.getComponent(0);
-            JPanel t = (JPanel)mypanel.getComponent(0);
-            DrawArea c =(DrawArea) t.getComponent(0);
-       //     c=null;
-            t.remove(c);
-            JLabel temp1=new JLabel();
-            String path=Path();
-            try{
-               BufferedImage img = ImageIO.read(new File(path));
-
-                ImageIcon icon = new ImageIcon(img);
-                temp1.setIcon(icon);
-                t.add(temp1, new java.awt.GridBagConstraints());
-            }
-            catch(IOException ex)
-            {
-                JOptionPane.showMessageDialog(null, ex);
-                return; 
-            }
-       }
-       
+//       int index=jTabbedPane1.getSelectedIndex();
+//       if(index==-1)
+//       {
+//            JPanel panel = new JPanel();
+//            panel.setLayout(new java.awt.GridBagLayout());
+//            JLabel j2=new JLabel();
+//            String path=Path();
+//            try{
+//               BufferedImage img = ImageIO.read(new File(path));
+//
+//                ImageIcon icon = new ImageIcon(img);
+//                j2.setIcon(icon);
+//                panel.add(j2, new java.awt.GridBagConstraints());
+//                JScrollPane j1=new JScrollPane(panel);
+//                String name="panel "+count;
+//                count++;
+//                jTabbedPane1.addTab(name,j1);
+//            }
+//            catch(IOException ex)
+//            {
+//                JOptionPane.showMessageDialog(null, ex);
+//                return; 
+//            }
+//           
+//       }
+//       else
+//       {
+//            Component temp= jTabbedPane1.getComponentAt(index);
+//            JScrollPane selected=(JScrollPane)temp;
+//            JViewport mypanel =(JViewport)selected.getComponent(0);
+//            JPanel t = (JPanel)mypanel.getComponent(0);
+//            DrawArea c =(DrawArea) t.getComponent(0);
+//       //     c=null;
+//            t.remove(c);
+//            JLabel temp1=new JLabel();
+//           // String path=Path();
+//            try{
+//               BufferedImage img = ImageIO.read(new File(path));
+//
+//                ImageIcon icon = new ImageIcon(img);
+//                temp1.setIcon(icon);
+//                t.add(temp1, new java.awt.GridBagConstraints());
+//            }
+//            catch(IOException ex)
+//            {
+//                JOptionPane.showMessageDialog(null, ex);
+//                return; 
+//            }
+//       }
+//       
    
     }//GEN-LAST:event_jMenuItem1ActionPerformed
     
     
-    public String Path()
-    {
-        JFileChooser browserImageFile = new JFileChooser();
-        int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
-        String path="";
-        if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
-        {
-           path=browserImageFile.getSelectedFile().getAbsolutePath();
-        }
-        return path;
-    }
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+   
+    private void newButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newButtonActionPerformed
         
-        
-      
-        
-    
-//       JPanel panel = new JPanel();
-//       panel.setLayout(new java.awt.GridBagLayout());
-//       JLabel j2=new JLabel();
-//      // j2.setText("hello");
-//       
-//       panel.add(j2, new java.awt.GridBagConstraints());
-//       JScrollPane j1=new JScrollPane(panel);
-//       String name="panel "+count;
-//       count++;
-//       jTabbedPane1.addTab(name,j1);
-
-//
     JPanel panel = new JPanel();
     panel.setLayout(new java.awt.GridBagLayout());
     DrawArea drawArea=new DrawArea() ;
-    drawArea.setPreferredSize(new Dimension(600, 500));
-    drawArea.OpenImage();
-    //drawArea.setSize(500,500);
+    
+    Image temp = ImageOpener.OpenImage();
+    drawArea.Drawer(temp);
+//   
+//    DrawRect D1=new DrawRect();
+//    drawArea.setLayout(new java.awt.GridBagLayout());
+//    drawArea.add(D1, new java.awt.GridBagConstraints());
     panel.add(drawArea, new java.awt.GridBagConstraints());
+    
+    
+   
     JScrollPane j1=new JScrollPane(panel);
     String name="panel "+count;
     count++;
@@ -625,7 +627,7 @@ public class EditorMain extends javax.swing.JFrame {
 
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    }//GEN-LAST:event_newButtonActionPerformed
 
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
@@ -724,7 +726,6 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
@@ -739,6 +740,7 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton moveBtn;
     private javax.swing.JButton moveBtn1;
+    private javax.swing.JMenuItem newButton;
     private javax.swing.JButton socialBtn;
     // End of variables declaration//GEN-END:variables
 }
