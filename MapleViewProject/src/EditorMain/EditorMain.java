@@ -74,7 +74,6 @@ public class EditorMain extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -335,7 +334,7 @@ public class EditorMain extends javax.swing.JFrame {
             .addGroup(bottomPanelLayout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 444, Short.MAX_VALUE)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -358,6 +357,11 @@ public class EditorMain extends javax.swing.JFrame {
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
         jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenu1ActionPerformed(evt);
+            }
+        });
 
         jMenuItem3.setText("New");
         jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
@@ -374,9 +378,6 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jMenuItem1);
-
-        jMenuItem2.setText("Open From File");
-        jMenu1.add(jMenuItem2);
         jMenu1.add(jSeparator1);
 
         jMenuItem4.setText("Save");
@@ -466,6 +467,16 @@ public class EditorMain extends javax.swing.JFrame {
     }//GEN-LAST:event_cropBtnActionPerformed
 
     private void cropBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn1ActionPerformed
+        
+        JButton my = new JButton ();
+        my.setVisible(true);
+        my.setText("usman");
+        my.setSize(50,50);
+        ConfigPanel.add(my);
+        ConfigPanel.setVisible(true);
+        
+
+
         // TODO add your handling code here:
     }//GEN-LAST:event_cropBtn1ActionPerformed
 
@@ -516,76 +527,109 @@ public class EditorMain extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
     
        int index=jTabbedPane1.getSelectedIndex();
-  
-       Component temp= jTabbedPane1.getComponentAt(index);
-       JScrollPane selected=(JScrollPane)temp;
-    
-   
-//      
-//      
-//          
-////       
-       JViewport mypanel =(JViewport)selected.getComponent(0);
-       JPanel t = (JPanel)mypanel.getComponent(0);
-       JLabel temp1 = (JLabel)t.getComponent(0);
-       System.out.print(temp1);
-//
-//       JLabel temp1=(JLabel)mypanel.getComponent(0);
-////   
-////         
-//          
-//
-       JFileChooser browserImageFile = new JFileChooser();
-       int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
-       
-       String path;
-       if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
+       if(index==-1)
        {
-           path=browserImageFile.getSelectedFile().getAbsolutePath();
-         
-          
+            JPanel panel = new JPanel();
+            panel.setLayout(new java.awt.GridBagLayout());
+            JLabel j2=new JLabel();
+            String path=Path();
+            try{
+               BufferedImage img = ImageIO.read(new File(path));
+
+                ImageIcon icon = new ImageIcon(img);
+                j2.setIcon(icon);
+                panel.add(j2, new java.awt.GridBagConstraints());
+                JScrollPane j1=new JScrollPane(panel);
+                String name="panel "+count;
+                count++;
+                jTabbedPane1.addTab(name,j1);
+            }
+            catch(IOException ex)
+            {
+                JOptionPane.showMessageDialog(null, ex);
+                return; 
+            }
+           
+       }
+       else
+       {
+            Component temp= jTabbedPane1.getComponentAt(index);
+            JScrollPane selected=(JScrollPane)temp;
+            JViewport mypanel =(JViewport)selected.getComponent(0);
+            JPanel t = (JPanel)mypanel.getComponent(0);
+            DrawArea c =(DrawArea) t.getComponent(0);
+       //     c=null;
+            t.remove(c);
+            JLabel temp1=new JLabel();
+            String path=Path();
+            try{
+               BufferedImage img = ImageIO.read(new File(path));
+
+                ImageIcon icon = new ImageIcon(img);
+                temp1.setIcon(icon);
+                t.add(temp1, new java.awt.GridBagConstraints());
+            }
+            catch(IOException ex)
+            {
+                JOptionPane.showMessageDialog(null, ex);
+                return; 
+            }
+       }
        
-     try{
-         BufferedImage img = ImageIO.read(new File(path));
-        // img=rescale(img);
-         ImageIcon icon = new ImageIcon(img);
-         temp1.setIcon(icon);
-        }
-        catch(IOException ex)
-        {
-            System.out.print(ex);
-        }
-                
-             temp1.setVisible(true);   
-//        
-    }
-
-        
+   
     }//GEN-LAST:event_jMenuItem1ActionPerformed
-
+    
+    
+    public String Path()
+    {
+        JFileChooser browserImageFile = new JFileChooser();
+        int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
+        String path="";
+        if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
+        {
+           path=browserImageFile.getSelectedFile().getAbsolutePath();
+        }
+        return path;
+    }
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         
         
       
         
     
-       JPanel panel = new JPanel();
-       panel.setLayout(new java.awt.GridBagLayout());
-       JLabel j2=new JLabel();
-      // j2.setText("hello");
-       
-       panel.add(j2, new java.awt.GridBagConstraints());
-       JScrollPane j1=new JScrollPane(panel);
-       String name="panel "+count;
-       count++;
-       jTabbedPane1.addTab(name,j1);
-       
-       
-      
+//       JPanel panel = new JPanel();
+//       panel.setLayout(new java.awt.GridBagLayout());
+//       JLabel j2=new JLabel();
+//      // j2.setText("hello");
+//       
+//       panel.add(j2, new java.awt.GridBagConstraints());
+//       JScrollPane j1=new JScrollPane(panel);
+//       String name="panel "+count;
+//       count++;
+//       jTabbedPane1.addTab(name,j1);
+
+//
+    JPanel panel = new JPanel();
+    panel.setLayout(new java.awt.GridBagLayout());
+    DrawArea drawArea=new DrawArea() ;
+    drawArea.setPreferredSize(new Dimension(600, 500));
+    drawArea.OpenImage();
+    //drawArea.setSize(500,500);
+    panel.add(drawArea, new java.awt.GridBagConstraints());
+    JScrollPane j1=new JScrollPane(panel);
+    String name="panel "+count;
+    count++;
+    jTabbedPane1.addTab(name,j1);
+////       
+////      
 
 
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenu1ActionPerformed
    
      public BufferedImage rescale(BufferedImage originalImage)
     {
@@ -680,7 +724,6 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
