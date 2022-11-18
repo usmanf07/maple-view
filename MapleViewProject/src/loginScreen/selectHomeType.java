@@ -4,6 +4,8 @@
  */
 package loginScreen;
 
+
+import EditorMain.*;
 import static UserVerification.User.*;
 
 /**
@@ -97,6 +99,10 @@ public class selectHomeType extends javax.swing.JFrame {
     }//GEN-LAST:event_galleryBtnActionPerformed
 
     private void editorBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editorBtnActionPerformed
+     
+        this.dispose();
+        EditorMain n1 = new EditorMain ();
+        n1.setVisible(true);
         // TODO add your handling code here:
     }//GEN-LAST:event_editorBtnActionPerformed
 
