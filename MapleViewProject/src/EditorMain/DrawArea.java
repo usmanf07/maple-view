@@ -27,14 +27,21 @@ import javax.swing.JComponent;
 public class DrawArea extends JComponent {
  
   // Image in which we're going to draw
-  public static Image image;
+  public Image image;
   // Graphics2D object ==> used to draw on
   private Graphics2D g2;
-  // Mouse coordinates
+  private boolean Brush = false;
   private int currentX, currentY, oldX, oldY;
- 
+  int height,width;
+  
+  public void setBrush(boolean flag)
+  {
+      Brush = flag;
+  }
   public DrawArea() {
       
+      
+    setPreferredSize(new Dimension(500, 600));
     setDoubleBuffered(false);
     addMouseListener(new MouseAdapter() {
       public void mousePressed(MouseEvent e) {
@@ -50,7 +57,7 @@ public class DrawArea extends JComponent {
         currentX = e.getX();
         currentY = e.getY();
         
-        if (g2 != null) {
+        if (g2 != null && Brush) {
           // draw line if g2 context not null
           
           g2.drawLine(oldX, oldY, currentX, currentY);
@@ -66,55 +73,37 @@ public class DrawArea extends JComponent {
   }
  
   protected void paintComponent(Graphics g) {
+      
+      
     if (image == null) {
-      // image to draw null ==> we create
+     
       image = createImage(getSize().width, getSize().height);
   
       g2 = (Graphics2D) image.getGraphics();
-      //enable antialiasing
+    
       g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      // clear draw area
+     
       clear();
     }
    
     g.drawImage(image, 0, 0, null);
 
-    
   }
  
-  
-  
-  public void OpenImage()
+  public void Drawer(Image img)
   {
-      
-    if(g2!=null)
-    {
-        g2.dispose();
-    }
-     String path="C:\\Users\\usman\\OneDrive\\Desktop\\1339.jpg\\";
-     BufferedImage img=null;
-    try {    
-           img = ImageIO.read(new File(path));
-          
-      } catch (IOException ex) {
-          Logger.getLogger(DrawArea.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      
       int w = img.getWidth(null);
       int h = img.getHeight(null);
-      BufferedImage bi = new
-      BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-      Graphics g = bi.getGraphics();
-      image=img;
-      //g.drawImage(image, 0, 0, null);
-      //g2 = (Graphics2D) image.getGraphics();
-     // g2.setPaint(Color.black);
+      height=h;
+      width=w;
+      setPreferredSize(new Dimension(w, h));
+      image = img;
+      Graphics g = img.getGraphics();
+      g.drawImage(image, 0, 0, null);
       
   }
-  public static Image getImage()
-  {
-      return image;
-  }
+
+  
   // now we create exposed methods
   public void clear() {
     g2.setPaint(Color.white);

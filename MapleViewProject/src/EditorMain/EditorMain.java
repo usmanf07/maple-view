@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package EditorMain;
+import EditorMain.DrawRect;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Graphics2D;
@@ -24,13 +25,13 @@ public class EditorMain extends javax.swing.JFrame {
     /**
      * Creates new form EditorMain
      */
-    int count=1;
-    int baseWidth;
-    int baseHeight;
-    public static Image myImage;
+    int count = 1;
+    public static int baseWidth;
+    public static int baseHeight;
     
     public EditorMain() {
         initComponents();
+        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 //        System.out.print(jPanel6.getX());
 //        System.out.print(" "+jLabel5.getX());
        // settingStartImage();
@@ -47,10 +48,11 @@ public class EditorMain extends javax.swing.JFrame {
 
         ConfigPanel = new javax.swing.JPanel();
         socialBtn = new javax.swing.JButton();
+        toolsPanel = new javax.swing.JPanel();
         EditorPanel = new javax.swing.JPanel();
         moveBtn = new javax.swing.JButton();
         cropBtn = new javax.swing.JButton();
-        cropBtn1 = new javax.swing.JButton();
+        paintBrushBtn = new javax.swing.JButton();
         cropBtn2 = new javax.swing.JButton();
         cropBtn3 = new javax.swing.JButton();
         moveBtn1 = new javax.swing.JButton();
@@ -74,8 +76,8 @@ public class EditorMain extends javax.swing.JFrame {
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        NewImage = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        newImgBtn = new javax.swing.JMenuItem();
+        openImgBtn = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
@@ -96,7 +98,6 @@ public class EditorMain extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         socialBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        socialBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gallery-25 new.png"))); // NOI18N
         socialBtn.setText("Social Gallery");
         socialBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -104,12 +105,27 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
 
+        toolsPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        javax.swing.GroupLayout toolsPanelLayout = new javax.swing.GroupLayout(toolsPanel);
+        toolsPanel.setLayout(toolsPanelLayout);
+        toolsPanelLayout.setHorizontalGroup(
+            toolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 738, Short.MAX_VALUE)
+        );
+        toolsPanelLayout.setVerticalGroup(
+            toolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 54, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout ConfigPanelLayout = new javax.swing.GroupLayout(ConfigPanel);
         ConfigPanel.setLayout(ConfigPanelLayout);
         ConfigPanelLayout.setHorizontalGroup(
             ConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfigPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(toolsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(socialBtn)
                 .addGap(23, 23, 23))
         );
@@ -119,6 +135,10 @@ public class EditorMain extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(socialBtn)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfigPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(toolsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(52, 52, 52))
         );
 
         EditorPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
@@ -137,10 +157,10 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
 
-        cropBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-paint-25.png"))); // NOI18N
-        cropBtn1.addActionListener(new java.awt.event.ActionListener() {
+        paintBrushBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-paint-25.png"))); // NOI18N
+        paintBrushBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cropBtn1ActionPerformed(evt);
+                paintBrushBtnActionPerformed(evt);
             }
         });
 
@@ -199,7 +219,7 @@ public class EditorMain extends javax.swing.JFrame {
                     .addComponent(cropBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cropBtn3, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(moveBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cropBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(moveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -212,7 +232,7 @@ public class EditorMain extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cropBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(moveBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -365,21 +385,21 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
 
-        NewImage.setText("New Image");
-        NewImage.addActionListener(new java.awt.event.ActionListener() {
+        newImgBtn.setText("New Image");
+        newImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                NewImageActionPerformed(evt);
+                newImgBtnActionPerformed(evt);
             }
         });
-        jMenu1.add(NewImage);
+        jMenu1.add(newImgBtn);
 
-        jMenuItem1.setText("Open Image");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        openImgBtn.setText("Open Image");
+        openImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                openImgBtnActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(openImgBtn);
         jMenu1.add(jSeparator1);
 
         jMenuItem4.setText("Save");
@@ -446,7 +466,7 @@ public class EditorMain extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(ConfigPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ConfigPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(EditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -466,15 +486,68 @@ public class EditorMain extends javax.swing.JFrame {
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
         // TODO add your handling code here:
+        JButton cropImgBtn = new JButton();
+        cropImgBtn.setText("Crop");
+       /* cropImgBtn.addActionListener(new java.awt.event.ActionListener() 
+            {
+                public void actionPerformed(java.awt.event.ActionEvent evt) 
+                {
+                        BufferedImage curr = (BufferedImage) currentImage;
+                        BufferedImage img = curr.getSubimage(D1.x, D1.y, D1.x2, D1.y2); 
+                        BufferedImage copyOfImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+                        Graphics g = copyOfImage.createGraphics();
+                        g.drawImage(img, 0, 0, null);
+                }
+            });*/
+        javax.swing.GroupLayout toolsPanelLayout = new javax.swing.GroupLayout(toolsPanel);
+        toolsPanel.setLayout(toolsPanelLayout);
+        toolsPanelLayout.setHorizontalGroup(
+            toolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(toolsPanelLayout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(cropImgBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        toolsPanelLayout.setVerticalGroup(
+            toolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(toolsPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(cropImgBtn)
+                .addContainerGap(17, Short.MAX_VALUE))
+        );
+        
+        int index=jTabbedPane1.getSelectedIndex();
+        if(index!=-1)
+        {
+            Component temp= jTabbedPane1.getComponentAt(index);
+            JScrollPane selected = (JScrollPane)temp;
+            JViewport mypanel =(JViewport)selected.getComponent(0);
+            JPanel t = (JPanel)mypanel.getComponent(0);
+            DrawArea c =(DrawArea) t.getComponent(0);
+            DrawRect D1=new DrawRect();
+            c.setLayout(new java.awt.GridBagLayout());
+            c.add(D1, new java.awt.GridBagConstraints());
+//            t.setPreferredSize(new Dimension(w, h));
+            t.add(c,new java.awt.GridBagConstraints());
+            mypanel.add(t);
+////            mypanel.setPreferredSize(new Dimension(w, h));
+           selected.add(mypanel);
+           selected.setPreferredSize(new Dimension(baseWidth, baseHeight));
+           
+        }
+        
+        
+        
     }//GEN-LAST:event_cropBtnActionPerformed
 
-    private void cropBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn1ActionPerformed
+    private void paintBrushBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintBrushBtnActionPerformed
         
-        CropFunction crop = new CropFunction();
-        crop.CropImage();
-        imagePanel.add(crop, new java.awt.GridBagConstraints());
+       
+        
+
+
         // TODO add your handling code here:
-    }//GEN-LAST:event_cropBtn1ActionPerformed
+    }//GEN-LAST:event_paintBrushBtnActionPerformed
 
     private void cropBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn2ActionPerformed
         // TODO add your handling code here:
@@ -520,97 +593,111 @@ public class EditorMain extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void openImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openImgBtnActionPerformed
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new java.awt.GridBagLayout());
+        DrawArea drawArea=new DrawArea() ;
+
+        Image temp = ImageOpener.OpenImage();
+        drawArea.Drawer(temp);
+        panel.add(drawArea, new java.awt.GridBagConstraints());
+        JScrollPane j1=new JScrollPane(panel);
+        String name="Untitled "+count;
+        count++;
+        jTabbedPane1.addTab(name,j1);
+    }//GEN-LAST:event_openImgBtnActionPerformed
     
-       int index=jTabbedPane1.getSelectedIndex();
-       if(index==-1)
-       {
-            JPanel panel = new JPanel();
-            panel.setLayout(new java.awt.GridBagLayout());
-            JLabel j2=new JLabel();
-            String path=Path();
-            try{
-               BufferedImage img = ImageIO.read(new File(path));
-
-                ImageIcon icon = new ImageIcon(img);
-                j2.setIcon(icon);
-                panel.add(j2, new java.awt.GridBagConstraints());
-                JScrollPane j1=new JScrollPane(panel);
-                String name="panel "+count;
-                count++;
-                jTabbedPane1.addTab(name,j1);
-            }
-            catch(IOException ex)
-            {
-                JOptionPane.showMessageDialog(null, ex);
-                return; 
-            }
-           
-       }
-       else
-       {
-            Component temp= jTabbedPane1.getComponentAt(index);
-            JScrollPane selected=(JScrollPane)temp;
-            JViewport mypanel =(JViewport)selected.getComponent(0);
-            JPanel t = (JPanel)mypanel.getComponent(0);
-            DrawArea c =(DrawArea) t.getComponent(0);
-       //     c=null;
-            t.remove(c);
-            JLabel temp1=new JLabel();
-            String path=Path();
-            try{
-               BufferedImage img = ImageIO.read(new File(path));
-
-                ImageIcon icon = new ImageIcon(img);
-                temp1.setIcon(icon);
-                t.add(temp1, new java.awt.GridBagConstraints());
-            }
-            catch(IOException ex)
-            {
-                JOptionPane.showMessageDialog(null, ex);
-                return; 
-            }
-       }
-       
+    
    
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-    
-    
-    public String Path()
-    {
-        JFileChooser browserImageFile = new JFileChooser();
-        int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
-        String path="";
-        if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
+    private void newImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newImgBtnActionPerformed
+        
+        JPanel sizePanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        JTextField widthField = new javax.swing.JTextField();
+        
+        JTextField heightField = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel1.setText("Enter Image Dimensions:");
+
+        jLabel2.setText("W:");
+
+        jLabel3.setText("H:");
+
+        jLabel4.setText("X");
+
+        javax.swing.GroupLayout sizePanelLayout = new javax.swing.GroupLayout(sizePanel);
+        sizePanel.setLayout(sizePanelLayout);
+        sizePanelLayout.setHorizontalGroup(
+            sizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sizePanelLayout.createSequentialGroup()
+                .addGroup(sizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(sizePanelLayout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jLabel1))
+                    .addGroup(sizePanelLayout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(3, 3, 3)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(49, Short.MAX_VALUE))
+        );
+        sizePanelLayout.setVerticalGroup(
+            sizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sizePanelLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addGroup(sizePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(widthField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(heightField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4)
+                    .addComponent(jLabel3))
+                .addContainerGap(53, Short.MAX_VALUE))
+        );
+        
+        /*int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE);*/
+        int in = 0;
+        if(in == 0)
         {
-           path=browserImageFile.getSelectedFile().getAbsolutePath();
+           // String width = widthField.getText();
+        //String height = heightField.getText();
+        //if(Integer.parseInt(width) > 0 && Integer.parseInt(height) > 0){
+            //baseHeight = Integer.parseInt(height);
+            //baseWidth = Integer.parseInt(width);
+                 baseHeight = 1920;
+                baseWidth = 1080;
+          //  }
         }
-        return path;
-    }
-    private void NewImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_NewImageActionPerformed
-        
-        imagePanel = new JPanel();
-        imagePanel.setLayout(new java.awt.GridBagLayout());
-        
-        NewLoadImage loadNewImage = new NewLoadImage() ;
-        loadNewImage.setPreferredSize(new Dimension(600, 500));
-        myImage = NewLoadImage.image;
-        
-        imagePanel.add(loadNewImage, new java.awt.GridBagConstraints());
-        imageScroll = new JScrollPane(imagePanel);
+        JPanel panel = new JPanel();
+        panel.setLayout(new java.awt.GridBagLayout());
+        DrawArea drawArea=new DrawArea() ;
+        drawArea.setPreferredSize(new Dimension(baseWidth, baseHeight));
+        panel.add(drawArea, new java.awt.GridBagConstraints());
+        JScrollPane j1=new JScrollPane(panel);
         String name="Untitled " + count;
         count++;
-        jTabbedPane1.addTab(name, imageScroll);
-    }//GEN-LAST:event_NewImageActionPerformed
+        jTabbedPane1.addTab(name,j1);
+        
+    }//GEN-LAST:event_newImgBtnActionPerformed
 
+    
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1ActionPerformed
-    
-    public static Image getImage()
-    {
-        return myImage;
-    }
+   
+   
      public BufferedImage rescale(BufferedImage originalImage)
     {
 //       // orignalImage
@@ -671,16 +758,13 @@ public class EditorMain extends javax.swing.JFrame {
             }
         });
     }
-    private javax.swing.JScrollPane imageScroll;
-    private javax.swing.JPanel imagePanel;
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JPanel EditorPanel;
     private javax.swing.JPanel LayersPanel;
-    private javax.swing.JMenuItem NewImage;
     private javax.swing.JPanel bottomPanel;
     private javax.swing.JButton cropBtn;
-    private javax.swing.JButton cropBtn1;
     private javax.swing.JButton cropBtn2;
     private javax.swing.JButton cropBtn3;
     private javax.swing.JButton cropBtn4;
@@ -704,7 +788,6 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
@@ -720,6 +803,10 @@ public class EditorMain extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton moveBtn;
     private javax.swing.JButton moveBtn1;
+    private javax.swing.JMenuItem newImgBtn;
+    private javax.swing.JMenuItem openImgBtn;
+    private javax.swing.JButton paintBrushBtn;
     private javax.swing.JButton socialBtn;
+    private javax.swing.JPanel toolsPanel;
     // End of variables declaration//GEN-END:variables
 }
