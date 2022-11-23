@@ -1,5 +1,6 @@
 package EditorMain;
 
+//import static EditorMain.EditorMain.posLabel;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -15,8 +16,10 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.JButton;
  
 import javax.swing.JComponent;
+import javax.swing.JLabel;
  
 /**
 * Component for drawing !
@@ -31,45 +34,15 @@ public class DrawArea extends JComponent {
   // Graphics2D object ==> used to draw on
   private Graphics2D g2;
   private boolean Brush = false;
-  private int currentX, currentY, oldX, oldY;
   int height,width;
   
-  public void setBrush(boolean flag)
-  {
-      Brush = flag;
-  }
-  public DrawArea() {
+  public DrawArea(int w, int h) {
       
-      
-    setPreferredSize(new Dimension(500, 600));
+      width = w;
+      height = h;
+    setPreferredSize(new Dimension(w, h));
     setDoubleBuffered(false);
-    addMouseListener(new MouseAdapter() {
-      public void mousePressed(MouseEvent e) {
-        // save coord x,y when mouse is pressed
-        oldX = e.getX();
-        oldY = e.getY();
-      }
-    });
- 
-    addMouseMotionListener(new MouseMotionAdapter() {
-      public void mouseDragged(MouseEvent e) {
-        // coord x,y when drag mouse
-        currentX = e.getX();
-        currentY = e.getY();
-        
-        if (g2 != null && Brush) {
-          // draw line if g2 context not null
-          
-          g2.drawLine(oldX, oldY, currentX, currentY);
-          // refresh draw area to repaint
-           repaint();
-          // store current coords x,y as olds x,y
-          oldX = currentX;
-          oldY = currentY;
-        }
-       
-      }
-    });
+    
   }
  
   protected void paintComponent(Graphics g) {
@@ -77,7 +50,7 @@ public class DrawArea extends JComponent {
       
     if (image == null) {
      
-      image = createImage(getSize().width, getSize().height);
+      image= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
   
       g2 = (Graphics2D) image.getGraphics();
     
@@ -88,6 +61,10 @@ public class DrawArea extends JComponent {
    
     g.drawImage(image, 0, 0, null);
 
+  }
+  public Image getImage()
+  {
+      return image;
   }
  
   public void Drawer(Image img)
@@ -111,27 +88,6 @@ public class DrawArea extends JComponent {
     g2.fillRect(0, 0, getSize().width, getSize().height);
     g2.setPaint(Color.black);
     repaint();
-  }
- 
-  public void red() {
-    // apply red color on g2 context
-    g2.setPaint(Color.red);
-  }
- 
-  public void black() {
-    g2.setPaint(Color.black);
-  }
- 
-  public void magenta() {
-    g2.setPaint(Color.magenta);
-  }
- 
-  public void green() {
-    g2.setPaint(Color.green);
-  }
- 
-  public void blue() {
-    g2.setPaint(Color.blue);
   }
  
 }

@@ -35,6 +35,11 @@ public class ImageOpener extends JComponent{
     private Graphics2D g2;
     public int width, height;
     
+    ImageOpener()
+    {
+        setFocusable(true);
+	requestFocus();
+    }
      public static String Path()
     {
         JFileChooser browserImageFile = new JFileChooser();
@@ -66,7 +71,7 @@ public class ImageOpener extends JComponent{
         if (image == null) 
         {
           // image to draw null ==> we create
-          image = createImage(getSize().width, getSize().height);
+          image = createImage(500, 500);
 
           g2 = (Graphics2D) image.getGraphics();
           //enable antialiasing
