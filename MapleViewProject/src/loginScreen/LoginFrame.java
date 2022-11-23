@@ -149,7 +149,7 @@ public class LoginFrame extends javax.swing.JFrame {
         errorLabel.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         errorLabel.setForeground(new java.awt.Color(255, 51, 51));
         getContentPane().add(errorLabel);
-        errorLabel.setBounds(540, 300, 240, 0);
+        errorLabel.setBounds(540, 300, 300, 20);
         errorLabel.setVisible(false);
 
         forgotPassBtn.setBackground(new java.awt.Color(255, 153, 0));
