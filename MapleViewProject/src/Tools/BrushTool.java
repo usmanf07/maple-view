@@ -29,12 +29,17 @@ public class BrushTool extends JComponent {
  private final ArrayList<MyPoint> point = new ArrayList<>();
 
   // Image in which we're going to draw
- 
+//  Image image; 
   private Graphics2D g2;
   public static float brushSize = 10;
   public static Color currentColor;
     public static String brushType = "Normal";
+    
+    
   public BrushTool() {
+      
+//      image = EditorMain.EditorMain.currentImage;
+//      System.out.print(image);
       currentColor = Color.BLACK;
     setDoubleBuffered(false);
     addMouseListener(new MouseAdapter() {
@@ -66,7 +71,10 @@ public class BrushTool extends JComponent {
   protected void paintComponent(Graphics g) 
   {
     super.paintComponent(g);
-    g2 = (Graphics2D) g;
+//   g2 = (Graphics2D) g;
+ 
+   
+  g2 = (Graphics2D) EditorMain.EditorMain.currentImage.getGraphics();
     g2.setColor(currentColor);
     
         for (int i = 1; i < point.size(); i++){
@@ -79,7 +87,7 @@ public class BrushTool extends JComponent {
             
              else if(point.get(i).type.equals("Calligraphy"))
             {
-                    double angle = 45;
+                    double angle = 35;
                     g2.setStroke(new BasicStroke(point.get(i).size));
 
                     double dx = (point.get(i).size - 2.0) * Math.cos(angle);

@@ -569,6 +569,7 @@ public class EditorMain extends javax.swing.JFrame{
     }//GEN-LAST:event_moveBtnActionPerformed
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
+       
         JPanel cropToolPanel = new JPanel();
         JButton cropImgBtn = new JButton();
         cropImgBtn.setText("Crop");
@@ -596,6 +597,13 @@ public class EditorMain extends javax.swing.JFrame{
         card.show(toolsPanel, "croptool");
         
         int index=jTabbedPane1.getSelectedIndex();
+        if(brushtool.containsKey(index))
+        {
+         if(brushtool.get(index))
+         {
+             brushtool.put(index, false);
+         }
+        }
         if(index!=-1)
         {
             Component temp= jTabbedPane1.getComponentAt(index);
@@ -605,6 +613,8 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             int h=c.getHeight();
             int w=c.getWidth();
+            c.removeAll();
+            c.repaint();
            // System.out.print(h);
             DrawRect D1=new DrawRect();
             D1.setPreferredSize(new Dimension(w, h));
@@ -618,6 +628,7 @@ public class EditorMain extends javax.swing.JFrame{
                 public void actionPerformed(java.awt.event.ActionEvent evt) 
                 {
                          currentImage=c.getImage();
+                         System.out.print(currentImage);
                          BufferedImage curr = (BufferedImage) c.getImage();
                          int width=D1.eX-D1.sX;
                          int height=D1.eY-D1.sY;
@@ -644,7 +655,19 @@ public class EditorMain extends javax.swing.JFrame{
         }
         
     }//GEN-LAST:event_cropBtnActionPerformed
-    
+    public void MyImage()
+    {
+        int index=jTabbedPane1.getSelectedIndex();
+        Component temp= jTabbedPane1.getComponentAt(index);
+        JScrollPane selected=(JScrollPane)temp;
+        JViewport mypanel =(JViewport)selected.getComponent(0);
+        JPanel t = (JPanel)mypanel.getComponent(0);
+        DrawArea c =(DrawArea) t.getComponent(0);
+        int h=c.getHeight();
+        int w=c.getWidth();
+        currentImage=c.getImage();
+        System.out.print(currentImage);
+    }
     private void paintBrushBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintBrushBtnActionPerformed
         int index=jTabbedPane1.getSelectedIndex();
         Component temp= jTabbedPane1.getComponentAt(index);
@@ -665,6 +688,7 @@ public class EditorMain extends javax.swing.JFrame{
        
         if(index != -1 && !flag)
         {
+            System.out.println("brush");
             brushTypeCombo.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e) {
                 BrushTool.brushType = brushTypeCombo.getSelectedItem().toString();
@@ -836,21 +860,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         
-       /* int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
-                        JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
-        //int in = 0;
-        if(in == 0)
-        {
-            String width = widthField.getText();
-        String height = heightField.getText();
-        if(Integer.parseInt(width) > 0 && Integer.parseInt(height) > 0){
-            baseHeight = Integer.parseInt(height);
-            baseWidth = Integer.parseInt(width);
-              //   baseHeight = 1920;
-               // baseWidth = 1080;
-            }
-        }*/
+   
         baseHeight = 1000;
         baseWidth = 1000;
         JPanel panel = new JPanel();
@@ -869,31 +879,13 @@ public class EditorMain extends javax.swing.JFrame{
         
         j1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        
-        //panel.add(drawArea, new java.awt.GridBagConstraints());
-//        panel.addMouseListener(new MouseAdapter() {
-//      public void mouseDragged(MouseEvent e) 
-//      {
-//        System.out.println("h");
-//        int x = e.getX();
-//        int y = e.getY();
-//        posLabel.setText("X: " + x + ", " + "Y:" + y);
-//        posLabel.setText("h");
-//      }  
-//      
-//       public void mousePressed(MouseEvent e) 
-//      {
-//          System.out.println("h");
-//        int x = e.getX();
-//        int y = e.getY();
-//        posLabel.setText("X: " + x + ", " + "Y:" + y);
-//        posLabel.setText("h");
-//      }  
-//    });
-        
         String name="Untitled " + count;
         count++;
         jTabbedPane1.addTab(name,j1);
+        jTabbedPane1.repaint();
+        panel.repaint();
+        repaint();
+      
        
     }//GEN-LAST:event_newImgBtnActionPerformed
 
