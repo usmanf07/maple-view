@@ -19,6 +19,9 @@ import java.awt.event.*;
     public class DrawRect extends JComponent {
 
         public int x, y, x2, y2;
+        public int sX,sY,eX,eY;
+        
+        //Graphics2D g;
 
         DrawRect() {
             setPreferredSize(new Dimension(1080, 1920));
@@ -49,6 +52,8 @@ import java.awt.event.*;
         class MyMouseListener extends MouseAdapter {
 
             public void mousePressed(MouseEvent e) {
+                sX=e.getX();
+                sY=e.getY();
                 setStartPoint(e.getX(), e.getY());
             }
 
@@ -58,15 +63,23 @@ import java.awt.event.*;
             }
 
             public void mouseReleased(MouseEvent e) {
+                
+                eX=e.getX();
+                eY=e.getY();
                 setEndPoint(e.getX(), e.getY());
                 repaint();
+                 
             }
         }
-
+       
         public void paintComponent(Graphics g) {
-            super.paintComponent(g);
+          //  super.paintComponent(g);
+         
             g.setColor(Color.RED);
             drawPerfectRect(g, x, y, x2, y2);
+            g.dispose();
         }
+        
+      
 
     }

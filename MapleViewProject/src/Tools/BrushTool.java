@@ -33,6 +33,7 @@ public class BrushTool extends JComponent {
   private Graphics2D g2;
   public static float brushSize = 10;
   public static Color currentColor;
+    public static String brushType = "Normal";
   public BrushTool() {
       currentColor = Color.BLACK;
     setDoubleBuffered(false);
@@ -42,6 +43,7 @@ public class BrushTool extends JComponent {
             p.point = event.getPoint();
             p.size = brushSize;
             p.color = currentColor;
+            p.type = brushType;
             point.add(p);
             repaint();
         }
@@ -53,8 +55,10 @@ public class BrushTool extends JComponent {
             p.point = event.getPoint();
             p.size = brushSize;
             p.color = currentColor;
+            p.type = brushType;
             point.add(p);
             repaint();
+            
         }
     });
   }
@@ -62,17 +66,39 @@ public class BrushTool extends JComponent {
   protected void paintComponent(Graphics g) 
   {
     super.paintComponent(g);
-    Graphics2D g2 = (Graphics2D) g;
+    g2 = (Graphics2D) g;
     g2.setColor(currentColor);
-//    g2.setStroke(new BasicStroke(brushSize,
-//                                 BasicStroke.CAP_ROUND,
-//                                 BasicStroke.JOIN_ROUND));
-    for (int i = 1; i < point.size(); i++){
-        g2.setPaint(point.get(i).color);
-        g2.setStroke(new BasicStroke(point.get(i).size, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g2.draw(new Line2D.Float(point.get(i-1).point, point.get(i).point));
-       
-    }
+    
+        for (int i = 1; i < point.size(); i++){
+            if(point.get(i).type.equals("Normal"))
+            {
+                g2.setPaint(point.get(i).color);
+                g2.setStroke(new BasicStroke(point.get(i).size, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+                g2.draw(new Line2D.Float(point.get(i-1).point, point.get(i).point));
+            }
+            
+             else if(point.get(i).type.equals("Calligraphy"))
+            {
+                    double angle = 45;
+                    g2.setStroke(new BasicStroke(point.get(i).size));
+
+                    double dx = (point.get(i).size - 2.0) * Math.cos(angle);
+                    double dy = (point.get(i).size - 2.0) * Math.sin(angle);
+                    g2.setPaint(point.get(i).color);
+                    double x = point.get(i-1).point.x;
+                    double y = point.get(i).point.y;
+
+                    double startX = x + dx;
+                    double startY = y + dy;
+                    double endX = x - dx;
+                    double endY = y - dy;
+
+                    g2.draw(new Line2D.Double(startX, startY, endX, endY));
+
+            }
+        }
+    
+   
   }
 
 }

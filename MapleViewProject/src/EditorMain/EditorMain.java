@@ -6,9 +6,12 @@ package EditorMain;
 import EditorMain.DrawRect;
 import Tools.BrushTool;
 import Tools.ColorChooser;
+import Tools.ColorPickerTool;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -17,6 +20,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -38,9 +44,10 @@ public class EditorMain extends javax.swing.JFrame{
     int count = 1;
     public static int baseWidth;
     public static int baseHeight;
-    Image currentImage;
+    public static HashMap<Integer, Image> OpenedImages;
+    public static Image currentImage;
     HashMap<Integer, Boolean> brushtool = new HashMap<Integer, Boolean>();
-    
+    DrawRect D1;
     public EditorMain() 
     {
         initComponents();
@@ -63,8 +70,8 @@ public class EditorMain extends javax.swing.JFrame{
         ConfigPanel = new javax.swing.JPanel();
         socialBtn = new javax.swing.JButton();
         toolsPanel = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        tipPanel = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
         brushToolPanel = new javax.swing.JPanel();
         typelbl = new javax.swing.JLabel();
         brushTypeCombo = new javax.swing.JComboBox<>();
@@ -76,7 +83,7 @@ public class EditorMain extends javax.swing.JFrame{
         cropBtn = new javax.swing.JButton();
         paintBrushBtn = new javax.swing.JButton();
         paintBucketBtn = new javax.swing.JButton();
-        cropBtn2 = new javax.swing.JButton();
+        ColorPickerBtn = new javax.swing.JButton();
         moveBtn1 = new javax.swing.JButton();
         cropBtn4 = new javax.swing.JButton();
         cropBtn5 = new javax.swing.JButton();
@@ -129,34 +136,30 @@ public class EditorMain extends javax.swing.JFrame{
         toolsPanel.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         toolsPanel.setLayout(new java.awt.CardLayout());
 
-        jLabel5.setText("jLabel5");
+        jLabel3.setText("Tip of The Day");
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 870, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        javax.swing.GroupLayout tipPanelLayout = new javax.swing.GroupLayout(tipPanel);
+        tipPanel.setLayout(tipPanelLayout);
+        tipPanelLayout.setHorizontalGroup(
+            tipPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tipPanelLayout.createSequentialGroup()
+                .addGap(34, 34, 34)
+                .addComponent(jLabel3)
+                .addContainerGap(629, Short.MAX_VALUE))
         );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 46, Short.MAX_VALUE)
-            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel3Layout.createSequentialGroup()
-                    .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jLabel5)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+        tipPanelLayout.setVerticalGroup(
+            tipPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tipPanelLayout.createSequentialGroup()
+                .addGap(14, 14, 14)
+                .addComponent(jLabel3)
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        toolsPanel.add(jPanel3, "panel3");
+        toolsPanel.add(tipPanel, "card3");
 
         typelbl.setText("Brush:");
 
-        brushTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal" }));
+        brushTypeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Normal", "Calligraphy" }));
 
         jSeparator4.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
@@ -180,7 +183,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addComponent(typelbl1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(brushsize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(640, Short.MAX_VALUE))
+                .addContainerGap(488, Short.MAX_VALUE))
         );
         brushToolPanelLayout.setVerticalGroup(
             brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -190,17 +193,14 @@ public class EditorMain extends javax.swing.JFrame{
                         .addContainerGap()
                         .addComponent(jSeparator4))
                     .addGroup(brushToolPanelLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
                         .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(brushToolPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(typelbl)
-                                    .addComponent(brushTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(brushToolPanelLayout.createSequentialGroup()
-                                .addGap(12, 12, 12)
-                                .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(typelbl1)
-                                    .addComponent(brushsize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(typelbl)
+                                .addComponent(brushTypeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(typelbl1)
+                                .addComponent(brushsize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -260,10 +260,10 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
 
-        cropBtn2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-color-dropper-25.png"))); // NOI18N
-        cropBtn2.addActionListener(new java.awt.event.ActionListener() {
+        ColorPickerBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-color-dropper-25.png"))); // NOI18N
+        ColorPickerBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cropBtn2ActionPerformed(evt);
+                ColorPickerBtnActionPerformed(evt);
             }
         });
 
@@ -305,7 +305,7 @@ public class EditorMain extends javax.swing.JFrame{
                     .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cropBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(cropBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cropBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(ColorPickerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(moveBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,7 +327,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addGap(18, 18, 18)
                 .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cropBtn2, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(ColorPickerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cropBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -565,31 +565,35 @@ public class EditorMain extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void moveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveBtnActionPerformed
-        CardLayout card = (CardLayout)toolsPanel.getLayout();
-        card.show(toolsPanel, "panel2");
+        
     }//GEN-LAST:event_moveBtnActionPerformed
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
-        // TODO add your handling code here:
+        JPanel cropToolPanel = new JPanel();
         JButton cropImgBtn = new JButton();
         cropImgBtn.setText("Crop");
-        
-        javax.swing.GroupLayout toolsPanelLayout = new javax.swing.GroupLayout(toolsPanel);
-        toolsPanel.setLayout(toolsPanelLayout);
-        toolsPanelLayout.setHorizontalGroup(
-            toolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(toolsPanelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(cropImgBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        toolsPanelLayout.setVerticalGroup(
-            toolsPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(toolsPanelLayout.createSequentialGroup()
-                .addGap(15, 15, 15)
+
+        javax.swing.GroupLayout cropToolPanelLayout = new javax.swing.GroupLayout(cropToolPanel);
+        cropToolPanel.setLayout(cropToolPanelLayout);
+        cropToolPanelLayout.setHorizontalGroup(
+            cropToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cropToolPanelLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(cropImgBtn)
-                .addContainerGap(17, Short.MAX_VALUE))
+                .addContainerGap(660, Short.MAX_VALUE))
         );
+        cropToolPanelLayout.setVerticalGroup(
+            cropToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(cropToolPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(cropImgBtn)
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        toolsPanel.add(cropToolPanel, "croptool");
+        
+        CardLayout card = (CardLayout)toolsPanel.getLayout();
+        card.show(toolsPanel, "croptool");
         
         int index=jTabbedPane1.getSelectedIndex();
         if(index!=-1)
@@ -601,64 +605,58 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             int h=c.getHeight();
             int w=c.getWidth();
-            System.out.print(h);
+           // System.out.print(h);
             DrawRect D1=new DrawRect();
             D1.setPreferredSize(new Dimension(w, h));
             c.setLayout(new java.awt.GridBagLayout());
-//            c.setPreferredSize(new Dimension(w, h));
+            c.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
             c.add(D1, new java.awt.GridBagConstraints());
-           /* Component temp= jTabbedPane1.getComponentAt(index);
-            JScrollPane selected = (JScrollPane)temp;
-            JViewport mypanel =(JViewport)selected.getComponent(0);
-            JPanel t = (JPanel)mypanel.getComponent(0);
-            DrawArea c =(DrawArea) t.getComponent(0);
-            DrawRect D1=new DrawRect();
-            c.setLayout(new java.awt.GridBagLayout());
-            c.add(D1, new java.awt.GridBagConstraints());
-//            t.setPreferredSize(new Dimension(w, h));
-            t.add(c,new java.awt.GridBagConstraints());
-            mypanel.add(t);
-////            mypanel.setPreferredSize(new Dimension(w, h));
-           selected.add(mypanel);
-           selected.setPreferredSize(new Dimension(baseWidth, baseHeight));
-           */
+            c.repaint();
+            
             cropImgBtn.addActionListener(new java.awt.event.ActionListener() 
             {
                 public void actionPerformed(java.awt.event.ActionEvent evt) 
                 {
-                        
-                        currentImage = c.getImage();
-                       // System.out.println(currentImage);
-                        BufferedImage curr = (BufferedImage) currentImage;
-                        BufferedImage img = curr.getSubimage(D1.x, D1.y, D1.x2, D1.y2); 
-                        BufferedImage copyOfImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
-                        
-                        
-                        c.Drawer(copyOfImage);
-                        
-                        c.setLayout(new java.awt.GridBagLayout());
-                        c.setSize(new Dimension(img.getWidth(), img.getHeight()));
-                        t.setSize(new Dimension(img.getWidth(), img.getHeight()));
-                        t.add(c,new java.awt.GridBagConstraints());
-                        mypanel.add(t);
-                        selected.add(mypanel);
-                        selected.setSize(new Dimension(img.getWidth(), img.getHeight()));
-                        //mypanel.add(t);
-     
-                       //selected.add(mypanel);
-                       //selected.setPreferredSize(new Dimension(baseWidth, baseHeight));
+                         currentImage=c.getImage();
+                         BufferedImage curr = (BufferedImage) c.getImage();
+                         int width=D1.eX-D1.sX;
+                         int height=D1.eY-D1.sY;
+                         
+                         
+                         BufferedImage img = curr.getSubimage(D1.sX, D1.sY, width, height);
+                      
+                         c.Drawer(img);
+                         c.setPreferredSize(new Dimension(width, height));
+                         c.setSize(new Dimension(width, height));
+                         c.repaint();
+                         
+                            c.remove(D1);
+                            c.repaint();
+                
+                          toolsPanel.remove(cropImgBtn);
+                          toolsPanel.remove(cropToolPanel);
+                          toolsPanel.repaint();
+                          c.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
+ 
             });
+            
         }
         
-        
-        
     }//GEN-LAST:event_cropBtnActionPerformed
-
+    
     private void paintBrushBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintBrushBtnActionPerformed
+        int index=jTabbedPane1.getSelectedIndex();
+        Component temp= jTabbedPane1.getComponentAt(index);
+        JScrollPane selected=(JScrollPane)temp;
+        JViewport mypanel =(JViewport)selected.getComponent(0);
+        JPanel t = (JPanel)mypanel.getComponent(0);
+        DrawArea c =(DrawArea) t.getComponent(0);
+        currentImage = c.getImage();
+        System.out.println(currentImage);
         CardLayout card = (CardLayout)toolsPanel.getLayout();
         card.show(toolsPanel, "brushtool");
-        int index = jTabbedPane1.getSelectedIndex();
+        //index = jTabbedPane1.getSelectedIndex();
         boolean flag = false;
         if(brushtool.containsKey(index))
         {
@@ -667,6 +665,12 @@ public class EditorMain extends javax.swing.JFrame{
        
         if(index != -1 && !flag)
         {
+            brushTypeCombo.addActionListener (new ActionListener () {
+            public void actionPerformed(ActionEvent e) {
+                BrushTool.brushType = brushTypeCombo.getSelectedItem().toString();
+            }
+        });
+            
             brushsize.addChangeListener(new ChangeListener() {
 
             @Override
@@ -676,18 +680,22 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
             brushtool.put(index, true);
-            Component temp= jTabbedPane1.getComponentAt(index);
-            JScrollPane selected=(JScrollPane)temp;
-            JViewport mypanel =(JViewport)selected.getComponent(0);
-            JPanel t = (JPanel)mypanel.getComponent(0);
-            DrawArea c =(DrawArea) t.getComponent(0);
+            //Component temp= jTabbedPane1.getComponentAt(index);
+            //JScrollPane selected=(JScrollPane)temp;
+            //JViewport mypanel =(JViewport)selected.getComponent(0);
+            //JPanel t = (JPanel)mypanel.getComponent(0);
+           // DrawArea c =(DrawArea) t.getComponent(0);
             int h=c.getHeight();
             int w=c.getWidth();
             
             BrushTool brush = new BrushTool();
+            
+            
+            brush.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(
+            new ImageIcon("src/cursors/paint-brush.png").getImage(),
+            new Point(0,0),"custom cursor"));
             brush.setPreferredSize(new Dimension(w, h));
             c.setLayout(new java.awt.GridBagLayout());
-//            c.setPreferredSize(new Dimension(w, h));
             c.add(brush, new java.awt.GridBagConstraints());
         }
         
@@ -696,9 +704,28 @@ public class EditorMain extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_paintBrushBtnActionPerformed
 
-    private void cropBtn2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cropBtn2ActionPerformed
+    private void ColorPickerBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ColorPickerBtnActionPerformed
+     
+        
+        int indexx=jTabbedPane1.getSelectedIndex();
+        Component tempp= jTabbedPane1.getComponentAt(indexx);
+        JScrollPane selectedd=(JScrollPane)tempp;
+        JViewport mypanell =(JViewport)selectedd.getComponent(0);
+        JPanel tt = (JPanel)mypanell.getComponent(0);
+        DrawArea c =(DrawArea) tt.getComponent(0);
+        
+        
+         int h=c.getHeight();
+            int w=c.getWidth();
+            
+            ColorPickerTool color = new ColorPickerTool();
+            //System.out.print("i");
+            
+           
+            color.setPreferredSize(new Dimension(w, h));
+            c.setLayout(new java.awt.GridBagLayout());
+            c.add(color, new java.awt.GridBagConstraints());
+    }//GEN-LAST:event_ColorPickerBtnActionPerformed
 
     private void paintBucketBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintBucketBtnActionPerformed
         // TODO add your handling code here:
@@ -725,7 +752,7 @@ public class EditorMain extends javax.swing.JFrame{
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void socialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_socialBtnActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_socialBtnActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -770,9 +797,6 @@ public class EditorMain extends javax.swing.JFrame{
         jLabel1.setText("Enter Image Dimensions:");
 
         jLabel2.setText("W:");
-
-        
-
         jLabel4.setText("X");
 
         javax.swing.GroupLayout sizePanelLayout = new javax.swing.GroupLayout(sizePanel);
@@ -832,7 +856,8 @@ public class EditorMain extends javax.swing.JFrame{
         JPanel panel = new JPanel();
         panel.setLayout(new GridBagLayout());
         
-        DrawArea img = new DrawArea(baseWidth, baseHeight) ;
+        DrawArea img = new DrawArea(baseWidth, baseHeight);
+        
         panel.add(img);
         panel.setSize(baseWidth, baseHeight);
         panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
@@ -869,11 +894,10 @@ public class EditorMain extends javax.swing.JFrame{
         String name="Untitled " + count;
         count++;
         jTabbedPane1.addTab(name,j1);
-       //jTabbedPane1.setSize(baseWidth, baseHeight);
-        //jTabbedPane1.setPreferredSize(new Dimension(baseWidth, baseHeight));
+       
     }//GEN-LAST:event_newImgBtnActionPerformed
 
-    
+  
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1ActionPerformed
@@ -936,11 +960,13 @@ public class EditorMain extends javax.swing.JFrame{
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new EditorMain().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton ColorPickerBtn;
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JPanel EditorPanel;
     private javax.swing.JPanel LayersPanel;
@@ -950,7 +976,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JSpinner brushsize;
     private javax.swing.JButton colorChooserBtn;
     private javax.swing.JButton cropBtn;
-    private javax.swing.JButton cropBtn2;
     private javax.swing.JButton cropBtn4;
     private javax.swing.JButton cropBtn5;
     private javax.swing.JButton jButton1;
@@ -961,8 +986,8 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
@@ -979,7 +1004,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel3;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -993,6 +1017,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JButton paintBrushBtn;
     private javax.swing.JButton paintBucketBtn;
     private javax.swing.JButton socialBtn;
+    private javax.swing.JPanel tipPanel;
     private javax.swing.JPanel toolsPanel;
     private javax.swing.JLabel typelbl;
     private javax.swing.JLabel typelbl1;
