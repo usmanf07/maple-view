@@ -73,8 +73,9 @@ public class BrushTool extends JComponent {
     super.paintComponent(g);
 //   g2 = (Graphics2D) g;
  
+    
+    g2 = (Graphics2D) EditorMain.EditorMain.loadedImages.get(EditorMain.EditorMain.selectedTabIndex).getGraphics();
    
-  g2 = (Graphics2D) EditorMain.EditorMain.currentImage.getGraphics();
     g2.setColor(currentColor);
     
         for (int i = 1; i < point.size(); i++){

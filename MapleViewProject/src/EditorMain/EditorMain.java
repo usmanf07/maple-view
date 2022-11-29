@@ -46,16 +46,17 @@ public class EditorMain extends javax.swing.JFrame{
     public static int baseHeight;
     public static HashMap<Integer, Image> OpenedImages;
     public static Image currentImage;
+    public static HashMap<Integer, Image> loadedImages = new HashMap<Integer, Image>();
+    public static int selectedTabIndex;
     HashMap<Integer, Boolean> brushtool = new HashMap<Integer, Boolean>();
     DrawRect D1;
     public EditorMain() 
     {
+        
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-       
-//        System.out.print(jPanel6.getX());
-//        System.out.print(" "+jLabel5.getX());
-       // settingStartImage();
+        
+        
     }
 
     /**
@@ -627,27 +628,31 @@ public class EditorMain extends javax.swing.JFrame{
             {
                 public void actionPerformed(java.awt.event.ActionEvent evt) 
                 {
-                         currentImage=c.getImage();
-                         System.out.print(currentImage);
-                         BufferedImage curr = (BufferedImage) c.getImage();
-                         int width=D1.eX-D1.sX;
-                         int height=D1.eY-D1.sY;
-                         
-                         
-                         BufferedImage img = curr.getSubimage(D1.sX, D1.sY, width, height);
-                      
-                         c.Drawer(img);
-                         c.setPreferredSize(new Dimension(width, height));
-                         c.setSize(new Dimension(width, height));
-                         c.repaint();
-                         
-                            c.remove(D1);
-                            c.repaint();
-                
-                          toolsPanel.remove(cropImgBtn);
-                          toolsPanel.remove(cropToolPanel);
-                          toolsPanel.repaint();
-                          c.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    //currentImage=c.getImage();
+                    selectedTabIndex = jTabbedPane1.getSelectedIndex();
+                    loadedImages.put(selectedTabIndex, c.getImage());
+             //       System.out.print(currentImage);
+                    BufferedImage curr = (BufferedImage) c.getImage();
+                    int width=D1.eX-D1.sX;
+                    int height=D1.eY-D1.sY;
+                    
+                    if(width > 0 && height > 0)
+                    {
+                        BufferedImage img = curr.getSubimage(D1.sX, D1.sY, width, height);
+                        c.Drawer(img);
+                        c.setPreferredSize(new Dimension(width, height));
+                        c.setSize(new Dimension(width, height));
+                        c.repaint();
+                        c.remove(D1);
+                        c.repaint();
+
+                        toolsPanel.remove(cropImgBtn);
+                        toolsPanel.remove(cropToolPanel);
+                        toolsPanel.repaint();
+                        c.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    }
+                    else
+                        JOptionPane.showMessageDialog(null, "Crop Area Outside Image Bounds!");
                 }
  
             });
@@ -657,16 +662,18 @@ public class EditorMain extends javax.swing.JFrame{
     }//GEN-LAST:event_cropBtnActionPerformed
     public void MyImage()
     {
-        int index=jTabbedPane1.getSelectedIndex();
-        Component temp= jTabbedPane1.getComponentAt(index);
+        selectedTabIndex=jTabbedPane1.getSelectedIndex();
+        Component temp= jTabbedPane1.getComponentAt(selectedTabIndex);
         JScrollPane selected=(JScrollPane)temp;
         JViewport mypanel =(JViewport)selected.getComponent(0);
         JPanel t = (JPanel)mypanel.getComponent(0);
         DrawArea c =(DrawArea) t.getComponent(0);
-        int h=c.getHeight();
-        int w=c.getWidth();
-        currentImage=c.getImage();
-        System.out.print(currentImage);
+//        int h=c.getHeight();
+//        int w=c.getWidth();
+       // currentImage=c.getImage();
+       // System.out.print(currentImage);
+       
+        loadedImages.put(selectedTabIndex, c.getImage());
     }
     private void paintBrushBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintBrushBtnActionPerformed
         int index=jTabbedPane1.getSelectedIndex();
@@ -675,8 +682,11 @@ public class EditorMain extends javax.swing.JFrame{
         JViewport mypanel =(JViewport)selected.getComponent(0);
         JPanel t = (JPanel)mypanel.getComponent(0);
         DrawArea c =(DrawArea) t.getComponent(0);
-        currentImage = c.getImage();
-        System.out.println(currentImage);
+       // currentImage = c.getImage();
+        //System.out.println(currentImage);
+        selectedTabIndex = jTabbedPane1.getSelectedIndex();
+        
+                    loadedImages.put(selectedTabIndex, c.getImage());
         CardLayout card = (CardLayout)toolsPanel.getLayout();
         card.show(toolsPanel, "brushtool");
         //index = jTabbedPane1.getSelectedIndex();
