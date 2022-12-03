@@ -40,21 +40,34 @@ public class ImageOpener extends JComponent{
         setFocusable(true);
 	requestFocus();
     }
-     public static String Path()
+     public static String Path(boolean save)
     {
-        JFileChooser browserImageFile = new JFileChooser();
-        int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
         String path="";
-        if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
+        JFileChooser browserImageFile = new JFileChooser();
+        
+        if(!save)
         {
-           path=browserImageFile.getSelectedFile().getAbsolutePath();
+            int showOpenDialogue=browserImageFile.showOpenDialog(null);
+
+            if(showOpenDialogue == JFileChooser.APPROVE_OPTION)
+            {
+               path=browserImageFile.getSelectedFile().getAbsolutePath();
+            }
+        }
+        else
+        {
+            int showSaveDialogue=browserImageFile.showSaveDialog(null);
+
+            if(showSaveDialogue == JFileChooser.APPROVE_OPTION)
+            {
+               path = browserImageFile.getSelectedFile().getAbsolutePath();
+            }
         }
         return path;
     }
     public static BufferedImage OpenImage()
-  {
-      
-     String path = Path();
+  {   
+     String path = Path(false);
      BufferedImage img=null;
     try {    
            img = ImageIO.read(new File(path));

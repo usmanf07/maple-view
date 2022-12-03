@@ -108,7 +108,7 @@ public class EditorMain extends javax.swing.JFrame{
         newImgBtn = new javax.swing.JMenuItem();
         openImgBtn = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem4 = new javax.swing.JMenuItem();
+        saveImgBtn = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -118,6 +118,8 @@ public class EditorMain extends javax.swing.JFrame{
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        undoBtn = new javax.swing.JMenuItem();
+        redoBtn = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
@@ -202,7 +204,7 @@ public class EditorMain extends javax.swing.JFrame{
                             .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(typelbl1)
                                 .addComponent(brushsize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 6, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -224,7 +226,7 @@ public class EditorMain extends javax.swing.JFrame{
             .addGroup(ConfigPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(socialBtn)
-                .addContainerGap(35, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfigPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(toolsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -470,6 +472,7 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
 
+        newImgBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         newImgBtn.setText("New Image");
         newImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -478,6 +481,7 @@ public class EditorMain extends javax.swing.JFrame{
         });
         jMenu1.add(newImgBtn);
 
+        openImgBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         openImgBtn.setText("Open Image");
         openImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -487,8 +491,14 @@ public class EditorMain extends javax.swing.JFrame{
         jMenu1.add(openImgBtn);
         jMenu1.add(jSeparator1);
 
-        jMenuItem4.setText("Save");
-        jMenu1.add(jMenuItem4);
+        saveImgBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        saveImgBtn.setText("Save");
+        saveImgBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                saveImgBtnActionPerformed(evt);
+            }
+        });
+        jMenu1.add(saveImgBtn);
 
         jMenuItem5.setText("Export As");
         jMenu1.add(jMenuItem5);
@@ -513,6 +523,20 @@ public class EditorMain extends javax.swing.JFrame{
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
+
+        undoBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        undoBtn.setText("Undo");
+        jMenu2.add(undoBtn);
+
+        redoBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        redoBtn.setText("Redo");
+        redoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redoBtnActionPerformed(evt);
+            }
+        });
+        jMenu2.add(redoBtn);
+
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Layer");
@@ -660,20 +684,23 @@ public class EditorMain extends javax.swing.JFrame{
         }
         
     }//GEN-LAST:event_cropBtnActionPerformed
-    public void MyImage()
+    public Image getSelectedImage()
     {
-        selectedTabIndex=jTabbedPane1.getSelectedIndex();
-        Component temp= jTabbedPane1.getComponentAt(selectedTabIndex);
-        JScrollPane selected=(JScrollPane)temp;
-        JViewport mypanel =(JViewport)selected.getComponent(0);
-        JPanel t = (JPanel)mypanel.getComponent(0);
-        DrawArea c =(DrawArea) t.getComponent(0);
-//        int h=c.getHeight();
-//        int w=c.getWidth();
-       // currentImage=c.getImage();
-       // System.out.print(currentImage);
-       
-        loadedImages.put(selectedTabIndex, c.getImage());
+        selectedTabIndex = jTabbedPane1.getSelectedIndex();
+        if(selectedTabIndex != -1)
+        {
+            Component temp= jTabbedPane1.getComponentAt(selectedTabIndex);
+            JScrollPane selected=(JScrollPane)temp;
+            JViewport mypanel =(JViewport)selected.getComponent(0);
+            JPanel t = (JPanel)mypanel.getComponent(0);
+            DrawArea c =(DrawArea) t.getComponent(0);
+            return c.image;
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No Images are available!");
+        }
+        return null;
     }
     private void paintBrushBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_paintBrushBtnActionPerformed
         int index=jTabbedPane1.getSelectedIndex();
@@ -903,6 +930,48 @@ public class EditorMain extends javax.swing.JFrame{
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1ActionPerformed
+
+    private String getFileExtension(String name) 
+    {
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf + 1);
+    }
+    
+    private void saveImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImgBtnActionPerformed
+        Image save = getSelectedImage();
+        if(save != null)
+        {
+            try 
+            {
+                BufferedImage bi = (BufferedImage) save;
+                System.out.println(bi);
+                String path = ImageOpener.Path(true);
+                String ext = getFileExtension(path);
+                System.out.println(ext);
+                if(ext.equals("jpg") || ext.equals("png") || ext.equals("jpeg"))
+                {
+                    if(!path.isEmpty())
+                    {
+                        File outputfile = new File(path);
+                        ImageIO.write(bi, "png", outputfile);
+                    }
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null, "Invalid Image Format Provided!");
+                }
+            } catch (IOException e) {
+                System.err.println("An Error Occured while saving the image!");
+            }
+        }
+    }//GEN-LAST:event_saveImgBtnActionPerformed
+
+    private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_redoBtnActionPerformed
    
    
      public BufferedImage rescale(BufferedImage originalImage)
@@ -999,7 +1068,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
@@ -1018,11 +1086,14 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem openImgBtn;
     private javax.swing.JButton paintBrushBtn;
     private javax.swing.JButton paintBucketBtn;
+    private javax.swing.JMenuItem redoBtn;
+    private javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JButton socialBtn;
     private javax.swing.JPanel tipPanel;
     private javax.swing.JPanel toolsPanel;
     private javax.swing.JLabel typelbl;
     private javax.swing.JLabel typelbl1;
+    private javax.swing.JMenuItem undoBtn;
     // End of variables declaration//GEN-END:variables
 
 }
