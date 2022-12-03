@@ -12,7 +12,6 @@ import javax.swing.*;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -81,25 +80,35 @@ public class EditorMain extends javax.swing.JFrame{
         typelbl1 = new javax.swing.JLabel();
         brushsize = new javax.swing.JSpinner();
         EditorPanel = new javax.swing.JPanel();
+        moveBtn = new javax.swing.JButton();
         cropBtn = new javax.swing.JButton();
         paintBrushBtn = new javax.swing.JButton();
         paintBucketBtn = new javax.swing.JButton();
         ColorPickerBtn = new javax.swing.JButton();
-        eraserBtn = new javax.swing.JButton();
+        moveBtn1 = new javax.swing.JButton();
         cropBtn4 = new javax.swing.JButton();
         cropBtn5 = new javax.swing.JButton();
         colorChooserBtn = new javax.swing.JButton();
+        LayersPanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel2 = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
         bottomPanel = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jMenuBar1 = new javax.swing.JMenuBar();
-        fileMenu = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
         newImgBtn = new javax.swing.JMenuItem();
         openImgBtn = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
-        saveImgBtn = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -193,7 +202,7 @@ public class EditorMain extends javax.swing.JFrame{
                             .addGroup(brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(typelbl1)
                                 .addComponent(brushsize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 6, Short.MAX_VALUE)))
                 .addContainerGap())
         );
 
@@ -215,7 +224,7 @@ public class EditorMain extends javax.swing.JFrame{
             .addGroup(ConfigPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(socialBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfigPanelLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(toolsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -223,6 +232,13 @@ public class EditorMain extends javax.swing.JFrame{
         );
 
         EditorPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
+
+        moveBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-move-25.png"))); // NOI18N
+        moveBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                moveBtnActionPerformed(evt);
+            }
+        });
 
         cropBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-crop-25.png"))); // NOI18N
         cropBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -252,10 +268,10 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
 
-        eraserBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-eraser-25.png"))); // NOI18N
-        eraserBtn.addActionListener(new java.awt.event.ActionListener() {
+        moveBtn1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-eraser-25.png"))); // NOI18N
+        moveBtn1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eraserBtnActionPerformed(evt);
+                moveBtn1ActionPerformed(evt);
             }
         });
 
@@ -292,20 +308,23 @@ public class EditorMain extends javax.swing.JFrame{
                     .addComponent(cropBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(ColorPickerBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eraserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(moveBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(moveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         EditorPanelLayout.setVerticalGroup(
             EditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(EditorPanelLayout.createSequentialGroup()
-                .addGap(71, 71, 71)
+                .addGap(24, 24, 24)
+                .addComponent(moveBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
                 .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(eraserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(moveBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -317,6 +336,94 @@ public class EditorMain extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
+        );
+
+        LayersPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(102, 102, 102), new java.awt.Color(204, 204, 204)));
+
+        jLabel1.setText("Opacity:");
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel2.setText("Layers");
+
+        jPanel1.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 1, true));
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 265, Short.MAX_VALUE)
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-sum-25.png"))); // NOI18N
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-reduce-25.png"))); // NOI18N
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-type-25.png"))); // NOI18N
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout LayersPanelLayout = new javax.swing.GroupLayout(LayersPanel);
+        LayersPanel.setLayout(LayersPanelLayout);
+        LayersPanelLayout.setHorizontalGroup(
+            LayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LayersPanelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addGroup(LayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2)
+                    .addGroup(LayersPanelLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(LayersPanelLayout.createSequentialGroup()
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(15, 15, 15))
+        );
+        LayersPanelLayout.setVerticalGroup(
+            LayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LayersPanelLayout.createSequentialGroup()
+                .addGap(8, 8, 8)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(LayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(LayersPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addGap(27, 27, 27))
         );
 
         bottomPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
@@ -356,71 +463,54 @@ public class EditorMain extends javax.swing.JFrame{
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
-        fileMenu.setText("File");
-        fileMenu.addActionListener(new java.awt.event.ActionListener() {
+        jMenu1.setText("File");
+        jMenu1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                fileMenuActionPerformed(evt);
+                jMenu1ActionPerformed(evt);
             }
         });
 
-        newImgBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_N, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         newImgBtn.setText("New Image");
-        newImgBtn.addMenuKeyListener(new javax.swing.event.MenuKeyListener() {
-            public void menuKeyPressed(javax.swing.event.MenuKeyEvent evt) {
-                newImgBtnMenuKeyPressed(evt);
-            }
-            public void menuKeyReleased(javax.swing.event.MenuKeyEvent evt) {
-            }
-            public void menuKeyTyped(javax.swing.event.MenuKeyEvent evt) {
-            }
-        });
         newImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 newImgBtnActionPerformed(evt);
             }
         });
-        fileMenu.add(newImgBtn);
+        jMenu1.add(newImgBtn);
 
-        openImgBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         openImgBtn.setText("Open Image");
         openImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 openImgBtnActionPerformed(evt);
             }
         });
-        fileMenu.add(openImgBtn);
-        fileMenu.add(jSeparator1);
+        jMenu1.add(openImgBtn);
+        jMenu1.add(jSeparator1);
 
-        saveImgBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_DOWN_MASK));
-        saveImgBtn.setText("Save");
-        saveImgBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                saveImgBtnActionPerformed(evt);
-            }
-        });
-        fileMenu.add(saveImgBtn);
+        jMenuItem4.setText("Save");
+        jMenu1.add(jMenuItem4);
 
         jMenuItem5.setText("Export As");
-        fileMenu.add(jMenuItem5);
-        fileMenu.add(jSeparator2);
+        jMenu1.add(jMenuItem5);
+        jMenu1.add(jSeparator2);
 
         jMenuItem6.setText("Print");
-        fileMenu.add(jMenuItem6);
+        jMenu1.add(jMenuItem6);
 
         jMenuItem7.setText("Reload");
-        fileMenu.add(jMenuItem7);
-        fileMenu.add(jSeparator3);
+        jMenu1.add(jMenuItem7);
+        jMenu1.add(jSeparator3);
 
         jMenuItem8.setText("Close");
-        fileMenu.add(jMenuItem8);
+        jMenu1.add(jMenuItem8);
 
         jMenuItem9.setText("Close All");
-        fileMenu.add(jMenuItem9);
+        jMenu1.add(jMenuItem9);
 
         jMenuItem10.setText("Exit");
-        fileMenu.add(jMenuItem10);
+        jMenu1.add(jMenuItem10);
 
-        jMenuBar1.add(fileMenu);
+        jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
         jMenuBar1.add(jMenu2);
@@ -453,7 +543,8 @@ public class EditorMain extends javax.swing.JFrame{
                         .addComponent(EditorPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTabbedPane1)
-                        .addGap(307, 307, 307))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(LayersPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -464,6 +555,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(EditorPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(LayersPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTabbedPane1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -472,6 +564,10 @@ public class EditorMain extends javax.swing.JFrame{
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void moveBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveBtnActionPerformed
+        
+    }//GEN-LAST:event_moveBtnActionPerformed
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
        
@@ -669,6 +765,10 @@ public class EditorMain extends javax.swing.JFrame{
         // TODO add your handling code here:
     }//GEN-LAST:event_paintBucketBtnActionPerformed
 
+    private void moveBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_moveBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_moveBtn1ActionPerformed
+
     private void cropBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_cropBtn4ActionPerformed
@@ -688,6 +788,18 @@ public class EditorMain extends javax.swing.JFrame{
     private void socialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_socialBtnActionPerformed
         
     }//GEN-LAST:event_socialBtnActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     private void openImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openImgBtnActionPerformed
         
@@ -709,13 +821,13 @@ public class EditorMain extends javax.swing.JFrame{
     private void newImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_newImgBtnActionPerformed
        
         JPanel sizePanel = new javax.swing.JPanel();
-        JLabel jLabel1 = new javax.swing.JLabel();
-        JLabel jLabel2 = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         JTextField widthField = new javax.swing.JTextField();
         
         JTextField heightField = new javax.swing.JTextField();
        JLabel posLabel = new javax.swing.JLabel();
-        JLabel jLabel4 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
         jLabel1.setText("Enter Image Dimensions:");
 
         jLabel2.setText("W:");
@@ -788,47 +900,9 @@ public class EditorMain extends javax.swing.JFrame{
     }//GEN-LAST:event_newImgBtnActionPerformed
 
   
-    private void fileMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_fileMenuActionPerformed
+    private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_fileMenuActionPerformed
-
-    private void newImgBtnMenuKeyPressed(javax.swing.event.MenuKeyEvent evt) {//GEN-FIRST:event_newImgBtnMenuKeyPressed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_newImgBtnMenuKeyPressed
-
-    private void saveImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImgBtnActionPerformed
-        int index=jTabbedPane1.getSelectedIndex();
-        if(index != -1)
-        {
-            Component temp= jTabbedPane1.getComponentAt(index);
-            JScrollPane selected=(JScrollPane)temp;
-            JViewport mypanel =(JViewport)selected.getComponent(0);
-            JPanel t = (JPanel)mypanel.getComponent(0);
-            DrawArea c =(DrawArea) t.getComponent(0);
-            
-            try {
-                // retrieve image
-                BufferedImage bi = (BufferedImage) c.image;
-                String Path = ImageOpener.Path(true);
-                if(!Path.isEmpty())
-                {
-                    File outputfile = new File(Path);
-                    ImageIO.write(bi, "png", outputfile);
-                }
-            } catch (IOException e) 
-            {
-                System.err.println("Cannot Save the image due to an error" + e);
-            }
-        }
-        else
-        {
-            JOptionPane.showMessageDialog(null, "No Images are opened!");
-        }
-    }//GEN-LAST:event_saveImgBtnActionPerformed
-
-    private void eraserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eraserBtnActionPerformed
-        
-    }//GEN-LAST:event_eraserBtnActionPerformed
+    }//GEN-LAST:event_jMenu1ActionPerformed
    
    
      public BufferedImage rescale(BufferedImage originalImage)
@@ -897,6 +971,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JButton ColorPickerBtn;
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JPanel EditorPanel;
+    private javax.swing.JPanel LayersPanel;
     public static javax.swing.JPanel bottomPanel;
     private javax.swing.JPanel brushToolPanel;
     private javax.swing.JComboBox<String> brushTypeCombo;
@@ -905,11 +980,17 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JButton cropBtn;
     private javax.swing.JButton cropBtn4;
     private javax.swing.JButton cropBtn5;
-    private javax.swing.JButton eraserBtn;
-    private javax.swing.JMenu fileMenu;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
@@ -918,22 +999,25 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSlider jSlider1;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JButton moveBtn;
+    private javax.swing.JButton moveBtn1;
     private javax.swing.JMenuItem newImgBtn;
     private javax.swing.JMenuItem openImgBtn;
     private javax.swing.JButton paintBrushBtn;
     private javax.swing.JButton paintBucketBtn;
-    private javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JButton socialBtn;
     private javax.swing.JPanel tipPanel;
     private javax.swing.JPanel toolsPanel;

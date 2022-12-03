@@ -40,34 +40,21 @@ public class ImageOpener extends JComponent{
         setFocusable(true);
 	requestFocus();
     }
-     public static String Path(boolean save)
+     public static String Path()
     {
-        String path="";
         JFileChooser browserImageFile = new JFileChooser();
-        if(!save)
+        int showOpenDiaglogue=browserImageFile.showOpenDialog(null);
+        String path="";
+        if(showOpenDiaglogue == JFileChooser.APPROVE_OPTION)
         {
-            int showOpenDialogue = browserImageFile.showOpenDialog(null);
-            if(showOpenDialogue == JFileChooser.APPROVE_OPTION)
-            {
-               path=browserImageFile.getSelectedFile().getAbsolutePath();
-            }
+           path=browserImageFile.getSelectedFile().getAbsolutePath();
         }
-        else{
-            int showSaveDialouge = browserImageFile.showSaveDialog(null);
-            if(showSaveDialouge == JFileChooser.APPROVE_OPTION)
-            {
-               path=browserImageFile.getSelectedFile().getAbsolutePath();
-            }
-        }
-        
         return path;
     }
     public static BufferedImage OpenImage()
   {
       
-     String path = Path(false);
-     if(!path.isEmpty())
-     {
+     String path = Path();
      BufferedImage img=null;
     try {    
            img = ImageIO.read(new File(path));
@@ -75,10 +62,8 @@ public class ImageOpener extends JComponent{
       } catch (IOException ex) {
           Logger.getLogger(DrawArea.class.getName()).log(Level.SEVERE, null, ex);
       }
-     
-      return img; 
-     }
-     return null;
+      
+      return img;   
   }
     
     protected void paintComponent(Graphics g) 
