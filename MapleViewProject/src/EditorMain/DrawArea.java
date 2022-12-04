@@ -58,7 +58,8 @@ public class DrawArea extends JComponent {
       
       super.paintComponent(g);
       
-    if (image == null) {
+    if (image == null) 
+    {
      
       image= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
   
@@ -96,8 +97,7 @@ public class DrawArea extends JComponent {
       
       int w = img.getWidth(null);
       int h = img.getHeight(null);
-      
-//      System.out.print(img.getWidth(null)+" "+ img.getHeight(null));
+
       setPreferredSize(new Dimension(w, h));
       image = img;
       Graphics g = img.getGraphics();

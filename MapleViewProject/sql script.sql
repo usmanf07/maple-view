@@ -38,3 +38,11 @@ call SignUp("Ali", "2@2.com", "2", 1, @result);
 -- insert into User (name, email, password, userType) values("Usman", "1@1.com", "1", 1);
 
 select * from user;
+Create Table Images
+(
+	id int NOT NULL auto_increment,
+    imageurl varchar(100),
+    uploadedBy int,
+	CONSTRAINT PK_IMAGEID PRIMARY KEY (id),
+    FOREIGN KEY (uploadedBy) REFERENCES User(userId)
+);

@@ -63,20 +63,29 @@ public class ImageOpener extends JComponent{
                path = browserImageFile.getSelectedFile().getAbsolutePath();
             }
         }
-        return path;
+        if(!path.isEmpty())
+            return path;
+        else
+        {
+            return null;
+        }
     }
     public static BufferedImage OpenImage()
   {   
      String path = Path(false);
-     BufferedImage img=null;
-    try {    
-           img = ImageIO.read(new File(path));
-          
-      } catch (IOException ex) {
-          Logger.getLogger(DrawArea.class.getName()).log(Level.SEVERE, null, ex);
-      }
-      
-      return img;   
+     if(path!=null)
+     {
+        BufferedImage img = null;
+        try {    
+              img = ImageIO.read(new File(path));
+
+         } catch (IOException ex) {
+             Logger.getLogger(DrawArea.class.getName()).log(Level.SEVERE, null, ex);
+         }
+
+         return img;  
+     }
+     return null;
   }
     
     protected void paintComponent(Graphics g) 
