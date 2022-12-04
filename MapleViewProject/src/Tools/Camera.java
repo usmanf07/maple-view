@@ -61,7 +61,7 @@ public class Camera extends JFrame {
 
                                 drawArea.Drawer(temp);
                                 panel.add(drawArea, new java.awt.GridBagConstraints());
-                                JScrollPane j1=new JScrollPane(panel);
+                                JScrollPane j1 = new JScrollPane(panel);
                                 String name="Untitled " + count;
                                 
                                 jTabbedPane1.addTab(name,j1);
