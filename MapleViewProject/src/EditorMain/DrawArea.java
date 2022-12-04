@@ -14,6 +14,7 @@ import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -29,14 +30,15 @@ import javax.swing.JLabel;
 *
 */
 public class DrawArea extends JComponent {
- 
+ public Stack<Image> undo = new Stack <Image> ();
+  public Stack<Image> redo = new Stack <Image> ();
   // Image in which we're going to draw
   public Image image;
   // Graphics2D object ==> used to draw on
   private Graphics2D g2;
   private boolean Brush = false;
   int height,width;
-  
+  public boolean paintbucket = false;
   public void setBrush(boolean flag)
   {
       Brush = flag;
@@ -61,13 +63,13 @@ public class DrawArea extends JComponent {
     if (image == null) 
     {
      
-      image= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
-  
-      g2 = (Graphics2D) image.getGraphics();
-    
-      g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-     
-      clear();
+        image= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+
+        g2 = (Graphics2D) image.getGraphics();
+
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+        clear();
     }
    
     g.drawImage(image, 0, 0, null);
@@ -102,7 +104,7 @@ public class DrawArea extends JComponent {
       image = img;
       Graphics g = img.getGraphics();
       g.drawImage(image, 0, 0, null);
-   
+      repaint();
       
   }
 

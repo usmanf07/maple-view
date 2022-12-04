@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
+import java.awt.image.ColorModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.IOException;
@@ -59,6 +60,10 @@ public class EditorMain extends javax.swing.JFrame{
     HashMap<Integer, Boolean> erasertool = new HashMap<Integer, Boolean>();
     boolean loadGallery = false;
     DrawRect D1;
+    boolean bluefilter = false;
+    boolean redfilter = false;
+    boolean greenfilter = false;
+    
     public EditorMain() 
     {
         
@@ -128,12 +133,20 @@ public class EditorMain extends javax.swing.JFrame{
         jMenu2 = new javax.swing.JMenu();
         undoBtn = new javax.swing.JMenuItem();
         redoBtn = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        rotate1 = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         filtersMenu = new javax.swing.JMenu();
         bwBtn = new javax.swing.JMenuItem();
         sepiaBtn = new javax.swing.JMenuItem();
         medianBtn = new javax.swing.JMenuItem();
+        negativeBtn = new javax.swing.JMenuItem();
+        jSeparator5 = new javax.swing.JPopupMenu.Separator();
+        rgbColors = new javax.swing.JMenu();
+        blueBtn = new javax.swing.JMenuItem();
+        redBtn = new javax.swing.JMenuItem();
+        greenBtn = new javax.swing.JMenuItem();
         jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
 
@@ -428,7 +441,7 @@ public class EditorMain extends javax.swing.JFrame{
         galleryFrameLayout.setHorizontalGroup(
             galleryFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, galleryFrameLayout.createSequentialGroup()
-                .addContainerGap(351, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -436,7 +449,7 @@ public class EditorMain extends javax.swing.JFrame{
             galleryFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(galleryFrameLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -446,14 +459,14 @@ public class EditorMain extends javax.swing.JFrame{
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(galleryFrame)
+                .addComponent(galleryFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(galleryFrame)
+                .addComponent(galleryFrame, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -535,6 +548,11 @@ public class EditorMain extends javax.swing.JFrame{
 
         undoBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Z, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         undoBtn.setText("Undo");
+        undoBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                undoBtnActionPerformed(evt);
+            }
+        });
         jMenu2.add(undoBtn);
 
         redoBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Y, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -545,6 +563,15 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
         jMenu2.add(redoBtn);
+        jMenu2.add(jSeparator6);
+
+        rotate1.setText("Rotate 90 Right");
+        rotate1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rotate1ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(rotate1);
 
         jMenuBar1.add(jMenu2);
 
@@ -579,6 +606,43 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
         filtersMenu.add(medianBtn);
+
+        negativeBtn.setText("Negative");
+        negativeBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                negativeBtnActionPerformed(evt);
+            }
+        });
+        filtersMenu.add(negativeBtn);
+        filtersMenu.add(jSeparator5);
+
+        rgbColors.setText("RGB Colors");
+
+        blueBtn.setText("Blue");
+        blueBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                blueBtnActionPerformed(evt);
+            }
+        });
+        rgbColors.add(blueBtn);
+
+        redBtn.setText("Red");
+        redBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                redBtnActionPerformed(evt);
+            }
+        });
+        rgbColors.add(redBtn);
+
+        greenBtn.setText("Green");
+        greenBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                greenBtnActionPerformed(evt);
+            }
+        });
+        rgbColors.add(greenBtn);
+
+        filtersMenu.add(rgbColors);
 
         jMenuBar1.add(filtersMenu);
 
@@ -668,6 +732,10 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             int h=c.getHeight();
             int w=c.getWidth();
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+             
             c.removeAll();
             c.repaint();
            // System.out.print(h);
@@ -714,6 +782,14 @@ public class EditorMain extends javax.swing.JFrame{
         }
         
     }//GEN-LAST:event_cropBtnActionPerformed
+    
+    static BufferedImage deepCopy(BufferedImage bi) 
+    {
+        ColorModel cm = bi.getColorModel();
+        boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
+        WritableRaster raster = bi.copyData(null);
+        return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+    }
     public Image getSelectedImage()
     {
         selectedTabIndex = jTabbedPane1.getSelectedIndex();
@@ -740,7 +816,8 @@ public class EditorMain extends javax.swing.JFrame{
             JViewport mypanel =(JViewport)selected.getComponent(0);
             JPanel t = (JPanel)mypanel.getComponent(0);
             DrawArea c =(DrawArea) t.getComponent(0);
-        
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+             c.undo.push(tem);
         c.removeAll();
         selectedTabIndex = jTabbedPane1.getSelectedIndex();
         
@@ -824,6 +901,10 @@ public class EditorMain extends javax.swing.JFrame{
             JViewport mypanel =(JViewport)selected.getComponent(0);
             JPanel t = (JPanel)mypanel.getComponent(0);
             DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
             c.removeAll();
             selectedTabIndex = jTabbedPane1.getSelectedIndex();
             loadedImages.put(selectedTabIndex, c.getImage());
@@ -861,6 +942,10 @@ public class EditorMain extends javax.swing.JFrame{
             JViewport mypanel =(JViewport)selected.getComponent(0);
             JPanel t = (JPanel)mypanel.getComponent(0);
             DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+             
             c.removeAll();
             selectedTabIndex = jTabbedPane1.getSelectedIndex();
             loadedImages.put(selectedTabIndex, c.getImage());
@@ -1105,7 +1190,19 @@ public class EditorMain extends javax.swing.JFrame{
     }//GEN-LAST:event_saveImgBtnActionPerformed
 
     private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
-        // TODO add your handling code here:
+            JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            c.removeAll();
+            if(!c.redo.empty())
+            {
+                Image teme=deepCopy((BufferedImage)c.getImage()); 
+                c.undo.push(teme);
+                Image tem=c.redo.pop();
+              //  System.out.print(tem);
+                c.Drawer(tem);
+                c.repaint();
+                repaint();
+            }
     }//GEN-LAST:event_redoBtnActionPerformed
 
     private void openCameraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openCameraActionPerformed
@@ -1136,14 +1233,14 @@ public class EditorMain extends javax.swing.JFrame{
             
             Image myColorImage = c.getImage();
             
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
             Image newimg = Filters.GrayScale.toBlackAndWhite((BufferedImage) myColorImage);
             
-            t.removeAll();
-            t.repaint();
-            
-            DrawArea n = new DrawArea(500, 500);
-            n.Drawer(newimg);
-            t.add(n, new java.awt.GridBagConstraints());
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
 
     }//GEN-LAST:event_bwBtnActionPerformed
 
@@ -1152,34 +1249,31 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             
             Image myColorImage = c.getImage();
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
             Image newimg = Filters.Sepia.toSepia((BufferedImage) myColorImage, 80);
             
-            t.removeAll();
-            t.repaint();
-
-            DrawArea n = new DrawArea(500, 500);
-            n.Drawer(newimg);
-            t.add(n, new java.awt.GridBagConstraints());
-        
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
     }//GEN-LAST:event_sepiaBtnActionPerformed
 
     private void medianBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianBtnActionPerformed
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            CardLayout card = (CardLayout)toolsPanel.getLayout();
-            card.show(toolsPanel, "sepiapanel");
 
             Image myColorImage = c.getImage();
             
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
             Image newimg = Filters.Median.toMedian(myColorImage);
-
-            t.removeAll();
-            t.repaint();
-
-            DrawArea n = new DrawArea(500, 500);
-            n.Drawer(newimg);
-            t.add(n, new java.awt.GridBagConstraints());
-        
+            
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
     }//GEN-LAST:event_medianBtnActionPerformed
 
     private void uploadImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_uploadImgBtnActionPerformed
@@ -1211,6 +1305,113 @@ public class EditorMain extends javax.swing.JFrame{
             }
         }
     }//GEN-LAST:event_uploadImgBtnActionPerformed
+
+    private void negativeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negativeBtnActionPerformed
+            JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image myColorImage = c.getImage();
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
+            Image newimg = Filters.Negative.toNegative(myColorImage);
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
+    }//GEN-LAST:event_negativeBtnActionPerformed
+
+    private void blueBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_blueBtnActionPerformed
+             if(redfilter || greenfilter)
+                undoBtn.doClick();
+            bluefilter = true;
+            JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image myColorImage = c.getImage();
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
+            Image newimg = Filters.BlueFilter.toBlue(myColorImage);
+            
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
+    }//GEN-LAST:event_blueBtnActionPerformed
+
+    private void redBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redBtnActionPerformed
+            if(bluefilter || greenfilter)
+                undoBtn.doClick();
+            redfilter = true;
+            JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image myColorImage = c.getImage();
+            
+            Image newimg = Filters.RedFilter.toRed(myColorImage);
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
+    }//GEN-LAST:event_redBtnActionPerformed
+
+    private void greenBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_greenBtnActionPerformed
+        if(redfilter || bluefilter)
+                undoBtn.doClick();
+            greenfilter = true;
+            JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image myColorImage = c.getImage();
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
+            Image newimg = Filters.GreenFilter.toGreen(myColorImage);
+            
+           
+            
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
+    }//GEN-LAST:event_greenBtnActionPerformed
+
+    private void rotate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotate1ActionPerformed
+        JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            
+            Image myColorImage = c.getImage();
+            
+            Image tem=deepCopy((BufferedImage)c.getImage()); 
+            c.undo.push(tem);
+            
+            Image newimg = Tools.Rotate.Rotation(myColorImage, 90);
+            
+            
+            c.removeAll();
+            c.Drawer(newimg);
+            repaint();
+    }//GEN-LAST:event_rotate1ActionPerformed
+
+    private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
+        JPanel t = getSelectedPanel();
+            DrawArea c =(DrawArea) t.getComponent(0);
+            c.removeAll();
+            if(!c.undo.empty())
+            {
+                Image teme=deepCopy((BufferedImage)c.getImage()); 
+                c.redo.push(teme);
+                Image tem=c.undo.pop();
+
+               // System.out.print(tem);
+                c.Drawer(tem);
+                c.repaint();
+                repaint();
+            }
+    }//GEN-LAST:event_undoBtnActionPerformed
    
    
      public BufferedImage rescale(BufferedImage originalImage)
@@ -1280,6 +1481,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JPanel EditorPanel;
     private javax.swing.JLabel SizeLbl;
+    private javax.swing.JMenuItem blueBtn;
     public static javax.swing.JPanel bottomPanel;
     private javax.swing.JPanel brushToolPanel;
     private javax.swing.JComboBox<String> brushTypeCombo;
@@ -1295,6 +1497,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JPanel eraserToolPanel;
     private javax.swing.JMenu filtersMenu;
     private javax.swing.JInternalFrame galleryFrame;
+    private javax.swing.JMenuItem greenBtn;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1317,15 +1520,21 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JPopupMenu.Separator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JSlider jSlider1;
     public static javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem medianBtn;
+    private javax.swing.JMenuItem negativeBtn;
     private javax.swing.JMenuItem newImgBtn;
     private javax.swing.JMenuItem openCamera;
     private javax.swing.JMenuItem openImgBtn;
     private javax.swing.JButton paintBrushBtn;
     private javax.swing.JButton paintBucketBtn;
+    private javax.swing.JMenuItem redBtn;
     private javax.swing.JMenuItem redoBtn;
+    private javax.swing.JMenu rgbColors;
+    private javax.swing.JMenuItem rotate1;
     private javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JMenuItem sepiaBtn;
     private javax.swing.JButton socialBtn;
