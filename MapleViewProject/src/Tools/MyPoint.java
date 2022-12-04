@@ -16,5 +16,6 @@ public class MyPoint
     public Point point;
     public float size;
     public Color color;
+    public String type;
    
 }

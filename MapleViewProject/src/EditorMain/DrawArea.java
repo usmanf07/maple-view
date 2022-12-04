@@ -1,6 +1,7 @@
 package EditorMain;
 
 //import static EditorMain.EditorMain.posLabel;
+import static EditorMain.EditorMain.currentImage;
 import java.awt.Dimension;
 import java.awt.Color;
 import java.awt.Graphics;
@@ -36,6 +37,10 @@ public class DrawArea extends JComponent {
   private boolean Brush = false;
   int height,width;
   
+  public void setBrush(boolean flag)
+  {
+      Brush = flag;
+  }
   public DrawArea(int w, int h) {
       
       width = w;
@@ -45,10 +50,16 @@ public class DrawArea extends JComponent {
     
   }
  
+  
+  
+  
   protected void paintComponent(Graphics g) {
       
       
-    if (image == null) {
+      super.paintComponent(g);
+      
+    if (image == null) 
+    {
      
       image= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
   
@@ -60,7 +71,21 @@ public class DrawArea extends JComponent {
     }
    
     g.drawImage(image, 0, 0, null);
+    
 
+  }
+  
+  
+  public void crop()
+  {
+     BufferedImage currentImage =(BufferedImage)image;
+        BufferedImage curr   =(BufferedImage)image;
+
+        BufferedImage img = curr.getSubimage(100, 100, 200, 200);
+        BufferedImage copyOfImage = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_RGB);
+        Drawer(img);
+      
+      
   }
   public Image getImage()
   {
@@ -69,14 +94,15 @@ public class DrawArea extends JComponent {
  
   public void Drawer(Image img)
   {
+      
       int w = img.getWidth(null);
       int h = img.getHeight(null);
-      height=h;
-      width=w;
+
       setPreferredSize(new Dimension(w, h));
       image = img;
       Graphics g = img.getGraphics();
       g.drawImage(image, 0, 0, null);
+   
       
   }
 
