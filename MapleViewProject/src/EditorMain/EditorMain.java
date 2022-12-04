@@ -69,6 +69,11 @@ public class EditorMain extends javax.swing.JFrame{
         
         initComponents();
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        jTabbedPane1.addChangeListener(new ChangeListener() {
+        public void stateChanged(ChangeEvent e) {
+            System.out.println("Tab: " + jTabbedPane1.getSelectedIndex());
+        }
+    });
         
         
     }
@@ -677,47 +682,48 @@ public class EditorMain extends javax.swing.JFrame{
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
        
-        JPanel cropToolPanel = new JPanel();
-        JButton cropImgBtn = new JButton();
-        cropImgBtn.setText("Crop");
+         
+        int index=jTabbedPane1.getSelectedIndex();
+      
 
-        javax.swing.GroupLayout cropToolPanelLayout = new javax.swing.GroupLayout(cropToolPanel);
-        cropToolPanel.setLayout(cropToolPanelLayout);
-        cropToolPanelLayout.setHorizontalGroup(
-            cropToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cropToolPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cropImgBtn)
-                .addContainerGap(660, Short.MAX_VALUE))
-        );
-        cropToolPanelLayout.setVerticalGroup(
-            cropToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(cropToolPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(cropImgBtn)
-                .addContainerGap(18, Short.MAX_VALUE))
-        );
+        if(index!=-1)
+        {
+            Component temp= jTabbedPane1.getComponentAt(index);
+           JScrollPane selected=(JScrollPane)temp;
+           JViewport mypanel =(JViewport)selected.getComponent(0);
+           JPanel t = (JPanel)mypanel.getComponent(0);
+           DrawArea c =(DrawArea) t.getComponent(0);
+           c.tool(1);
+           if(!c.crop)
+           {
+            c.crop=true;
+            
+                JPanel cropToolPanel = new JPanel();
+                JButton cropImgBtn = new JButton();
+                cropImgBtn.setText("Crop");
+
+                javax.swing.GroupLayout cropToolPanelLayout = new javax.swing.GroupLayout(cropToolPanel);
+                cropToolPanel.setLayout(cropToolPanelLayout);
+                cropToolPanelLayout.setHorizontalGroup(
+                    cropToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cropToolPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cropImgBtn)
+                        .addContainerGap(660, Short.MAX_VALUE))
+                );
+                cropToolPanelLayout.setVerticalGroup(
+                    cropToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(cropToolPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(cropImgBtn)
+                        .addContainerGap(18, Short.MAX_VALUE))
+                );
 
         toolsPanel.add(cropToolPanel, "croptool");
         
         CardLayout card = (CardLayout)toolsPanel.getLayout();
         card.show(toolsPanel, "croptool");
-        
-        int index=jTabbedPane1.getSelectedIndex();
-        if(brushtool.containsKey(index))
-        {
-         if(brushtool.get(index))
-         {
-             brushtool.put(index, false);
-         }
-        }
-        if(index!=-1)
-        {
-            Component temp= jTabbedPane1.getComponentAt(index);
-            JScrollPane selected=(JScrollPane)temp;
-            JViewport mypanel =(JViewport)selected.getComponent(0);
-            JPanel t = (JPanel)mypanel.getComponent(0);
-            DrawArea c =(DrawArea) t.getComponent(0);
+       
             int h=c.getHeight();
             int w=c.getWidth();
             
@@ -766,7 +772,7 @@ public class EditorMain extends javax.swing.JFrame{
                 }
  
             });
-            
+           }
         }
         
     }//GEN-LAST:event_cropBtnActionPerformed
@@ -804,6 +810,11 @@ public class EditorMain extends javax.swing.JFrame{
             JViewport mypanel =(JViewport)selected.getComponent(0);
             JPanel t = (JPanel)mypanel.getComponent(0);
             DrawArea c =(DrawArea) t.getComponent(0);
+            c.tool(2);
+            if(!c.Brush && index != -1)
+            {
+                c.Brush=true;
+            
             Image tem=deepCopy((BufferedImage)c.getImage()); 
              c.undo.push(tem);
         c.removeAll();
@@ -813,15 +824,16 @@ public class EditorMain extends javax.swing.JFrame{
         CardLayout card = (CardLayout)toolsPanel.getLayout();
         card.show(toolsPanel, "brushtool");
         //index = jTabbedPane1.getSelectedIndex();
-        boolean flag = false;
-        if(brushtool.containsKey(index))
-        {
-            flag = brushtool.get(index);
-        }
+        
+        
+//        boolean flag = false;
+//        if(brushtool.containsKey(index))
+//        {
+//            flag = brushtool.get(index);
+//        }
+//      
        
-        if(index != -1 && !flag)
-        {
-            
+           
             brushTypeCombo.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e) {
                 BrushTool.brushType = brushTypeCombo.getSelectedItem().toString();
@@ -889,7 +901,10 @@ public class EditorMain extends javax.swing.JFrame{
             JViewport mypanel =(JViewport)selected.getComponent(0);
             JPanel t = (JPanel)mypanel.getComponent(0);
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            c.tool(4);
+            if(!c.paintbucket){
+                
+            c.paintbucket=true;
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
             
@@ -918,7 +933,7 @@ public class EditorMain extends javax.swing.JFrame{
             c.add(bucket, new java.awt.GridBagConstraints());
         }
         
-        }
+        }}
     }//GEN-LAST:event_paintBucketBtnActionPerformed
 
     private void eraserToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eraserToolActionPerformed
@@ -930,6 +945,10 @@ public class EditorMain extends javax.swing.JFrame{
             JViewport mypanel =(JViewport)selected.getComponent(0);
             JPanel t = (JPanel)mypanel.getComponent(0);
             DrawArea c =(DrawArea) t.getComponent(0);
+            c.tool(3);
+            if(!c.eraser)
+            {
+                c.eraser=true;
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
@@ -941,13 +960,9 @@ public class EditorMain extends javax.swing.JFrame{
             CardLayout card = (CardLayout)toolsPanel.getLayout();
             card.show(toolsPanel, "erasertool");
             //index = jTabbedPane1.getSelectedIndex();
-            boolean flag = false;
-            if(erasertool.containsKey(index))
-            {
-                flag = erasertool.get(index);
-            }
+           
 
-            if(index != -1 && !flag)
+            if(index != -1)
             {
             
             eraserSize.addChangeListener(new ChangeListener() {
@@ -975,7 +990,7 @@ public class EditorMain extends javax.swing.JFrame{
             c.add(eraser, new java.awt.GridBagConstraints());
         }
         
-        }
+        }}
     }//GEN-LAST:event_eraserToolActionPerformed
 
     private void cropBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn4ActionPerformed
@@ -1016,8 +1031,10 @@ public class EditorMain extends javax.swing.JFrame{
                 
              loadGallery = true;
         } catch (MalformedURLException ex) {
+            System.out.print(ex);
             Logger.getLogger(EditorMain.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
+             System.out.print(ex);
             Logger.getLogger(EditorMain.class.getName()).log(Level.SEVERE, null, ex);
         }
             
@@ -1283,6 +1300,7 @@ public class EditorMain extends javax.swing.JFrame{
                     {
                         File outputfile = new File(path);
                         ImageIO.write(bi, "png", outputfile);
+                      //  System.out.print(outputfile);
                         SocialGallery.UploadImage.Upload(outputfile, ext);
                         
                     }

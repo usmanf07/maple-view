@@ -36,9 +36,52 @@ public class DrawArea extends JComponent {
   public Image image;
   // Graphics2D object ==> used to draw on
   private Graphics2D g2;
-  private boolean Brush = false;
+  public boolean Brush = false;
+  public boolean crop =false;
+  public boolean eraser=false;
+  
   int height,width;
   public boolean paintbucket = false;
+  
+  public void tool(int val)
+  {
+      if(val!=1)
+      {
+          crop=false;
+      }
+      if(val!=2)
+      {
+          Brush=false;
+      }
+      if(val!=3)
+      {
+          eraser=false;
+      }
+      if(val!=4)
+      {
+          paintbucket=false;
+      }
+      
+  }
+  public int returnTool()
+  {
+   if(crop)
+   {
+       return 1;
+   }
+    if(Brush)
+   {
+       return 2;
+   }
+     if(eraser)
+   {
+       return 3;
+   } if(paintbucket)
+   {
+       return 4;
+   }
+     return 0;
+  }
   public void setBrush(boolean flag)
   {
       Brush = flag;
