@@ -4,7 +4,9 @@
  */
 package loginScreen;
 
+import EditorMain.EditorMain;
 import UserVerification.SignupVerification;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
@@ -44,7 +46,6 @@ public class SignUpFrame extends javax.swing.JFrame {
         logoImage = new javax.swing.JLabel();
         mapleLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        contactBtn = new javax.swing.JButton();
         loginCredLabel = new javax.swing.JLabel();
         errorLabel = new javax.swing.JLabel();
         signUpButton = new javax.swing.JButton();
@@ -55,6 +56,7 @@ public class SignUpFrame extends javax.swing.JFrame {
         setBounds(new java.awt.Rectangle(500, 300, 500, 300));
         setForeground(java.awt.Color.red);
         setMinimumSize(new java.awt.Dimension(1000, 555));
+        setResizable(false);
         getContentPane().setLayout(null);
 
         loginButton.setBackground(new java.awt.Color(255, 102, 102));
@@ -145,19 +147,6 @@ public class SignUpFrame extends javax.swing.JFrame {
         leftPane.add(jLabel2);
         jLabel2.setBounds(10, 220, 320, 100);
 
-        contactBtn.setBackground(new java.awt.Color(255, 102, 102));
-        contactBtn.setFont(new java.awt.Font("Montserrat SemiBold", 0, 14)); // NOI18N
-        contactBtn.setForeground(new java.awt.Color(255, 255, 255));
-        contactBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gmail-logo-50_1.png"))); // NOI18N
-        contactBtn.setText("Contact Us!");
-        contactBtn.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                contactBtnActionPerformed(evt);
-            }
-        });
-        leftPane.add(contactBtn);
-        contactBtn.setBounds(70, 450, 150, 36);
-
         getContentPane().add(leftPane);
         leftPane.setBounds(0, 0, 310, 520);
 
@@ -199,10 +188,12 @@ public class SignUpFrame extends javax.swing.JFrame {
         String cnfrmPassword = cnfrmPasswordField.getText();
         String userName = nameField.getText();
         String result = SignupVerification.verifySignup(email, password, cnfrmPassword, userName);
+
         if(result.equals("success"))
         {
             this.dispose();
-            new selectHomeType().setVisible(true);
+            EditorMain n1 = new EditorMain ();
+            n1.setVisible(true);
         }
         else
         {
@@ -218,10 +209,6 @@ public class SignUpFrame extends javax.swing.JFrame {
     private void nameFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nameFieldActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_nameFieldActionPerformed
-
-    private void contactBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_contactBtnActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_contactBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -264,7 +251,6 @@ public class SignUpFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel cnfrmPassLabel;
     private javax.swing.JPasswordField cnfrmPasswordField;
-    private javax.swing.JButton contactBtn;
     private javax.swing.JTextField emailField;
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel errorLabel;

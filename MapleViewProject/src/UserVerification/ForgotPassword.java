@@ -65,7 +65,7 @@ public class ForgotPassword {
                 }
                 else
                 {
-                    return result;
+                    return result = "notexist";
                 }
            }
            
@@ -87,7 +87,8 @@ public class ForgotPassword {
         
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
-            protected PasswordAuthentication getPasswordAuthentication(){
+            protected PasswordAuthentication getPasswordAuthentication()
+            {
                 return new PasswordAuthentication (mail, password);
             }
         });
@@ -109,6 +110,7 @@ public class ForgotPassword {
             message.setRecipient(Message.RecipientType.TO, new InternetAddress(recMail));
             message.setSubject("MapleView: Password Reset");
             message.setText("Hey " + recName + "," + "\n Your password for MapleView is: " + recPass + "\nRegards,\n MapleView CSR");
+           
             return message;
         }
         catch(Exception ex)

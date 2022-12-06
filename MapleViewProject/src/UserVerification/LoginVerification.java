@@ -3,8 +3,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package UserVerification;
+import static UserVerification.SignupVerification.VALID_EMAIL_ADDRESS_REGEX;
+import static UserVerification.SignupVerification.validateEmail;
 import static UserVerification.User.currentUser;
 import java.sql.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import sqlCon.ConnectionUtil;
 
 /**
@@ -16,7 +20,13 @@ public class LoginVerification
     static Connection con = null;
     static PreparedStatement preparedStatement = null;
     static ResultSet resultSet = null;
-    
+    public static final Pattern VALID_EMAIL_ADDRESS_REGEX = 
+    Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
+    public static boolean validateEmail(String emailStr) 
+    {
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(emailStr);
+        return matcher.find();
+    }
     public static String verifyLogin(String email, String password)
     {
            String result = "success";
@@ -26,6 +36,10 @@ public class LoginVerification
         
         if(email.isEmpty() || password.isEmpty()) {
             return result = "Empty credentials";
+        }
+        if(!validateEmail(email))
+        {
+            return result = "Invalid email entered!";
         }
         
         else{

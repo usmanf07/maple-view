@@ -32,6 +32,11 @@ import javax.swing.JLabel;
 public class DrawArea extends JComponent {
  public Stack<Image> undo = new Stack <Image> ();
   public Stack<Image> redo = new Stack <Image> ();
+  public int zoom=0;
+  
+  public int h=0;
+  public int w=0;
+  
   // Image in which we're going to draw
   public Image image;
   // Graphics2D object ==> used to draw on
@@ -42,7 +47,7 @@ public class DrawArea extends JComponent {
   
   int height,width;
   public boolean paintbucket = false;
-  
+  Image zoomImage;
   public void tool(int val)
   {
       if(val!=1)
@@ -148,8 +153,33 @@ public class DrawArea extends JComponent {
       Graphics g = img.getGraphics();
       g.drawImage(image, 0, 0, null);
       repaint();
+      zoom=0;
       
   }
+  
+  public void zoom(int width,int height)
+  {
+    if(zoom==0)
+    {
+       zoomImage=EditorMain.deepCopy((BufferedImage)image);
+       zoom=1;
+    }
+    int newImageWidth = width;
+    int newImageHeight = height;
+    setPreferredSize(new Dimension(width, height));
+    Image  Rimage= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+
+    Graphics2D g = (Graphics2D) Rimage.getGraphics();
+
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    g.drawImage(zoomImage, 0, 0, newImageWidth , newImageHeight , null);
+    g.dispose();
+    image=Rimage;
+    repaint();
+      
+      
+  }
+  
 
   
   // now we create exposed methods

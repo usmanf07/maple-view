@@ -4,6 +4,9 @@
  */
 package EditorMain;
 import EditorMain.DrawRect;
+import Membership.PurchaseForm;
+import SocialGallery.GalleryImages;
+import SocialGallery.UserImage;
 import Tools.BrushTool;
 import Tools.Camera;
 import Tools.ColorChooser;
@@ -63,21 +66,28 @@ public class EditorMain extends javax.swing.JFrame{
     boolean bluefilter = false;
     boolean redfilter = false;
     boolean greenfilter = false;
-    
+
     public EditorMain() 
     {
         
         initComponents();
+        jSlider1.setMinorTickSpacing(5);  
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        jTabbedPane1.addChangeListener(new ChangeListener() {
-        public void stateChanged(ChangeEvent e) {
-            System.out.println("Tab: " + jTabbedPane1.getSelectedIndex());
+        jTabbedPane1.addChangeListener(new ChangeListener() 
+        {
+        public void stateChanged(ChangeEvent e) 
+        {
+            //System.out.println("Tab: " + jTabbedPane1.getSelectedIndex());
+            CardLayout card = (CardLayout)toolsPanel.getLayout();
+            card.show(toolsPanel, "card3");
         }
-    });
         
+    });
+        loadSocialGallery();
         
     }
-
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -102,6 +112,7 @@ public class EditorMain extends javax.swing.JFrame{
         eraserSize = new javax.swing.JSpinner();
         SizeLbl = new javax.swing.JLabel();
         bucketpanel = new javax.swing.JPanel();
+        membershipBtn = new javax.swing.JButton();
         EditorPanel = new javax.swing.JPanel();
         cropBtn = new javax.swing.JButton();
         paintBrushBtn = new javax.swing.JButton();
@@ -114,11 +125,9 @@ public class EditorMain extends javax.swing.JFrame{
         bottomPanel = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        sliderbutton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        galleryFrame = new javax.swing.JInternalFrame();
-        jScrollBar1 = new javax.swing.JScrollBar();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         newImgBtn = new javax.swing.JMenuItem();
@@ -140,7 +149,6 @@ public class EditorMain extends javax.swing.JFrame{
         redoBtn = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         rotate1 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         filtersMenu = new javax.swing.JMenu();
         bwBtn = new javax.swing.JMenuItem();
@@ -152,7 +160,6 @@ public class EditorMain extends javax.swing.JFrame{
         blueBtn = new javax.swing.JMenuItem();
         redBtn = new javax.swing.JMenuItem();
         greenBtn = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
         jMenu7 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -177,7 +184,7 @@ public class EditorMain extends javax.swing.JFrame{
             .addGroup(tipPanelLayout.createSequentialGroup()
                 .addGap(34, 34, 34)
                 .addComponent(jLabel3)
-                .addContainerGap(740, Short.MAX_VALUE))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
         tipPanelLayout.setVerticalGroup(
             tipPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -215,7 +222,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addComponent(typelbl1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(brushsize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(599, Short.MAX_VALUE))
+                .addContainerGap(268, Short.MAX_VALUE))
         );
         brushToolPanelLayout.setVerticalGroup(
             brushToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -253,12 +260,12 @@ public class EditorMain extends javax.swing.JFrame{
                 .addComponent(SizeLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(eraserSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(728, Short.MAX_VALUE))
+                .addContainerGap(395, Short.MAX_VALUE))
         );
         eraserToolPanelLayout.setVerticalGroup(
             eraserToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, eraserToolPanelLayout.createSequentialGroup()
-                .addContainerGap(13, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(eraserToolPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(SizeLbl)
                     .addComponent(eraserSize, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -271,7 +278,7 @@ public class EditorMain extends javax.swing.JFrame{
         bucketpanel.setLayout(bucketpanelLayout);
         bucketpanelLayout.setHorizontalGroup(
             bucketpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 849, Short.MAX_VALUE)
+            .addGap(0, 504, Short.MAX_VALUE)
         );
         bucketpanelLayout.setVerticalGroup(
             bucketpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -280,26 +287,39 @@ public class EditorMain extends javax.swing.JFrame{
 
         toolsPanel.add(bucketpanel, "buckettool");
 
+        membershipBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        membershipBtn.setText("My Membership");
+        membershipBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                membershipBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout ConfigPanelLayout = new javax.swing.GroupLayout(ConfigPanel);
         ConfigPanel.setLayout(ConfigPanelLayout);
         ConfigPanelLayout.setHorizontalGroup(
             ConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfigPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(toolsPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(toolsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(socialBtn)
+                .addGroup(ConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(socialBtn)
+                    .addComponent(membershipBtn))
                 .addGap(23, 23, 23))
         );
         ConfigPanelLayout.setVerticalGroup(
             ConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ConfigPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(socialBtn)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ConfigPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(toolsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addGroup(ConfigPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(ConfigPanelLayout.createSequentialGroup()
+                        .addComponent(socialBtn)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(membershipBtn))
+                    .addGroup(ConfigPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(toolsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
 
@@ -395,19 +415,43 @@ public class EditorMain extends javax.swing.JFrame{
                 .addComponent(cropBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(cropBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 71, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
         );
 
         bottomPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
+        jSlider1.setMajorTickSpacing(50);
+        jSlider1.setMaximum(150);
+        jSlider1.setMinimum(50);
+        jSlider1.setMinorTickSpacing(10);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setSnapToTicks(true);
+        jSlider1.setValue(100);
+        jSlider1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jSlider1AncestorMoved(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                jSlider1AncestorRemoved(evt);
+            }
+        });
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
         jLabel4.setText("Zoom:");
 
-        jButton1.setText("100%");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        sliderbutton.setText("100%");
+        sliderbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                sliderbuttonActionPerformed(evt);
             }
         });
 
@@ -421,7 +465,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sliderbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
         bottomPanelLayout.setVerticalGroup(
@@ -431,35 +475,24 @@ public class EditorMain extends javax.swing.JFrame{
                 .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jButton1))
+                    .addComponent(sliderbutton))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
         jTabbedPane1.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
         jPanel1.setVisible(false);
-        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        galleryFrame.setVisible(false);
-
-        javax.swing.GroupLayout galleryFrameLayout = new javax.swing.GroupLayout(galleryFrame.getContentPane());
-        galleryFrame.getContentPane().setLayout(galleryFrameLayout);
-        galleryFrameLayout.setHorizontalGroup(
-            galleryFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, galleryFrameLayout.createSequentialGroup()
-                .addContainerGap(252, Short.MAX_VALUE)
-                .addComponent(jScrollBar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 284, Short.MAX_VALUE)
         );
-        galleryFrameLayout.setVerticalGroup(
-            galleryFrameLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(galleryFrameLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollBar1, javax.swing.GroupLayout.DEFAULT_SIZE, 472, Short.MAX_VALUE)
-                .addContainerGap())
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 598, Short.MAX_VALUE)
         );
-
-        jPanel1.add(galleryFrame, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 280, 520));
 
         jMenu1.setText("File");
         jMenu1.addActionListener(new java.awt.event.ActionListener() {
@@ -566,9 +599,6 @@ public class EditorMain extends javax.swing.JFrame{
 
         jMenuBar1.add(jMenu2);
 
-        jMenu3.setText("Layer");
-        jMenuBar1.add(jMenu3);
-
         jMenu4.setText("Image");
         jMenuBar1.add(jMenu4);
 
@@ -637,9 +667,6 @@ public class EditorMain extends javax.swing.JFrame{
 
         jMenuBar1.add(filtersMenu);
 
-        jMenu6.setText("View");
-        jMenuBar1.add(jMenu6);
-
         jMenu7.setText("Help");
         jMenuBar1.add(jMenu7);
 
@@ -658,7 +685,7 @@ public class EditorMain extends javax.swing.JFrame{
                         .addComponent(jTabbedPane1))
                     .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -681,10 +708,8 @@ public class EditorMain extends javax.swing.JFrame{
     }// </editor-fold>//GEN-END:initComponents
 
     private void cropBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtnActionPerformed
-       
-         
+ 
         int index=jTabbedPane1.getSelectedIndex();
-      
 
         if(index!=-1)
         {
@@ -693,11 +718,10 @@ public class EditorMain extends javax.swing.JFrame{
            JViewport mypanel =(JViewport)selected.getComponent(0);
            JPanel t = (JPanel)mypanel.getComponent(0);
            DrawArea c =(DrawArea) t.getComponent(0);
-           c.tool(1);
+           c.tool(10);
            if(!c.crop)
            {
-            c.crop=true;
-            
+                c.crop=true;
                 JPanel cropToolPanel = new JPanel();
                 JButton cropImgBtn = new JButton();
                 cropImgBtn.setText("Crop");
@@ -779,10 +803,31 @@ public class EditorMain extends javax.swing.JFrame{
     
     static BufferedImage deepCopy(BufferedImage bi) 
     {
+        try{
         ColorModel cm = bi.getColorModel();
         boolean isAlphaPremultiplied = cm.isAlphaPremultiplied();
-        WritableRaster raster = bi.copyData(null);
+        WritableRaster raster = bi.copyData(bi.getRaster().createCompatibleWritableRaster());
         return new BufferedImage(cm, raster, isAlphaPremultiplied, null);
+        }
+        catch(Exception ex)
+        {
+            
+        }
+        try{
+            BufferedImage b = new BufferedImage(bi.getWidth(), bi.getHeight(), bi.getType());
+            Graphics g = b.getGraphics();
+            g.drawImage(bi, 0, 0, null);
+            g.dispose();
+            return b;
+            
+        }
+        catch(Exception ex){
+            
+            
+            
+        }
+        
+        return null;
     }
     public Image getSelectedImage()
     {
@@ -999,35 +1044,114 @@ public class EditorMain extends javax.swing.JFrame{
 
     private void cropBtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn5ActionPerformed
         // TODO add your handling code here:
+        Image temp=getSelectedImage();
+         if(temp==null)
+         {
+             return;
+         }
+         
+          JPanel t = getSelectedPanel();
+          if(t==null)
+          {
+              return;
+          }
+          DrawArea c =(DrawArea) t.getComponent(0);
+         int width=temp.getWidth(null);
+         int height=temp.getHeight(null);
+         
+         int percent=jSlider1.getValue();
+         width=(width/percent)*100;
+         height=(height/percent)*100;
+              
+         c.removeAll();
+         
+         c.zoom(width, height);
+         c.repaint();
+         repaint();
     }//GEN-LAST:event_cropBtn5ActionPerformed
 
     private void colorChooserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorChooserBtnActionPerformed
         ColorChooser color = new ColorChooser();
     }//GEN-LAST:event_colorChooserBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void sliderbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sliderbuttonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_sliderbuttonActionPerformed
+    
+    public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) 
+    {
+        int original_width = imgSize.width;
+        int original_height = imgSize.height;
+        int bound_width = boundary.width;
+        int bound_height = boundary.height;
+        int new_width = original_width;
+        int new_height = original_height;
 
-    private void socialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_socialBtnActionPerformed
-        if(!loadGallery)
+        // first check if we need to scale width
+        if (original_width > bound_width) 
         {
-            try {
-            BufferedImage img = ImageIO.read(new URL("https://i.ibb.co/cXMbXpL/new.jpg"));
-            JPanel panel = new JPanel();
-             DrawArea d=new DrawArea(120, 928) ;
-             d.Drawer(img);
-             panel.add(d);
-             panel.setSize(200, 200);
-             galleryFrame.add(panel);
-              galleryFrame.add(panel);
-               galleryFrame.add(panel);
-                galleryFrame.add(panel); galleryFrame.add(panel);
-                 galleryFrame.add(panel);
-                  galleryFrame.add(panel); galleryFrame.add(panel);
-                   galleryFrame.add(panel);
-                  
+            //scale width to fit
+            new_width = bound_width;
+            //scale height to maintain aspect ratio
+            new_height = (new_width * original_height) / original_width;
+        }
+
+        // then check if we need to scale even with the new height
+        if (new_height > bound_height) {
+            //scale height to fit instead
+            new_height = bound_height;
+            //scale width to maintain aspect ratio
+            new_width = (new_height * original_width) / original_height;
+        }
+
+        return new Dimension(new_width, new_height);
+    }
+    
+    public void loadSocialGallery()
+    {
+        jPanel1.removeAll();
+        try {
+            
+            JPanel panel = new JPanel(new GridLayout(0, 1));
+            JPanel panel1 = new JPanel();
+            
+            
+            JScrollPane mypane=new JScrollPane(panel);
+            mypane.setSize(280,800);
+            mypane.setVisible(true);
+            Dimension boundary = new Dimension(500, 500); 
+            
+            GalleryImages.loadImagesFromDB();
+            for(int i=0;i < GalleryImages.imageList.size();i++)
+            {
+                UserImage ui = GalleryImages.imageList.get(i);
                 
+                BufferedImage img = ImageIO.read(new URL(ui.url));
+                if(img!=null)
+                {
+                    Dimension oldImgDim = new Dimension(img.getWidth(null), img.getHeight(null)); 
+
+                    Dimension newDim = getScaledDimension(oldImgDim, boundary);
+
+                    Image dimg = img.getScaledInstance(newDim.width, newDim.width,
+                    Image.SCALE_SMOOTH);
+                    ImageIcon icon = new ImageIcon(dimg);
+
+                    JLabel thumb = new JLabel();
+
+                    thumb.setIcon(icon);
+
+                    panel.add(thumb);
+                }
+            }
+            
+        //    panel.setSize(300, 200);
+            panel.setVisible(true);
+           
+            
+            
+            jPanel1.add(mypane);
+      // System.out.print(jPanel1.getHeight()+" "+jPanel1.getWidth());
                 
              loadGallery = true;
         } catch (MalformedURLException ex) {
@@ -1037,15 +1161,17 @@ public class EditorMain extends javax.swing.JFrame{
              System.out.print(ex);
             Logger.getLogger(EditorMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
+    }
+    
+    private void socialBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_socialBtnActionPerformed
+
+        if(jPanel1.isVisible())
+        {
+            jPanel1.setVisible(false);
         }
-        if(!galleryFrame.isVisible()){
-                galleryFrame.setVisible(true);
-                jPanel1.setVisible(true);
-        }
-        else{
-                galleryFrame.setVisible(false);
-                jPanel1.setVisible(true);
+        else
+        {
+            jPanel1.setVisible(true);
         }
              
     }//GEN-LAST:event_socialBtnActionPerformed
@@ -1081,13 +1207,14 @@ public class EditorMain extends javax.swing.JFrame{
         JTextField widthField = new javax.swing.JTextField();
         
         JTextField heightField = new javax.swing.JTextField();
-       JLabel posLabel = new javax.swing.JLabel();
+        JLabel posLabel = new javax.swing.JLabel();
         JLabel jLabel4 = new javax.swing.JLabel();
         jLabel1.setText("Enter Image Dimensions:");
 
         jLabel2.setText("W:");
         jLabel4.setText("X");
-
+        
+        
         javax.swing.GroupLayout sizePanelLayout = new javax.swing.GroupLayout(sizePanel);
         sizePanel.setLayout(sizePanelLayout);
         sizePanelLayout.setHorizontalGroup(
@@ -1125,34 +1252,56 @@ public class EditorMain extends javax.swing.JFrame{
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         
-   
-        baseHeight = 1000;
-        baseWidth = 1000;
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridBagLayout());
+          int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
+                        JOptionPane.OK_CANCEL_OPTION,
+                        JOptionPane.PLAIN_MESSAGE);
         
-        DrawArea img = new DrawArea(baseWidth, baseHeight);
+        if(in == 0 && !widthField.getText().isEmpty() && !heightField.getText().isEmpty())
+        {
+            String width = widthField.getText();
+            String height = heightField.getText();
+            if(Integer.parseInt(width) > 0 && Integer.parseInt(height) > 0)
+            {
+                baseHeight = Integer.parseInt(height);
+                baseWidth = Integer.parseInt(width);
+            }
+                
+            else
+            {
+                baseHeight = 1000;
+                baseWidth = 1000;
+            }
+                
+            JPanel panel = new JPanel();
+            panel.setLayout(new GridBagLayout());
+
+            DrawArea img = new DrawArea(baseWidth, baseHeight);
+
+            panel.add(img);
+            panel.setSize(baseWidth, baseHeight);
+            panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
+
+            JScrollPane j1=new JScrollPane();
+            j1.setViewportView(panel);
+            j1.setSize(baseWidth, baseHeight);
+            j1.setLocation(10, 10);
+
+            j1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+            j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            String name="Untitled " + count;
+
+            jTabbedPane1.addTab(name,j1);
+            jTabbedPane1.setSelectedIndex(count - 1);
+            jTabbedPane1.repaint();
+            panel.repaint();
+            repaint();
+            count++;
+        }
         
-        panel.add(img);
-        panel.setSize(baseWidth, baseHeight);
-        panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
-        
-        JScrollPane j1=new JScrollPane();
-        j1.setViewportView(panel);
-        j1.setSize(baseWidth, baseHeight);
-        j1.setLocation(10, 10);
-        
-        j1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-        j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        String name="Untitled " + count;
-        
-        jTabbedPane1.addTab(name,j1);
-        jTabbedPane1.setSelectedIndex(count - 1);
-        jTabbedPane1.repaint();
-        panel.repaint();
-        repaint();
-        count++;
-       
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Invalid Dimensions Entered! Try Again");
+        }
     }//GEN-LAST:event_newImgBtnActionPerformed
 
   
@@ -1200,6 +1349,7 @@ public class EditorMain extends javax.swing.JFrame{
     private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
+            c.tool(0);
             c.removeAll();
             if(!c.redo.empty())
             {
@@ -1245,7 +1395,7 @@ public class EditorMain extends javax.swing.JFrame{
             c.undo.push(tem);
             
             Image newimg = Filters.GrayScale.toBlackAndWhite((BufferedImage) myColorImage);
-            
+            c.tool(0);
             c.removeAll();
             c.Drawer(newimg);
             repaint();
@@ -1262,7 +1412,7 @@ public class EditorMain extends javax.swing.JFrame{
             c.undo.push(tem);
             
             Image newimg = Filters.Sepia.toSepia((BufferedImage) myColorImage, 80);
-            
+            c.tool(0);
             c.removeAll();
             c.Drawer(newimg);
             repaint();
@@ -1278,7 +1428,7 @@ public class EditorMain extends javax.swing.JFrame{
             c.undo.push(tem);
             
             Image newimg = Filters.Median.toMedian(myColorImage);
-            
+            c.tool(0);
             c.removeAll();
             c.Drawer(newimg);
             repaint();
@@ -1300,9 +1450,9 @@ public class EditorMain extends javax.swing.JFrame{
                     {
                         File outputfile = new File(path);
                         ImageIO.write(bi, "png", outputfile);
-                      //  System.out.print(outputfile);
-                        SocialGallery.UploadImage.Upload(outputfile, ext);
-                        
+                        String name = "img." + ext;
+                        SocialGallery.UploadImage.Upload(outputfile, name);
+                        loadSocialGallery();
                     }
                 }
                 else
@@ -1323,7 +1473,7 @@ public class EditorMain extends javax.swing.JFrame{
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
-            
+            c.tool(0);
             Image newimg = Filters.Negative.toNegative(myColorImage);
             c.removeAll();
             c.Drawer(newimg);
@@ -1338,7 +1488,7 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             
             Image myColorImage = c.getImage();
-            
+            c.tool(0);
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
             
@@ -1357,7 +1507,7 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             
             Image myColorImage = c.getImage();
-            
+            c.tool(0);
             Image newimg = Filters.RedFilter.toRed(myColorImage);
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
@@ -1373,7 +1523,7 @@ public class EditorMain extends javax.swing.JFrame{
             greenfilter = true;
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            c.tool(0);
             Image myColorImage = c.getImage();
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
@@ -1393,7 +1543,7 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             
             Image myColorImage = c.getImage();
-            
+            c.tool(0);
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
             
@@ -1409,18 +1559,103 @@ public class EditorMain extends javax.swing.JFrame{
         JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
             c.removeAll();
+            c.tool(0);
             if(!c.undo.empty())
             {
                 Image teme=deepCopy((BufferedImage)c.getImage()); 
                 c.redo.push(teme);
                 Image tem=c.undo.pop();
-
+                
                // System.out.print(tem);
                 c.Drawer(tem);
                 c.repaint();
                 repaint();
             }
     }//GEN-LAST:event_undoBtnActionPerformed
+
+    private void membershipBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_membershipBtnActionPerformed
+        
+        if(UserVerification.User.currentUser.userType == 1)
+        {
+            PurchaseForm pf = new PurchaseForm();
+            pf.setVisible(true);
+            pf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "You are already a premium member :)");
+        }
+    }//GEN-LAST:event_membershipBtnActionPerformed
+
+    private void jSlider1AncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jSlider1AncestorMoved
+        
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1AncestorMoved
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+   
+        
+           Image temp=getSelectedImage();
+         if(temp==null)
+         {
+             return;
+         }
+         
+          JPanel t = getSelectedPanel();
+          if(t==null)
+          {
+              return;
+          }
+          DrawArea c =(DrawArea) t.getComponent(0);
+          c.removeAll();
+         
+          if(c.zoom==0)
+          {
+          c.w=temp.getWidth(null);
+          c.h=temp.getHeight(null);
+          }
+          else
+          {
+              c.w=c.zoomImage.getWidth(null);
+              c.h=c.zoomImage.getHeight(null);
+              
+          }
+          
+         
+          
+          int width;
+          int height;
+          if(c.w!=0 && c.h!=0)
+          {
+          width=c.w;
+          height=c.h;
+          }
+          else
+          {
+              width=temp.getWidth(null);
+              height=temp.getHeight(null);
+              
+          }
+          
+         int percent=jSlider1.getValue();
+         width=(width*percent)/100;
+         height=(height*percent)/100;
+   
+         
+         
+         c.zoom(width, height);
+         c.repaint();
+         repaint();
+         
+         
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jSlider1AncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jSlider1AncestorRemoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1AncestorRemoved
    
    
      public BufferedImage rescale(BufferedImage originalImage)
@@ -1505,16 +1740,12 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JButton eraserTool;
     private javax.swing.JPanel eraserToolPanel;
     private javax.swing.JMenu filtersMenu;
-    private javax.swing.JInternalFrame galleryFrame;
     private javax.swing.JMenuItem greenBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu6;
     private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem10;
@@ -1524,7 +1755,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;
@@ -1534,6 +1764,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JSlider jSlider1;
     public static javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JMenuItem medianBtn;
+    private javax.swing.JButton membershipBtn;
     private javax.swing.JMenuItem negativeBtn;
     private javax.swing.JMenuItem newImgBtn;
     private javax.swing.JMenuItem openCamera;
@@ -1546,6 +1777,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem rotate1;
     private javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JMenuItem sepiaBtn;
+    private javax.swing.JButton sliderbutton;
     private javax.swing.JButton socialBtn;
     private javax.swing.JPanel tipPanel;
     private javax.swing.JPanel toolsPanel;
