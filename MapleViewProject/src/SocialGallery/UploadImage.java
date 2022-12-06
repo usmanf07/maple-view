@@ -56,6 +56,7 @@ public class UploadImage {
         UploadParameters parameters = new UploadParameters();
         try {
             parameters.toMap(f, imgName);
+            System.out.print(imgName);
         } catch (IOException ex) {
             Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -72,7 +73,7 @@ public class UploadImage {
             
             int statusCode = response.statusCode(); 
             if(statusCode == 200){
-                System.out.println(statusCode);
+                //System.out.println(statusCode);
                 
             
             Document doc = Jsoup.parse(response.body(), "", Parser.xmlParser());
@@ -80,12 +81,13 @@ public class UploadImage {
             
             String n = doc.toString();
             String id = n.substring(15, 15 + 7);
-            String url = "https://ibb.co/" + id;
+            String url = "https://i.ibb.co/" + id;
+            String imageName = url + "/" + imgName;
            // int currentUserid = User.currentUser.userID;
             String query = "Insert into Images(imageurl, uploadedBy) values (?, ?)";
                 try {
                     ps = con.prepareStatement(query);
-                    ps.setString(1, url);
+                    ps.setString(1, imageName);
                     ps.setInt(2, 1);
                     ps.execute();
                 } catch (SQLException ex) {

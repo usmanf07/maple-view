@@ -39,6 +39,7 @@ public class DrawArea extends JComponent {
   public boolean Brush = false;
   public boolean crop =false;
   public boolean eraser=false;
+  public boolean text = false;
   
   int height,width;
   public boolean paintbucket = false;
@@ -61,6 +62,10 @@ public class DrawArea extends JComponent {
       {
           paintbucket=false;
       }
+      if(val!=5)
+      {
+          text=false;
+      }
       
   }
   public int returnTool()
@@ -80,6 +85,8 @@ public class DrawArea extends JComponent {
    {
        return 4;
    }
+   if(text)
+       return 5;
      return 0;
   }
   public void setBrush(boolean flag)

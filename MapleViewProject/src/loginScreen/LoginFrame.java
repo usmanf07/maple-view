@@ -4,6 +4,7 @@
  */
 package loginScreen;
 
+import EditorMain.EditorMain;
 import UserVerification.LoginVerification;
 
 /**
@@ -39,7 +40,6 @@ public class LoginFrame extends javax.swing.JFrame {
         leftPane = new javax.swing.JPanel();
         logoImage = new javax.swing.JLabel();
         mapleLabel1 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         loginCredLabel = new javax.swing.JLabel();
         errorLabel = new javax.swing.JLabel();
@@ -125,13 +125,6 @@ public class LoginFrame extends javax.swing.JFrame {
         leftPane.add(mapleLabel1);
         mapleLabel1.setBounds(30, 120, 274, 50);
 
-        jLabel1.setFont(new java.awt.Font("Montserrat ExtraBold", 0, 14)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-gmail-logo-50.png"))); // NOI18N
-        jLabel1.setText("Contact Support");
-        leftPane.add(jLabel1);
-        jLabel1.setBounds(70, 490, 160, 16);
-
         jLabel2.setFont(new java.awt.Font("Montserrat Medium", 2, 18)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("<html>An image editor with a place to edit & share art with your loved onlines!</html>");
@@ -174,7 +167,8 @@ public class LoginFrame extends javax.swing.JFrame {
         if(result.equals("success"))
         {
             this.dispose();
-            new selectHomeType().setVisible(true);
+            EditorMain n1 = new EditorMain ();
+            n1.setVisible(true);
         }
         else
         {
@@ -238,7 +232,6 @@ public class LoginFrame extends javax.swing.JFrame {
     private javax.swing.JLabel emailLabel;
     private javax.swing.JLabel errorLabel;
     private javax.swing.JButton forgotPassBtn;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel leftPane;
     private javax.swing.JButton loginButton;

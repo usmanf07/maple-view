@@ -162,7 +162,7 @@ public class ForgotPassFrame extends javax.swing.JFrame {
     private void forgotPassBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_forgotPassBtnActionPerformed
         String email = emailField.getText();
         String result = ForgotPassword.forgotPass(email);
-        if(result.equals("success")){
+        if(result.equals("success") || result.equals("notexist")){
             successLbl.setText("Password send on mail if it exists!\n Make sure to check spam ");
             successLbl.setVisible(true);
         }
