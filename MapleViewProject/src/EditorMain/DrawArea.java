@@ -159,6 +159,11 @@ public class DrawArea extends JComponent {
   
   public void zoom(int width,int height)
   {
+    if(returnTool()!=0)
+    {
+        zoom=0;
+        tool(10);
+    }
     if(zoom==0)
     {
        zoomImage=EditorMain.deepCopy((BufferedImage)image);

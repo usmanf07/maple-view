@@ -1279,7 +1279,7 @@ public class EditorMain extends javax.swing.JFrame{
 
             panel.add(img);
             panel.setSize(baseWidth, baseHeight);
-            panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
+         //   panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
 
             JScrollPane j1=new JScrollPane();
             j1.setViewportView(panel);
