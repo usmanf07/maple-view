@@ -31,6 +31,8 @@ public class ColorChooser extends javax.swing.JFrame {
                 selected_color = jColorChooser1.getColor();
                 BrushTool.currentColor = selected_color;
                 PaintBucketTool.currentColor = selected_color;
+                EditorMain.EditorMain.primaryColor = selected_color;
+                Tools.TextTool.textColor = selected_color;
             }
         }
         
