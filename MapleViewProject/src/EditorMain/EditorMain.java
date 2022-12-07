@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -111,8 +112,8 @@ public class EditorMain extends javax.swing.JFrame{
     });
         loadSocialGallery();
         primaryColor = Color.BLACK;
-        if(currentUser.userType == 1)
-            uploadImgBtn.setEnabled(false);
+//        if(currentUser.userType == 1)
+//            uploadImgBtn.setEnabled(false);
     }
     
     
@@ -178,7 +179,7 @@ public class EditorMain extends javax.swing.JFrame{
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         saveImgBtn = new javax.swing.JMenuItem();
         uploadImgBtn = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        imageSearchBtn = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         printBtn = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -615,11 +616,11 @@ public class EditorMain extends javax.swing.JFrame{
         jSlider1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
             }
-            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
-                jSlider1AncestorMoved(evt);
-            }
             public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
                 jSlider1AncestorRemoved(evt);
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jSlider1AncestorMoved(evt);
             }
         });
         jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -718,13 +719,13 @@ public class EditorMain extends javax.swing.JFrame{
         });
         jMenu1.add(uploadImgBtn);
 
-        jMenuItem1.setText("Search Image");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        imageSearchBtn.setText("Search Image");
+        imageSearchBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                imageSearchBtnActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(imageSearchBtn);
         jMenu1.add(jSeparator2);
 
         printBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -2219,27 +2220,60 @@ public class EditorMain extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void imageSearchBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_imageSearchBtnActionPerformed
         
-         String i=JOptionPane.showInputDialog("Enter Image you want to search");
-         BufferedImage im=null;
+         String i = JOptionPane.showInputDialog("Enter Image you want to search");
+         String n = JOptionPane.showInputDialog("Enter Number of Images you want to search");
+         int num = Integer.parseInt(n);
+         
          BasicScrapper temp = new BasicScrapper();
-         try{
-         im=temp.Search(i);
-         }
-         catch(Exception ex)
-         {
-             
-         }
-         JPanel panel = new JPanel();
-        panel.setLayout(new java.awt.GridBagLayout());
-        DrawArea drawArea=new DrawArea(120, 928) ;
+        try {
+            ArrayList<String> urls = (ArrayList<String>) temp.Search(i, num);
+            int x = 0;
+            for (String imageUrl : urls) 
+            {
+                if(x > num)
+                    break;
+                JPanel panel = new JPanel();
+                panel.setLayout(new java.awt.GridBagLayout());
+                DrawArea drawArea=new DrawArea(120, 928) ;
+                System.out.println(imageUrl);
+                URL url = new URL(imageUrl);
+                BufferedImage image = ImageIO.read(url);
+                if(image!=null)
+                {
+                    drawArea.Drawer(image);
+                    //drawArea.zoom2(300, 300,im);
+                    panel.add(drawArea, new java.awt.GridBagConstraints());
+                    JScrollPane j1=new JScrollPane(panel);
+                    String name="Untitled "+count;
 
-        
-        if(im!=null)
-        {
+                    jTabbedPane1.addTab(name,j1);
+                    jTabbedPane1.setTabComponentAt(count - 1, getTitlePanel(name));
+                    jTabbedPane1.setSelectedIndex(count - 1);
+
+                    count++;
+                }
+                x++;
+            }
+            /*
+            try
+            {
+            urls = temp.Search(i);
+            }
+            catch(Exception ex)
+            {
             
-           
+            }           
+            JPanel panel = new JPanel();
+            panel.setLayout(new java.awt.GridBagLayout());
+            DrawArea drawArea=new DrawArea(120, 928) ;
+            
+            
+            if(im!=null)
+            {
+            
+            
             drawArea.Drawer(im);
             drawArea.zoom2(300, 300,im);
             panel.add(drawArea, new java.awt.GridBagConstraints());
@@ -2251,9 +2285,12 @@ public class EditorMain extends javax.swing.JFrame{
             jTabbedPane1.setSelectedIndex(count - 1);
 
             count++;
+            }*/
+            // TODO add your handling code here:
+        } catch (IOException ex) {
+            Logger.getLogger(EditorMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_imageSearchBtnActionPerformed
    
     
 
@@ -2314,6 +2351,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JRadioButton fillCheck;
     private javax.swing.JMenu filtersMenu;
     private javax.swing.JMenuItem greenBtn;
+    private javax.swing.JMenuItem imageSearchBtn;
     private javax.swing.JButton imgEnhanceBtn;
     private javax.swing.JPanel imgadjpanel;
     private javax.swing.JSlider imgadjslider;
@@ -2322,7 +2360,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
