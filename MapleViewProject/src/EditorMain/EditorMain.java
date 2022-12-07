@@ -65,8 +65,8 @@ public class EditorMain extends javax.swing.JFrame{
     public static Image currentImage;
     public static HashMap<Integer, Image> loadedImages = new HashMap<Integer, Image>();
     public static int selectedTabIndex;
-    HashMap<Integer, Boolean> brushtool = new HashMap<Integer, Boolean>();
-    HashMap<Integer, Boolean> erasertool = new HashMap<Integer, Boolean>();
+    HashMap<Integer, String> cardLayouts = new HashMap<Integer, String>();
+
     boolean loadGallery = false;
     DrawRect D1;
     boolean bluefilter = false;
@@ -82,13 +82,26 @@ public class EditorMain extends javax.swing.JFrame{
         initComponents();
         jSlider1.setMinorTickSpacing(5);  
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        CardLayout card = (CardLayout)toolsPanel.getLayout();
+        card.show(toolsPanel, "card3");
+        
         jTabbedPane1.addChangeListener(new ChangeListener() 
         {
         public void stateChanged(ChangeEvent e) 
         {
             //System.out.println("Tab: " + jTabbedPane1.getSelectedIndex());
+            int index = jTabbedPane1.getSelectedIndex();
+            String layoutName = cardLayouts.get(index);
+            if(layoutName == null)
+            {
+                CardLayout card = (CardLayout)toolsPanel.getLayout();
+                card.show(toolsPanel, "card3");
+            }
+                else{
             CardLayout card = (CardLayout)toolsPanel.getLayout();
-            card.show(toolsPanel, "card3");
+            card.show(toolsPanel, layoutName);
+            }
+            selectedTabIndex = index;
         }
         
     });
@@ -171,7 +184,6 @@ public class EditorMain extends javax.swing.JFrame{
         undoBtn = new javax.swing.JMenuItem();
         redoBtn = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
-        rotate1 = new javax.swing.JMenuItem();
         filtersMenu = new javax.swing.JMenu();
         bwBtn = new javax.swing.JMenuItem();
         sepiaBtn = new javax.swing.JMenuItem();
@@ -758,14 +770,6 @@ public class EditorMain extends javax.swing.JFrame{
         jMenu2.add(redoBtn);
         jMenu2.add(jSeparator6);
 
-        rotate1.setText("Rotate 90 Right");
-        rotate1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                rotate1ActionPerformed(evt);
-            }
-        });
-        jMenu2.add(rotate1);
-
         jMenuBar1.add(jMenu2);
 
         filtersMenu.setText("Filter Gallery");
@@ -887,7 +891,7 @@ public class EditorMain extends javax.swing.JFrame{
 
         if(index!=-1)
         {
-            Component temp= jTabbedPane1.getComponentAt(index);
+           Component temp= jTabbedPane1.getComponentAt(index);
            JScrollPane selected=(JScrollPane)temp;
            JViewport mypanel =(JViewport)selected.getComponent(0);
            JPanel t = (JPanel)mypanel.getComponent(0);
@@ -921,7 +925,7 @@ public class EditorMain extends javax.swing.JFrame{
         
         CardLayout card = (CardLayout)toolsPanel.getLayout();
         card.show(toolsPanel, "croptool");
-       
+       cardLayouts.put(selectedTabIndex, "croptool");
             int h=c.getHeight();
             int w=c.getWidth();
             
@@ -1042,7 +1046,9 @@ public class EditorMain extends javax.swing.JFrame{
         loadedImages.put(selectedTabIndex, c.getImage());
         CardLayout card = (CardLayout)toolsPanel.getLayout();
         card.show(toolsPanel, "brushtool");
-               
+        
+        cardLayouts.put(selectedTabIndex, "brushtool");
+        
             brushTypeCombo.addActionListener (new ActionListener () {
             public void actionPerformed(ActionEvent e) {
                 BrushTool.brushType = brushTypeCombo.getSelectedItem().toString();
@@ -1057,7 +1063,7 @@ public class EditorMain extends javax.swing.JFrame{
                 BrushTool.brushSize = Float.parseFloat(s.getValue().toString());
             }
         });
-            brushtool.put(index, true);
+          //  brushtool.put(index, true);
            
             int h=c.getHeight();
             int w=c.getWidth();
@@ -1101,7 +1107,7 @@ public class EditorMain extends javax.swing.JFrame{
                 loadedImages.put(selectedTabIndex, c.getImage());
                 CardLayout card = (CardLayout)toolsPanel.getLayout();
                 card.show(toolsPanel, "textpanel");
-
+                cardLayouts.put(selectedTabIndex, "textpanel");
 
                 int h = c.getHeight();
                 int w = c.getWidth();
@@ -1148,6 +1154,7 @@ public class EditorMain extends javax.swing.JFrame{
             
             CardLayout card = (CardLayout)toolsPanel.getLayout();
             card.show(toolsPanel, "buckettool");
+             cardLayouts.put(selectedTabIndex, "buckettool");
             //index = jTabbedPane1.getSelectedIndex();
             
             if(index != -1)
@@ -1198,6 +1205,7 @@ public class EditorMain extends javax.swing.JFrame{
             
             CardLayout card = (CardLayout)toolsPanel.getLayout();
             card.show(toolsPanel, "erasertool");
+            cardLayouts.put(selectedTabIndex, "erasertool");
             //index = jTabbedPane1.getSelectedIndex();
            
 
@@ -1212,7 +1220,7 @@ public class EditorMain extends javax.swing.JFrame{
                 EraserTool.eraserSize = Float.parseFloat(s.getValue().toString());
             }
         });
-            erasertool.put(index, true);
+            //erasertool.put(index, true);
             
             int h=c.getHeight();
             int w=c.getWidth();
@@ -1259,7 +1267,7 @@ public class EditorMain extends javax.swing.JFrame{
                 loadedImages.put(selectedTabIndex, c.getImage());
                 CardLayout card = (CardLayout)toolsPanel.getLayout();
                 card.show(toolsPanel, "shapepanel");
-                
+                cardLayouts.put(selectedTabIndex, "shapepanel");
                         shapeCombo.addActionListener (new ActionListener () {
                     public void actionPerformed(ActionEvent e) 
                     {
@@ -1812,22 +1820,6 @@ public class EditorMain extends javax.swing.JFrame{
             repaint();
     }//GEN-LAST:event_greenBtnActionPerformed
 
-    private void rotate1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rotate1ActionPerformed
-            JPanel t = getSelectedPanel();
-            DrawArea c =(DrawArea) t.getComponent(0);
-            
-           BufferedImage myColorImage = (BufferedImage) c.getImage();
-            c.tool(0);
-            Image tem=deepCopy((BufferedImage)c.getImage()); 
-            c.undo.push(tem);
-            
-            Image newimg = Tools.Rotate.Rotate(myColorImage);
-
-            c.removeAll();
-            c.Drawer(newimg);
-            c.repaint();
-    }//GEN-LAST:event_rotate1ActionPerformed
-
     private void undoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_undoBtnActionPerformed
         JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
@@ -1956,7 +1948,7 @@ public class EditorMain extends javax.swing.JFrame{
                 c.rotate = true;
                 CardLayout card = (CardLayout)toolsPanel.getLayout();
                 card.show(toolsPanel, "rotatepanel");
-                
+                cardLayouts.put(selectedTabIndex, "rotatepanel");
                 rotateCombo.addActionListener (new ActionListener () {
                     public void actionPerformed(ActionEvent e) 
                     {
@@ -2034,7 +2026,7 @@ public class EditorMain extends javax.swing.JFrame{
                 c.imgAdj = true;
                 CardLayout card = (CardLayout)toolsPanel.getLayout();
                 card.show(toolsPanel, "imgadjpanel");
-                
+                cardLayouts.put(selectedTabIndex, "imgadjpanel");
                 settingCombo.addActionListener (new ActionListener () {
                     public void actionPerformed(ActionEvent e) 
                     {
@@ -2229,7 +2221,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem redBtn;
     private javax.swing.JMenuItem redoBtn;
     private javax.swing.JMenu rgbColors;
-    private javax.swing.JMenuItem rotate1;
     private javax.swing.JComboBox<String> rotateCombo;
     private javax.swing.JButton rotateToolBtn;
     private javax.swing.JPanel rotatepanel;
