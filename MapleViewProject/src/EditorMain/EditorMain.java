@@ -12,7 +12,9 @@ import Tools.Camera;
 import Tools.TextTool;
 import Tools.ColorChooser;
 import Tools.EraserTool;
+import Tools.ShapeTool;
 import Tools.PaintBucketTool;
+import static Tools.ShapeTool.shapeStroke;
 import com.github.sarxos.webcam.Webcam;
 import java.awt.*;
 import javax.swing.*;
@@ -113,6 +115,11 @@ public class EditorMain extends javax.swing.JFrame{
         bucketpanel = new javax.swing.JPanel();
         textpanel = new javax.swing.JPanel();
         textHelpLbl = new javax.swing.JLabel();
+        shapepanel = new javax.swing.JPanel();
+        shapeCombo = new javax.swing.JComboBox<>();
+        fillCheck = new javax.swing.JRadioButton();
+        strokeLbl = new javax.swing.JLabel();
+        strokeCombo = new javax.swing.JComboBox<>();
         membershipBtn = new javax.swing.JButton();
         EditorPanel = new javax.swing.JPanel();
         cropBtn = new javax.swing.JButton();
@@ -120,8 +127,8 @@ public class EditorMain extends javax.swing.JFrame{
         paintBucketBtn = new javax.swing.JButton();
         TextBtn = new javax.swing.JButton();
         eraserTool = new javax.swing.JButton();
-        cropBtn4 = new javax.swing.JButton();
-        cropBtn5 = new javax.swing.JButton();
+        shapeBtn = new javax.swing.JButton();
+        zoomBtn = new javax.swing.JButton();
         colorChooserBtn = new javax.swing.JButton();
         bottomPanel = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
@@ -309,6 +316,43 @@ public class EditorMain extends javax.swing.JFrame{
 
         toolsPanel.add(textpanel, "textpanel");
 
+        shapeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Rectangle", "Circle", "Line" }));
+
+        fillCheck.setText("Fill");
+
+        strokeLbl.setText("Stroke");
+
+        strokeCombo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0.5", "1", "1.5", "2", "2.5", "3", "3.5" }));
+
+        javax.swing.GroupLayout shapepanelLayout = new javax.swing.GroupLayout(shapepanel);
+        shapepanel.setLayout(shapepanelLayout);
+        shapepanelLayout.setHorizontalGroup(
+            shapepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(shapepanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(shapeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(fillCheck)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(strokeLbl)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(strokeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(242, Short.MAX_VALUE))
+        );
+        shapepanelLayout.setVerticalGroup(
+            shapepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(shapepanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(shapepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(shapeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(fillCheck)
+                    .addComponent(strokeLbl)
+                    .addComponent(strokeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(18, Short.MAX_VALUE))
+        );
+
+        toolsPanel.add(shapepanel, "shapepanel");
+
         membershipBtn.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         membershipBtn.setText("My Membership");
         membershipBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -382,17 +426,17 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
 
-        cropBtn4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shape-25.png"))); // NOI18N
-        cropBtn4.addActionListener(new java.awt.event.ActionListener() {
+        shapeBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-shape-25.png"))); // NOI18N
+        shapeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cropBtn4ActionPerformed(evt);
+                shapeBtnActionPerformed(evt);
             }
         });
 
-        cropBtn5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-zoom-to-extents-25.png"))); // NOI18N
-        cropBtn5.addActionListener(new java.awt.event.ActionListener() {
+        zoomBtn.setIcon(new javax.swing.ImageIcon(getClass().getResource("/images/icons8-zoom-to-extents-25.png"))); // NOI18N
+        zoomBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cropBtn5ActionPerformed(evt);
+                zoomBtnActionPerformed(evt);
             }
         });
 
@@ -411,8 +455,8 @@ public class EditorMain extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(EditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cropBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cropBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(zoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(shapeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(TextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(eraserTool, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -434,9 +478,9 @@ public class EditorMain extends javax.swing.JFrame{
                 .addGap(18, 18, 18)
                 .addComponent(TextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cropBtn4, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(shapeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(cropBtn5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(zoomBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
@@ -991,7 +1035,12 @@ public class EditorMain extends javax.swing.JFrame{
             c.add(bucket, new java.awt.GridBagConstraints());
         }
         
-        }}
+        }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No Images Opened");
+        }
     }//GEN-LAST:event_paintBucketBtnActionPerformed
 
     private void eraserToolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eraserToolActionPerformed
@@ -1049,15 +1098,93 @@ public class EditorMain extends javax.swing.JFrame{
         }
         
         }}
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No Images Opened");
+        }
     }//GEN-LAST:event_eraserToolActionPerformed
 
-    private void cropBtn4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_cropBtn4ActionPerformed
+    private void shapeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_shapeBtnActionPerformed
+        int index = jTabbedPane1.getSelectedIndex();
+        if(index != -1)
+        {
+            Component temp= jTabbedPane1.getComponentAt(index);
+            JScrollPane selected=(JScrollPane)temp;
+            JViewport mypanel =(JViewport)selected.getComponent(0);
+            JPanel t = (JPanel)mypanel.getComponent(0);
+            DrawArea c =(DrawArea) t.getComponent(0);
+            c.tool(6);
+            if(!c.shape && index != -1)
+            {
+                c.shape = true;
 
-    private void cropBtn5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cropBtn5ActionPerformed
+                Image tem = deepCopy((BufferedImage)c.getImage()); 
+                 c.undo.push(tem);
+
+                c.removeAll();
+                selectedTabIndex = jTabbedPane1.getSelectedIndex();
+
+                loadedImages.put(selectedTabIndex, c.getImage());
+                CardLayout card = (CardLayout)toolsPanel.getLayout();
+                card.show(toolsPanel, "shapepanel");
+                
+                        shapeCombo.addActionListener (new ActionListener () {
+                    public void actionPerformed(ActionEvent e) 
+                    {
+                        String sel_shape = shapeCombo.getSelectedItem().toString();
+                        if(sel_shape.equals("Rectangle"))
+                            ShapeTool.shapetype = 1;
+                        if(sel_shape.equals("Circle"))
+                            ShapeTool.shapetype = 2;
+                        if(sel_shape.equals("Line"))
+                            ShapeTool.shapetype = 3;
+                    }
+                });
+                        
+                        strokeCombo.addActionListener (new ActionListener () 
+                        {
+                    public void actionPerformed(ActionEvent e) 
+                    {
+                        String temp = strokeCombo.getSelectedItem().toString();
+                        float value = Float.parseFloat(temp);
+                        BasicStroke s = new BasicStroke((float) value);
+                        shapeStroke = s;
+                    }
+                });
+
+                    fillCheck.addChangeListener(new ChangeListener() {
+
+                    @Override
+                    public void stateChanged(ChangeEvent e) 
+                    {
+                        if(fillCheck.isSelected())
+                            ShapeTool.isFill = true;
+                        else
+                            ShapeTool.isFill = false;
+                    }
+                });
+            
+                int h = c.getHeight();
+                int w = c.getWidth();
+
+                ShapeTool s = new ShapeTool();
+
+                s.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
+                s.setPreferredSize(new Dimension(w, h));
+
+                c.setLayout(new java.awt.GridBagLayout());
+                c.add(s, new java.awt.GridBagConstraints());
+            }
+        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No Images Opened");
+        }
+    }//GEN-LAST:event_shapeBtnActionPerformed
+
+    private void zoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_cropBtn5ActionPerformed
+    }//GEN-LAST:event_zoomBtnActionPerformed
 
     private void colorChooserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorChooserBtnActionPerformed
         ColorChooser color = new ColorChooser();
@@ -1238,14 +1365,16 @@ public class EditorMain extends javax.swing.JFrame{
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         
-          int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
+          /*int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
                         JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);
+                        JOptionPane.PLAIN_MESSAGE);*/
         
-        if(in == 0 && !widthField.getText().isEmpty() && !heightField.getText().isEmpty())
-        {
-            String width = widthField.getText();
-            String height = heightField.getText();
+       // if(in == 0 && !widthField.getText().isEmpty() && !heightField.getText().isEmpty())
+        //{
+            //String width = widthField.getText();
+            //String height = heightField.getText();
+            String width = "500";
+            String height = "500";
             if(Integer.parseInt(width) > 0 && Integer.parseInt(height) > 0)
             {
                 baseHeight = Integer.parseInt(height);
@@ -1282,12 +1411,12 @@ public class EditorMain extends javax.swing.JFrame{
             panel.repaint();
             repaint();
             count++;
-        }
+        //}
         
-        else
-        {
-            JOptionPane.showMessageDialog(null, "Invalid Dimensions Entered! Try Again");
-        }
+//        else
+//        {
+//            JOptionPane.showMessageDialog(null, "Invalid Dimensions Entered! Try Again");
+//        }
     }//GEN-LAST:event_newImgBtnActionPerformed
 
   
@@ -1650,11 +1779,10 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem bwBtn;
     private javax.swing.JButton colorChooserBtn;
     private javax.swing.JButton cropBtn;
-    private javax.swing.JButton cropBtn4;
-    private javax.swing.JButton cropBtn5;
     private javax.swing.JSpinner eraserSize;
     private javax.swing.JButton eraserTool;
     private javax.swing.JPanel eraserToolPanel;
+    private javax.swing.JRadioButton fillCheck;
     private javax.swing.JMenu filtersMenu;
     private javax.swing.JMenuItem greenBtn;
     private javax.swing.JButton jButton1;
@@ -1694,7 +1822,12 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem rotate1;
     private javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JMenuItem sepiaBtn;
+    private javax.swing.JButton shapeBtn;
+    private javax.swing.JComboBox<String> shapeCombo;
+    private javax.swing.JPanel shapepanel;
     private javax.swing.JButton socialBtn;
+    private javax.swing.JComboBox<String> strokeCombo;
+    private javax.swing.JLabel strokeLbl;
     private javax.swing.JLabel textHelpLbl;
     private javax.swing.JPanel textpanel;
     private javax.swing.JPanel tipPanel;
@@ -1703,6 +1836,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JLabel typelbl1;
     private javax.swing.JMenuItem undoBtn;
     private javax.swing.JMenuItem uploadImgBtn;
+    private javax.swing.JButton zoomBtn;
     // End of variables declaration//GEN-END:variables
 
 }

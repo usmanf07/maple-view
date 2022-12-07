@@ -581,6 +581,89 @@
                 </Component>
               </SubComponents>
             </Container>
+            <Container class="javax.swing.JPanel" name="shapepanel">
+              <Constraints>
+                <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignCardLayout" value="org.netbeans.modules.form.compat2.layouts.DesignCardLayout$CardConstraintsDescription">
+                  <CardConstraints cardName="shapepanel"/>
+                </Constraint>
+              </Constraints>
+
+              <Layout>
+                <DimensionLayout dim="0">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="shapeCombo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="fillCheck" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                          <Component id="strokeLbl" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Component id="strokeCombo" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace pref="242" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+                <DimensionLayout dim="1">
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="shapeCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="fillCheck" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="strokeLbl" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="strokeCombo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="18" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                </DimensionLayout>
+              </Layout>
+              <SubComponents>
+                <Component class="javax.swing.JComboBox" name="shapeCombo">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="3">
+                        <StringItem index="0" value="Rectangle"/>
+                        <StringItem index="1" value="Circle"/>
+                        <StringItem index="2" value="Line"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="fillCheck">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Fill"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JLabel" name="strokeLbl">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Stroke"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JComboBox" name="strokeCombo">
+                  <Properties>
+                    <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+                      <StringArray count="7">
+                        <StringItem index="0" value="0.5"/>
+                        <StringItem index="1" value="1"/>
+                        <StringItem index="2" value="1.5"/>
+                        <StringItem index="3" value="2"/>
+                        <StringItem index="4" value="2.5"/>
+                        <StringItem index="5" value="3"/>
+                        <StringItem index="6" value="3.5"/>
+                      </StringArray>
+                    </Property>
+                  </Properties>
+                  <AuxValues>
+                    <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                  </AuxValues>
+                </Component>
+              </SubComponents>
+            </Container>
           </SubComponents>
         </Container>
         <Component class="javax.swing.JButton" name="membershipBtn">
@@ -615,8 +698,8 @@
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="colorChooserBtn" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="cropBtn5" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="cropBtn4" min="-2" pref="39" max="-2" attributes="0"/>
+                      <Component id="zoomBtn" min="-2" pref="39" max="-2" attributes="0"/>
+                      <Component id="shapeBtn" min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="TextBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="paintBucketBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
                       <Component id="eraserTool" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
@@ -641,9 +724,9 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Component id="TextBtn" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="cropBtn4" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="shapeBtn" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
-                  <Component id="cropBtn5" min="-2" pref="29" max="-2" attributes="0"/>
+                  <Component id="zoomBtn" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="colorChooserBtn" min="-2" pref="29" max="-2" attributes="0"/>
                   <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
@@ -702,24 +785,24 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="eraserToolActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cropBtn4">
+        <Component class="javax.swing.JButton" name="shapeBtn">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/images/icons8-shape-25.png"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cropBtn4ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="shapeBtnActionPerformed"/>
           </Events>
         </Component>
-        <Component class="javax.swing.JButton" name="cropBtn5">
+        <Component class="javax.swing.JButton" name="zoomBtn">
           <Properties>
             <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
               <Image iconType="3" name="/images/icons8-zoom-to-extents-25.png"/>
             </Property>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cropBtn5ActionPerformed"/>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="zoomBtnActionPerformed"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="colorChooserBtn">
