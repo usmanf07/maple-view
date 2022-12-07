@@ -83,12 +83,12 @@ public class UploadImage {
             String id = n.substring(15, 15 + 7);
             String url = "https://i.ibb.co/" + id;
             String imageName = url + "/" + imgName;
-           // int currentUserid = User.currentUser.userID;
+            int currentUserid = User.currentUser.userID;
             String query = "Insert into Images(imageurl, uploadedBy) values (?, ?)";
                 try {
                     ps = con.prepareStatement(query);
                     ps.setString(1, imageName);
-                    ps.setInt(2, 1);
+                    ps.setInt(2, currentUserid);
                     ps.execute();
                 } catch (SQLException ex) {
                     Logger.getLogger(UploadImage.class.getName()).log(Level.SEVERE, null, ex);

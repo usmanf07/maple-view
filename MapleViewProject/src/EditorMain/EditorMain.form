@@ -68,6 +68,9 @@
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="uploadImgBtnActionPerformed"/>
               </Events>
+              <AuxValues>
+                <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+              </AuxValues>
             </MenuItem>
             <MenuItem class="javax.swing.JPopupMenu$Separator" name="jSeparator2">
             </MenuItem>
@@ -805,20 +808,24 @@
               <Group type="102" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="colorChooserBtn" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="shapeBtn" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="TextBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="paintBucketBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="eraserTool" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="paintBrushBtn" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="cropBtn" min="-2" pref="39" max="-2" attributes="0"/>
-                      <Component id="rotateToolBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                      <Group type="102" attributes="0">
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="colorChooserBtn" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="shapeBtn" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="TextBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="paintBucketBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="eraserTool" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="paintBrushBtn" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="cropBtn" min="-2" pref="39" max="-2" attributes="0"/>
+                              <Component id="rotateToolBtn" alignment="0" min="-2" pref="39" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="1" attributes="0">
+                          <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                          <Component id="imgEnhanceBtn" min="-2" pref="39" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
-                  <EmptySpace max="32767" attributes="0"/>
-              </Group>
-              <Group type="102" alignment="1" attributes="0">
-                  <EmptySpace max="32767" attributes="0"/>
-                  <Component id="imgEnhanceBtn" min="-2" pref="39" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -965,20 +972,17 @@
                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
                   <Component id="jSlider1" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
-                  <Component id="sliderbutton" min="-2" pref="64" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="117" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jSlider1" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="sliderbutton" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="15" max="32767" attributes="0"/>
               </Group>
@@ -998,8 +1002,8 @@
             <Property name="value" type="int" value="100"/>
           </Properties>
           <Events>
-            <EventHandler event="ancestorMoved" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jSlider1AncestorMoved"/>
             <EventHandler event="ancestorRemoved" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jSlider1AncestorRemoved"/>
+            <EventHandler event="ancestorMoved" listener="javax.swing.event.AncestorListener" parameters="javax.swing.event.AncestorEvent" handler="jSlider1AncestorMoved"/>
             <EventHandler event="stateChanged" listener="javax.swing.event.ChangeListener" parameters="javax.swing.event.ChangeEvent" handler="jSlider1StateChanged"/>
           </Events>
         </Component>
@@ -1007,14 +1011,6 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Zoom:"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="sliderbutton">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="100%"/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="sliderbuttonActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>

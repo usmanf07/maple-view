@@ -75,6 +75,7 @@ public class PurchaseForm extends javax.swing.JFrame
                     orderBtn.addActionListener(new java.awt.event.ActionListener() {
                         public void actionPerformed(java.awt.event.ActionEvent evt) {
                             orderBtnActionPerformed(evt);
+                            order(evt);
                         }
                     });
                     getContentPane().add(orderBtn);
@@ -150,7 +151,7 @@ public class PurchaseForm extends javax.swing.JFrame
                     System.out.println(e);
                 }
                 getContentPane().add(numField);
-                numField.setBounds(410, 100, 380, 30);
+                numField.setBounds(410, 100, 10, 30);
 
             }
             catch(Exception e)
@@ -158,14 +159,14 @@ public class PurchaseForm extends javax.swing.JFrame
                 System.out.println(e);
             }
             getContentPane().add(yearField);
-            yearField.setBounds(520, 160, 70, 30);
+            yearField.setBounds(520, 160, 10, 30);
 
         } catch(Exception e)
         {
 
         }
         getContentPane().add(cvvField);
-        cvvField.setBounds(410, 220, 70, 30);
+        cvvField.setBounds(410, 220, 10, 30);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -178,7 +179,7 @@ public class PurchaseForm extends javax.swing.JFrame
         String cvv = cvvField.getText();
 
         String result = Payment.verifyPayment(cc, month, year, cvv);
-        
+        //String result = "success";
         if(result.equals("success"))
         {
             String r = UserVerification.User.updateMembership();
@@ -186,6 +187,8 @@ public class PurchaseForm extends javax.swing.JFrame
             errorLabel.setText("Payment Successful, You can close this window now!");
             errorLabel.setForeground(Color.GREEN);
             errorLabel.setVisible(true);
+            EditorMain.EditorMain.uploadImgBtn.setEnabled(true);
+            
         }
         else
         {
@@ -193,6 +196,10 @@ public class PurchaseForm extends javax.swing.JFrame
             errorLabel.setVisible(true);
         }
     }//GEN-LAST:event_orderBtnActionPerformed
+
+    private void order(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_order
+        // TODO add your handling code here:
+    }//GEN-LAST:event_order
 
     /**
      * @param args the command line arguments
@@ -245,7 +252,7 @@ public class PurchaseForm extends javax.swing.JFrame
     private javax.swing.JComboBox<String> monthBox;
     private javax.swing.JFormattedTextField numField;
     private javax.swing.JLabel numLbl;
-    private javax.swing.JButton orderBtn;
+    private static javax.swing.JButton orderBtn;
     private javax.swing.JLabel title;
     private javax.swing.JFormattedTextField yearField;
     private javax.swing.JLabel yrLbl;
