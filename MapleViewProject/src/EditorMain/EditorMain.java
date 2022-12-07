@@ -112,8 +112,8 @@ public class EditorMain extends javax.swing.JFrame{
     });
         loadSocialGallery();
         primaryColor = Color.BLACK;
-//        if(currentUser.userType == 1)
-//            uploadImgBtn.setEnabled(false);
+        if(currentUser.userType == 1)
+            uploadImgBtn.setEnabled(false);
     }
     
     
@@ -1391,6 +1391,9 @@ public class EditorMain extends javax.swing.JFrame{
     public void loadSocialGallery()
     {
         jPanel1.removeAll();
+        if(GalleryImages.imageList != null)
+            GalleryImages.imageList = null;
+        
         try {
             
             JPanel panel = new JPanel(new GridLayout(0, 1));
@@ -2239,6 +2242,7 @@ public class EditorMain extends javax.swing.JFrame{
                 DrawArea drawArea=new DrawArea(120, 928) ;
                 System.out.println(imageUrl);
                 URL url = new URL(imageUrl);
+                
                 BufferedImage image = ImageIO.read(url);
                 if(image!=null)
                 {
@@ -2256,6 +2260,7 @@ public class EditorMain extends javax.swing.JFrame{
                 }
                 x++;
             }
+            
             /*
             try
             {
@@ -2288,7 +2293,7 @@ public class EditorMain extends javax.swing.JFrame{
             }*/
             // TODO add your handling code here:
         } catch (IOException ex) {
-            Logger.getLogger(EditorMain.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "Some Results Could Not be Loaded!");
         }
     }//GEN-LAST:event_imageSearchBtnActionPerformed
    
