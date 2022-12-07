@@ -40,7 +40,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class BasicScrapper {
-static List<String> resultUrls = new ArrayList<String>();
+ List<String> resultUrls;
 
     private static final int num = 5;				// Number of images to save in the current directory
 	private static final String key = "AIzaSyCziPZ3niIitvsE8A7H5Kgx6aq91WnIJq8";	// Google Custom Search API key 
@@ -49,7 +49,7 @@ static List<String> resultUrls = new ArrayList<String>();
 	private static int errors = 0;						
 	
 	// Returns search results (JSON format) in each call for specified API key, query, start index and custom search engine id (cx).
-	public static String getResults(String query, int nums) throws IOException {
+	public  String getResults(String query, int nums) throws IOException {
 		
             //query.replace(' ', '+');
 		URL url = new URL(	// Construct the URL
@@ -72,17 +72,16 @@ static List<String> resultUrls = new ArrayList<String>();
 
    public List<String> Search(String searchString, int nums) throws IOException{
         
+        resultUrls = new ArrayList<String>();
         searchString = searchString.replace(' ', '+');    
         String resp = getResults(searchString, nums);
         String[] lines; 
         lines = resp.split("\n");
         findLinksAndSave(lines);
-        
-    
-        //BufferedImage temp = displayImage(results); 
+
         return resultUrls;
     }
-    public static void findLinksAndSave(String [] response) throws IOException 
+    public  void findLinksAndSave(String [] response) throws IOException 
     {
         int i = 0;
         while (i<response.length) {
