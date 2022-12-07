@@ -46,6 +46,8 @@ public class DrawArea extends JComponent {
   public boolean eraser=false;
   public boolean text = false;
    public boolean shape = false;
+   public boolean rotate = false;
+   public boolean imgAdj = false;
    
   int height,width;
   public boolean paintbucket = false;
@@ -76,6 +78,12 @@ public class DrawArea extends JComponent {
       {
           shape=false;
       }
+      if(val!=7)
+      {
+          rotate=false;
+      }
+      if(val != 8)
+          imgAdj = false;
       
   }
   public int returnTool()
@@ -99,6 +107,10 @@ public class DrawArea extends JComponent {
        return 5;
    if(shape)
        return 6;
+   if(rotate)
+       return 7;
+   if(imgAdj)
+       return 8;
      return 0;
   }
   public void setBrush(boolean flag)
@@ -113,10 +125,7 @@ public class DrawArea extends JComponent {
     setDoubleBuffered(false);
     
   }
- 
-  
-  
-  
+
   protected void paintComponent(Graphics g) {
       
       
@@ -170,6 +179,8 @@ public class DrawArea extends JComponent {
       zoom=0;
       
   }
+  
+  
   
   public void zoom(int width,int height)
   {
