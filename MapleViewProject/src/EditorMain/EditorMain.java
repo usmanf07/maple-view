@@ -17,6 +17,7 @@ import Tools.ShapeTool;
 import Tools.PaintBucketTool;
 import static Tools.ShapeTool.shapeStroke;
 import UserVerification.User;
+import static UserVerification.User.currentUser;
 import com.github.sarxos.webcam.Webcam;
 import java.awt.*;
 import javax.swing.*;
@@ -108,8 +109,10 @@ public class EditorMain extends javax.swing.JFrame{
         }
         
     });
-       // loadSocialGallery();
+        loadSocialGallery();
         primaryColor = Color.BLACK;
+        if(currentUser.userType == 1)
+            uploadImgBtn.setEnabled(false);
     }
     
     
@@ -165,7 +168,6 @@ public class EditorMain extends javax.swing.JFrame{
         bottomPanel = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        sliderbutton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -560,18 +562,20 @@ public class EditorMain extends javax.swing.JFrame{
             .addGroup(EditorPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(EditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(shapeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(eraserTool, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(rotateToolBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EditorPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(imgEnhanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(EditorPanelLayout.createSequentialGroup()
+                        .addGroup(EditorPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(colorChooserBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(shapeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(paintBucketBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(eraserTool, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(paintBrushBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cropBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(rotateToolBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, EditorPanelLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(imgEnhanceBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         EditorPanelLayout.setVerticalGroup(
@@ -626,13 +630,6 @@ public class EditorMain extends javax.swing.JFrame{
 
         jLabel4.setText("Zoom:");
 
-        sliderbutton.setText("100%");
-        sliderbutton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sliderbuttonActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout bottomPanelLayout = new javax.swing.GroupLayout(bottomPanel);
         bottomPanel.setLayout(bottomPanelLayout);
         bottomPanelLayout.setHorizontalGroup(
@@ -642,18 +639,15 @@ public class EditorMain extends javax.swing.JFrame{
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
-                .addComponent(sliderbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(25, 25, 25))
+                .addGap(117, 117, 117))
         );
         bottomPanelLayout.setVerticalGroup(
             bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(bottomPanelLayout.createSequentialGroup()
-                .addGap(11, 11, 11)
+                .addGap(13, 13, 13)
                 .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(sliderbutton))
+                    .addComponent(jLabel4))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -1363,10 +1357,6 @@ public class EditorMain extends javax.swing.JFrame{
         ColorChooser color = new ColorChooser();
     }//GEN-LAST:event_colorChooserBtnActionPerformed
 
-    private void sliderbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sliderbuttonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sliderbuttonActionPerformed
-
     
     public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) 
     {
@@ -1985,8 +1975,9 @@ public class EditorMain extends javax.swing.JFrame{
 
     private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
    
-        
-           Image temp=getSelectedImage();
+         
+         
+         Image temp=getSelectedImage();
          if(temp==null)
          {
              return;
@@ -2365,7 +2356,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JButton shapeBtn;
     private javax.swing.JComboBox<String> shapeCombo;
     private javax.swing.JPanel shapepanel;
-    private javax.swing.JButton sliderbutton;
     private javax.swing.JButton socialBtn;
     private javax.swing.JComboBox<String> strokeCombo;
     private javax.swing.JLabel strokeLbl;
@@ -2376,7 +2366,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JLabel typelbl;
     private javax.swing.JLabel typelbl1;
     private javax.swing.JMenuItem undoBtn;
-    private javax.swing.JMenuItem uploadImgBtn;
+    public static javax.swing.JMenuItem uploadImgBtn;
     // End of variables declaration//GEN-END:variables
 
 }

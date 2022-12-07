@@ -43,8 +43,10 @@ public class User
             ps = con.prepareStatement(query);
             ps.setInt(1, currentUser.userID);
             int check = ps.executeUpdate();
-            if(check == 1)
+            if(check == 1){
+                currentUser.userType = 2;
                 return result;
+            }
             
         } catch (SQLException ex) {
             Logger.getLogger(User.class.getName()).log(Level.SEVERE, null, ex);
