@@ -15,6 +15,7 @@ import Tools.EraserTool;
 import Tools.ShapeTool;
 import Tools.PaintBucketTool;
 import static Tools.ShapeTool.shapeStroke;
+import UserVerification.User;
 import com.github.sarxos.webcam.Webcam;
 import java.awt.*;
 import javax.swing.*;
@@ -75,7 +76,7 @@ public class EditorMain extends javax.swing.JFrame{
 
     public static Color primaryColor;
     public int lastImgValue = 0;
-    
+    private static boolean logoutflag = false;
     public EditorMain() 
     {
         
@@ -102,10 +103,11 @@ public class EditorMain extends javax.swing.JFrame{
             card.show(toolsPanel, layoutName);
             }
             selectedTabIndex = index;
+            
         }
         
     });
-        loadSocialGallery();
+       // loadSocialGallery();
         primaryColor = Color.BLACK;
     }
     
@@ -172,14 +174,11 @@ public class EditorMain extends javax.swing.JFrame{
         openCamera = new javax.swing.JMenuItem();
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         saveImgBtn = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
         uploadImgBtn = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         printBtn = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
-        jMenuItem8 = new javax.swing.JMenuItem();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
+        logoutBtn = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         undoBtn = new javax.swing.JMenuItem();
         redoBtn = new javax.swing.JMenuItem();
@@ -195,7 +194,6 @@ public class EditorMain extends javax.swing.JFrame{
         blueBtn = new javax.swing.JMenuItem();
         redBtn = new javax.swing.JMenuItem();
         greenBtn = new javax.swing.JMenuItem();
-        jMenu7 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -716,9 +714,6 @@ public class EditorMain extends javax.swing.JFrame{
         });
         jMenu1.add(saveImgBtn);
 
-        jMenuItem5.setText("Export As");
-        jMenu1.add(jMenuItem5);
-
         uploadImgBtn.setText("Upload To Social Gallery");
         uploadImgBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -738,14 +733,13 @@ public class EditorMain extends javax.swing.JFrame{
         jMenu1.add(printBtn);
         jMenu1.add(jSeparator3);
 
-        jMenuItem8.setText("Close");
-        jMenu1.add(jMenuItem8);
-
-        jMenuItem9.setText("Close All");
-        jMenu1.add(jMenuItem9);
-
-        jMenuItem10.setText("Logout");
-        jMenu1.add(jMenuItem10);
+        logoutBtn.setText("Logout");
+        logoutBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logoutBtnActionPerformed(evt);
+            }
+        });
+        jMenu1.add(logoutBtn);
 
         jMenuBar1.add(jMenu1);
 
@@ -845,9 +839,6 @@ public class EditorMain extends javax.swing.JFrame{
 
         jMenuBar1.add(filtersMenu);
 
-        jMenu7.setText("Help");
-        jMenuBar1.add(jMenu7);
-
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -900,6 +891,9 @@ public class EditorMain extends javax.swing.JFrame{
            if(!c.crop)
            {
                 c.crop=true;
+                if(c.isSaved)
+                    c.isSaved = false;
+                
                 JPanel cropToolPanel = new JPanel();
                 JButton cropImgBtn = new JButton();
                 cropImgBtn.setText("Crop");
@@ -1037,7 +1031,8 @@ public class EditorMain extends javax.swing.JFrame{
             if(!c.Brush && index != -1)
             {
                 c.Brush=true;
-            
+                if(c.isSaved)
+                    c.isSaved = false;
             Image tem=deepCopy((BufferedImage)c.getImage()); 
              c.undo.push(tem);
         c.removeAll();
@@ -1097,7 +1092,8 @@ public class EditorMain extends javax.swing.JFrame{
                 if(!c.text && index != -1)
                 {
                     c.text = true;
-
+                    if(c.isSaved)
+                        c.isSaved = false;
                 Image tem = deepCopy((BufferedImage)c.getImage()); 
                  c.undo.push(tem);
                  
@@ -1143,7 +1139,8 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             c.tool(4);
             if(!c.paintbucket){
-                
+                if(c.isSaved)
+                    c.isSaved = false;
             c.paintbucket=true;
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
@@ -1195,7 +1192,8 @@ public class EditorMain extends javax.swing.JFrame{
             if(!c.eraser)
             {
                 c.eraser=true;
-            
+                if(c.isSaved)
+                    c.isSaved = false;
             Image tem=deepCopy((BufferedImage)c.getImage()); 
             c.undo.push(tem);
              
@@ -1257,7 +1255,8 @@ public class EditorMain extends javax.swing.JFrame{
             if(!c.shape && index != -1)
             {
                 c.shape = true;
-
+                if(c.isSaved)
+                    c.isSaved = false;
                 Image tem = deepCopy((BufferedImage)c.getImage()); 
                  c.undo.push(tem);
 
@@ -1394,9 +1393,7 @@ public class EditorMain extends javax.swing.JFrame{
         try {
             
             JPanel panel = new JPanel(new GridLayout(0, 1));
-            JPanel panel1 = new JPanel();
-            
-            
+
             JScrollPane mypane=new JScrollPane(panel);
             mypane.setSize(280,800);
             mypane.setVisible(true);
@@ -1405,22 +1402,23 @@ public class EditorMain extends javax.swing.JFrame{
             GalleryImages.loadImagesFromDB();
             for(int i=0;i < GalleryImages.imageList.size();i++)
             {
-                UserImage ui = GalleryImages.imageList.get(i);
+               
                 
+                UserImage ui = GalleryImages.imageList.get(i);
+                JLabel post = new JLabel(ui.uploaderName);
+                post.setFont(new Font("Montserrat", Font.BOLD, 20));
                 BufferedImage img = ImageIO.read(new URL(ui.url));
                 Dimension oldImgDim = new Dimension(img.getWidth(null), img.getHeight(null)); 
-                
                 Dimension newDim = getScaledDimension(oldImgDim, boundary);
-                
                 Image dimg = img.getScaledInstance(newDim.width, newDim.width,
                 Image.SCALE_SMOOTH);
-                ImageIcon icon = new ImageIcon(dimg);
-
-                JLabel thumb = new JLabel();
-
-                thumb.setIcon(icon);
-
-                panel.add(thumb);
+   
+                post.setIcon(new ImageIcon(dimg));
+  
+                post.setVerticalTextPosition(SwingConstants.TOP);
+                post.setHorizontalTextPosition(SwingConstants.CENTER);
+                
+                panel.add(post);
             }
             
         //    panel.setSize(300, 200);
@@ -1469,6 +1467,7 @@ public class EditorMain extends javax.swing.JFrame{
             String name="Untitled "+count;
 
             jTabbedPane1.addTab(name,j1);
+            jTabbedPane1.setTabComponentAt(count - 1, getTitlePanel(name));
             jTabbedPane1.setSelectedIndex(count - 1);
 
             count++;
@@ -1569,8 +1568,9 @@ public class EditorMain extends javax.swing.JFrame{
             j1.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
             j1.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
             String name="Untitled " + count;
-
             jTabbedPane1.addTab(name,j1);
+            jTabbedPane1.setTabComponentAt(count - 1, getTitlePanel(name));
+            
             jTabbedPane1.setSelectedIndex(count - 1);
             jTabbedPane1.repaint();
             panel.repaint();
@@ -1585,12 +1585,96 @@ public class EditorMain extends javax.swing.JFrame{
 //        }
 
     }//GEN-LAST:event_newImgBtnActionPerformed
+    
+    public static JPanel getTitlePanel(String title)
+    {
+            JPanel titlePanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 0, 0));
+            titlePanel.setOpaque(false);
+            JLabel titleLbl = new JLabel(title);
+            titleLbl.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
+            titlePanel.add(titleLbl);
+            JButton closeButton = new JButton("x");
+            
+            closeButton.addMouseListener(new MouseAdapter()
+            {
+             @Override
+             public void mouseClicked(MouseEvent e)
+             {
+                int index = jTabbedPane1.getSelectedIndex();
+                
+                closeTabValidate(index);
+             }
+            });
+            titlePanel.add(closeButton);
 
+            return titlePanel;
+    }
   
     private void jMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenu1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenu1ActionPerformed
-
+    
+    private static boolean closeTabValidate(int index)
+    {
+        System.out.println(index);
+        if(index != -1)
+        {
+                    Component temp= jTabbedPane1.getComponentAt(index);
+                    if(temp != null)
+                    {
+                    JScrollPane selected=(JScrollPane)temp;
+                    JViewport mypanel =(JViewport)selected.getComponent(0);
+                    JPanel t = (JPanel)mypanel.getComponent(0);
+                    DrawArea c =(DrawArea) t.getComponent(0);
+                    
+                    if(!c.isSaved)
+                    {
+                        int n = JOptionPane.showConfirmDialog(null, "Do you want to save this image before closing?");
+                        if (n == JOptionPane.YES_OPTION) 
+                        {
+                            saveImgBtn.doClick();
+                            if(c.isSaved)
+                            {
+                                JOptionPane.showMessageDialog(null, "Image Saved!");
+                                c.removeAll();
+                                t.removeAll();
+                                mypanel.removeAll();
+                                selected.removeAll();
+                                logoutflag = false;
+                                jTabbedPane1.remove(index);
+                                count--;
+                                return true;
+                            }
+                        }
+                        else if(n == JOptionPane.NO_OPTION)
+                        {
+                            c.removeAll();
+                            t.removeAll();
+                            mypanel.removeAll();
+                            selected.removeAll();
+                            logoutflag = false;
+                            jTabbedPane1.remove(index);
+                            count--;
+                            return true;
+                        }
+                        
+                    }
+                    else
+                    {
+                        c.removeAll();
+                        t.removeAll();
+                        mypanel.removeAll();
+                        selected.removeAll();
+                        logoutflag = false;
+                        jTabbedPane1.remove(index);
+                        count--;
+                       return true;
+                    }
+                    }
+                }
+                return false;
+        
+    }
     private String getFileExtension(String name) 
     {
         int lastIndexOf = name.lastIndexOf(".");
@@ -1601,31 +1685,47 @@ public class EditorMain extends javax.swing.JFrame{
     }
     
     private void saveImgBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveImgBtnActionPerformed
-        Image save = getSelectedImage();
-        if(save != null)
+        
+        selectedTabIndex = jTabbedPane1.getSelectedIndex();
+        if(selectedTabIndex != -1)
         {
-            try 
+            Component temp= jTabbedPane1.getComponentAt(selectedTabIndex);
+            JScrollPane selected=(JScrollPane)temp;
+            JViewport mypanel =(JViewport)selected.getComponent(0);
+            JPanel t = (JPanel)mypanel.getComponent(0);
+            DrawArea c =(DrawArea) t.getComponent(0);
+            Image save = c.getImage();
+            if(save != null)
             {
-                BufferedImage bi = (BufferedImage) save;
-                String path = ImageOpener.Path(true);
-                String ext = getFileExtension(path);
-               
-                if(ext.equals("jpg") || ext.equals("png") || ext.equals("jpeg"))
+                try 
                 {
-                    if(!path.isEmpty())
+                    BufferedImage bi = (BufferedImage) save;
+                    String path = ImageOpener.Path(true);
+                    String ext = getFileExtension(path);
+
+                    if(ext.equals("jpg") || ext.equals("png") || ext.equals("jpeg"))
                     {
-                        File outputfile = new File(path);
-                        ImageIO.write(bi, "png", outputfile);
+                        if(!path.isEmpty())
+                        {
+                            File outputfile = new File(path);
+                            ImageIO.write(bi, "png", outputfile);
+                            c.isSaved = true;
+                        }
                     }
+                    else
+                    {
+                        JOptionPane.showMessageDialog(null, "Invalid Image Format Provided!");
+                    }
+                } catch (IOException e) {
+                    //System.err.println("An Error Occured while saving the image!");
                 }
-                else
-                {
-                    JOptionPane.showMessageDialog(null, "Invalid Image Format Provided!");
-                }
-            } catch (IOException e) {
-                System.err.println("An Error Occured while saving the image!");
             }
         }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "No Images are available!");
+        }
+        
     }//GEN-LAST:event_saveImgBtnActionPerformed
 
     private void redoBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_redoBtnActionPerformed
@@ -1633,8 +1733,11 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             c.tool(0);
             c.removeAll();
+            if(c.isSaved)
+                c.isSaved = false;
             if(!c.redo.empty())
             {
+                
                 Image teme=deepCopy((BufferedImage)c.getImage()); 
                 c.undo.push(teme);
                 Image tem=c.redo.pop();
@@ -1649,7 +1752,7 @@ public class EditorMain extends javax.swing.JFrame{
         Camera cam = new Camera();
         cam.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }//GEN-LAST:event_openCameraActionPerformed
-    JPanel getSelectedPanel()
+    static JPanel getSelectedPanel()
     {
         int index = jTabbedPane1.getSelectedIndex();
         if(index != -1)
@@ -1670,7 +1773,8 @@ public class EditorMain extends javax.swing.JFrame{
        
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            if(c.isSaved)
+                    c.isSaved = false;
             Image myColorImage = c.getImage();
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
@@ -1680,6 +1784,7 @@ public class EditorMain extends javax.swing.JFrame{
             c.tool(0);
             c.removeAll();
             c.Drawer(newimg);
+            
             repaint();
 
     }//GEN-LAST:event_bwBtnActionPerformed
@@ -1687,7 +1792,8 @@ public class EditorMain extends javax.swing.JFrame{
     private void sepiaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sepiaBtnActionPerformed
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            if(c.isSaved)
+                    c.isSaved = false;
             Image myColorImage = c.getImage();
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
@@ -1703,7 +1809,8 @@ public class EditorMain extends javax.swing.JFrame{
     private void medianBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_medianBtnActionPerformed
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-
+            if(c.isSaved)
+                    c.isSaved = false;
             Image myColorImage = c.getImage();
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
@@ -1750,7 +1857,8 @@ public class EditorMain extends javax.swing.JFrame{
     private void negativeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_negativeBtnActionPerformed
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            if(c.isSaved)
+                    c.isSaved = false;
             Image myColorImage = c.getImage();
             
             Image tem=deepCopy((BufferedImage)c.getImage()); 
@@ -1768,7 +1876,8 @@ public class EditorMain extends javax.swing.JFrame{
             bluefilter = true;
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            if(c.isSaved)
+                    c.isSaved = false;
             Image myColorImage = c.getImage();
             c.tool(0);
             Image tem=deepCopy((BufferedImage)c.getImage()); 
@@ -1787,7 +1896,8 @@ public class EditorMain extends javax.swing.JFrame{
             redfilter = true;
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
-            
+            if(c.isSaved)
+                    c.isSaved = false;
             Image myColorImage = c.getImage();
             c.tool(0);
             Image newimg = Filters.RedFilter.toRed(myColorImage);
@@ -1805,6 +1915,8 @@ public class EditorMain extends javax.swing.JFrame{
             greenfilter = true;
             JPanel t = getSelectedPanel();
             DrawArea c =(DrawArea) t.getComponent(0);
+            if(c.isSaved)
+                    c.isSaved = false;
             c.tool(0);
             Image myColorImage = c.getImage();
             
@@ -1825,6 +1937,8 @@ public class EditorMain extends javax.swing.JFrame{
             DrawArea c =(DrawArea) t.getComponent(0);
             c.removeAll();
             c.tool(0);
+            if(c.isSaved)
+                    c.isSaved = false;
             if(!c.undo.empty())
             {
                 Image teme=deepCopy((BufferedImage)c.getImage()); 
@@ -1885,7 +1999,8 @@ public class EditorMain extends javax.swing.JFrame{
           {
               c.w=c.zoomImage.getWidth(null);
               c.h=c.zoomImage.getHeight(null);
-              
+              if(c.isSaved)
+                    c.isSaved = false;
           }
           
          
@@ -1927,10 +2042,11 @@ public class EditorMain extends javax.swing.JFrame{
         DrawArea c =(DrawArea) t.getComponent(0);
 
         Image myColorImage = c.getImage();
-
+        if(c.isSaved)
+                    c.isSaved = false;
         Image tem = deepCopy((BufferedImage)c.getImage()); 
         c.undo.push(tem);
-
+        
         Image newimg = Filters.Mirrorize.toMirror((BufferedImage) myColorImage);
         c.tool(0);
         c.removeAll();
@@ -1946,6 +2062,8 @@ public class EditorMain extends javax.swing.JFrame{
             if(!c.rotate && index != -1)
             {
                 c.rotate = true;
+                if(c.isSaved)
+                    c.isSaved = false;
                 CardLayout card = (CardLayout)toolsPanel.getLayout();
                 card.show(toolsPanel, "rotatepanel");
                 cardLayouts.put(selectedTabIndex, "rotatepanel");
@@ -2022,6 +2140,8 @@ public class EditorMain extends javax.swing.JFrame{
             c.tool(8);
             if(!c.imgAdj && index != -1)
             {
+                if(c.isSaved)
+                    c.isSaved = false;
                 BufferedImage myColorImage = (BufferedImage) c.getImage();
                 c.imgAdj = true;
                 CardLayout card = (CardLayout)toolsPanel.getLayout();
@@ -2075,60 +2195,31 @@ public class EditorMain extends javax.swing.JFrame{
     }//GEN-LAST:event_imgEnhanceBtnActionPerformed
 
     private void imgadjsliderStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_imgadjsliderStateChanged
-//        
-//            Tools.ImageAdjuster.value = imgadjslider.getValue();
-//            if(Tools.ImageAdjuster.value  != 0){
-//       // if(Tools.ImageAdjuster.value > lastImgValue){
-//            System.out.println(Tools.ImageAdjuster.value);
-//            JPanel t = getSelectedPanel();
-//            DrawArea c =(DrawArea) t.getComponent(0);
-//            BufferedImage myColorImage = (BufferedImage) c.getImage();
-//            c.tool(0);
-//            Image tem=deepCopy((BufferedImage)c.getImage());
-//            c.undo.push(tem);
-//
-//            Image newimg = Tools.ImageAdjuster.adjustImage(myColorImage);
-//
-//            c.removeAll();
-//            c.Drawer(newimg);
-//            c.repaint();
-//    }
-//       // }
-//       // else
-//       // {
-//       //     undoBtn.doClick();
-//       // }
-//        
-//        lastImgValue = Tools.ImageAdjuster.value;
-            
-    }//GEN-LAST:event_imgadjsliderStateChanged
-   
-     public BufferedImage rescale(BufferedImage originalImage)
-    {
-//       // orignalImage
-//        BufferedImage resizedImage = new BufferedImage(baseWidth, baseHeight, BufferedImage.TYPE_INT_RGB);
-//        Graphics2D g = resizedImage.createGraphics();
-//        g.drawImage(originalImage, 0, 0, baseWidth, baseHeight, null);
-//        g.dispose();
-//        return resizedImage;
-        return null;
-    }
-    void displayImage(String path, JLabel jLabel5)
-    {
-   
-        baseWidth=jLabel5.getWidth();
-        baseHeight=jLabel5.getHeight();
-        
-        
-        
-    }
-    void settingStartImage() 
-    {
-          // jLabel5.setVisible(false);
-           
 
-        
-    }
+    }//GEN-LAST:event_imgadjsliderStateChanged
+    
+    private void logoutBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logoutBtnActionPerformed
+        int x = jTabbedPane1.getTabCount() - 1 ;
+        for(int i = x; i >= 0; i--)
+        {
+            if(!closeTabValidate(i))
+            {
+                logoutflag = true;
+                jTabbedPane1.setSelectedIndex(i);
+                break;
+            }
+           
+        }
+        if(!logoutflag)
+        {
+            this.dispose();
+            User.currentUser = null;
+            new loginScreen.LoginFrame().setVisible(true);
+        }
+    }//GEN-LAST:event_logoutBtnActionPerformed
+   
+    
+
     /**
      * @param args the command line arguments
      */
@@ -2193,12 +2284,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu7;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem10;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
@@ -2208,6 +2294,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JSlider jSlider1;
     public static javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JMenuItem logoutBtn;
     private javax.swing.JMenuItem medianBtn;
     private javax.swing.JButton membershipBtn;
     private javax.swing.JMenuItem mirrorBtn;
@@ -2224,7 +2311,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JComboBox<String> rotateCombo;
     private javax.swing.JButton rotateToolBtn;
     private javax.swing.JPanel rotatepanel;
-    private javax.swing.JMenuItem saveImgBtn;
+    private static javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JMenuItem sepiaBtn;
     private javax.swing.JLabel setValLbl;
     private javax.swing.JComboBox<String> settingCombo;

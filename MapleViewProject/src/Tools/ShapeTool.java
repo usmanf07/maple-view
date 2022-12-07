@@ -137,7 +137,7 @@ public class ShapeTool extends JComponent
             
         if(g == null)
             g = EditorMain.EditorMain.loadedImages.get(EditorMain.EditorMain.selectedTabIndex).getGraphics();
-        g.drawImage(EditorMain.EditorMain.loadedImages.get(EditorMain.EditorMain.selectedTabIndex), 0, 0, null);
+        //g.drawImage(EditorMain.EditorMain.loadedImages.get(EditorMain.EditorMain.selectedTabIndex), 0, 0, null);
         g2 = (Graphics2D) g;
         g2.setColor(shapeColor);
         

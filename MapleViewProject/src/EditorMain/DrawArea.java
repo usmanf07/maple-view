@@ -48,6 +48,7 @@ public class DrawArea extends JComponent {
    public boolean shape = false;
    public boolean rotate = false;
    public boolean imgAdj = false;
+   public boolean isSaved = false;
    
   int height,width;
   public boolean paintbucket = false;

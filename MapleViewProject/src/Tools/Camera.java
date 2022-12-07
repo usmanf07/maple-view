@@ -65,6 +65,7 @@ public class Camera extends JFrame {
                                 String name="Untitled " + count;
                                 
                                 jTabbedPane1.addTab(name,j1);
+                                jTabbedPane1.setTabComponentAt(count - 1, EditorMain.EditorMain.getTitlePanel(name));
                                 jTabbedPane1.setSelectedIndex(count - 1);
                                 count++;
                                 
