@@ -68,11 +68,14 @@ public class EditorMain extends javax.swing.JFrame{
     boolean bluefilter = false;
     boolean redfilter = false;
     boolean greenfilter = false;
+
     public static Color primaryColor;
+
     public EditorMain() 
     {
         
         initComponents();
+        jSlider1.setMinorTickSpacing(5);  
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
         jTabbedPane1.addChangeListener(new ChangeListener() 
         {
@@ -133,7 +136,7 @@ public class EditorMain extends javax.swing.JFrame{
         bottomPanel = new javax.swing.JPanel();
         jSlider1 = new javax.swing.JSlider();
         jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        sliderbutton = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -488,12 +491,36 @@ public class EditorMain extends javax.swing.JFrame{
 
         bottomPanel.setBorder(javax.swing.BorderFactory.createEtchedBorder(new java.awt.Color(204, 204, 204), new java.awt.Color(102, 102, 102)));
 
+        jSlider1.setMajorTickSpacing(50);
+        jSlider1.setMaximum(150);
+        jSlider1.setMinimum(50);
+        jSlider1.setMinorTickSpacing(10);
+        jSlider1.setPaintLabels(true);
+        jSlider1.setPaintTicks(true);
+        jSlider1.setSnapToTicks(true);
+        jSlider1.setValue(100);
+        jSlider1.addAncestorListener(new javax.swing.event.AncestorListener() {
+            public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
+            }
+            public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
+                jSlider1AncestorMoved(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                jSlider1AncestorRemoved(evt);
+            }
+        });
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
         jLabel4.setText("Zoom:");
 
-        jButton1.setText("100%");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        sliderbutton.setText("100%");
+        sliderbutton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                sliderbuttonActionPerformed(evt);
             }
         });
 
@@ -507,7 +534,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sliderbutton, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
         );
         bottomPanelLayout.setVerticalGroup(
@@ -517,7 +544,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addGroup(bottomPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(jButton1))
+                    .addComponent(sliderbutton))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -1184,15 +1211,40 @@ public class EditorMain extends javax.swing.JFrame{
 
     private void zoomBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_zoomBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_zoomBtnActionPerformed
+        Image temp=getSelectedImage();
+         if(temp==null)
+         {
+             return;
+         }
+         
+          JPanel t = getSelectedPanel();
+          if(t==null)
+          {
+              return;
+          }
+          DrawArea c =(DrawArea) t.getComponent(0);
+         int width=temp.getWidth(null);
+         int height=temp.getHeight(null);
+         
+         int percent=jSlider1.getValue();
+         width=(width/percent)*100;
+         height=(height/percent)*100;
+              
+         c.removeAll();
+         
+         c.zoom(width, height);
+         c.repaint();
+         repaint();
+    }//GEN-LAST:event_cropBtn5ActionPerformed
 
     private void colorChooserBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_colorChooserBtnActionPerformed
         ColorChooser color = new ColorChooser();
     }//GEN-LAST:event_colorChooserBtnActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void sliderbuttonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sliderbuttonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_sliderbuttonActionPerformed
+
     
     public static Dimension getScaledDimension(Dimension imgSize, Dimension boundary) 
     {
@@ -1394,7 +1446,7 @@ public class EditorMain extends javax.swing.JFrame{
 
             panel.add(img);
             panel.setSize(baseWidth, baseHeight);
-            panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
+         //   panel.setPreferredSize(new Dimension(baseWidth, baseHeight));
 
             JScrollPane j1=new JScrollPane();
             j1.setViewportView(panel);
@@ -1411,12 +1463,14 @@ public class EditorMain extends javax.swing.JFrame{
             panel.repaint();
             repaint();
             count++;
+
         //}
         
 //        else
 //        {
 //            JOptionPane.showMessageDialog(null, "Invalid Dimensions Entered! Try Again");
 //        }
+
     }//GEN-LAST:event_newImgBtnActionPerformed
 
   
@@ -1701,7 +1755,76 @@ public class EditorMain extends javax.swing.JFrame{
             JOptionPane.showMessageDialog(null, "You are already a premium member :)");
         }
     }//GEN-LAST:event_membershipBtnActionPerformed
+
+    private void jSlider1AncestorMoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jSlider1AncestorMoved
+        
+
+
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1AncestorMoved
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
    
+        
+           Image temp=getSelectedImage();
+         if(temp==null)
+         {
+             return;
+         }
+         
+          JPanel t = getSelectedPanel();
+          if(t==null)
+          {
+              return;
+          }
+          DrawArea c =(DrawArea) t.getComponent(0);
+          c.removeAll();
+         
+          if(c.zoom==0)
+          {
+          c.w=temp.getWidth(null);
+          c.h=temp.getHeight(null);
+          }
+          else
+          {
+              c.w=c.zoomImage.getWidth(null);
+              c.h=c.zoomImage.getHeight(null);
+              
+          }
+          
+         
+          
+          int width;
+          int height;
+          if(c.w!=0 && c.h!=0)
+          {
+          width=c.w;
+          height=c.h;
+          }
+          else
+          {
+              width=temp.getWidth(null);
+              height=temp.getHeight(null);
+              
+          }
+          
+         int percent=jSlider1.getValue();
+         width=(width*percent)/100;
+         height=(height*percent)/100;
+   
+         
+         
+         c.zoom(width, height);
+         c.repaint();
+         repaint();
+         
+         
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jSlider1AncestorRemoved(javax.swing.event.AncestorEvent evt) {//GEN-FIRST:event_jSlider1AncestorRemoved
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jSlider1AncestorRemoved
    
      public BufferedImage rescale(BufferedImage originalImage)
     {
@@ -1785,7 +1908,6 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JRadioButton fillCheck;
     private javax.swing.JMenu filtersMenu;
     private javax.swing.JMenuItem greenBtn;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenu jMenu1;
@@ -1822,9 +1944,13 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenuItem rotate1;
     private javax.swing.JMenuItem saveImgBtn;
     private javax.swing.JMenuItem sepiaBtn;
+
+    private javax.swing.JButton sliderbutton;
+
     private javax.swing.JButton shapeBtn;
     private javax.swing.JComboBox<String> shapeCombo;
     private javax.swing.JPanel shapepanel;
+
     private javax.swing.JButton socialBtn;
     private javax.swing.JComboBox<String> strokeCombo;
     private javax.swing.JLabel strokeLbl;

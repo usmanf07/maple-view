@@ -29,6 +29,7 @@ public class GalleryImages {
         String result = "success";
         if(con == null)
             con = ConnectionUtil.conDB();
+
         if(imageList == null)
             imageList = new ArrayList<>();
         
