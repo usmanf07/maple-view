@@ -161,6 +161,24 @@ public class DrawArea extends JComponent {
       
       
   }
+  
+  public void zoom2(int width, int height,BufferedImage im)
+  {
+      int newImageWidth = width;
+    int newImageHeight = height;
+    setPreferredSize(new Dimension(width, height));
+    Image  Rimage= new BufferedImage(width, height,BufferedImage.TYPE_INT_ARGB);
+
+    Graphics2D g = (Graphics2D) Rimage.getGraphics();
+
+    g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+    g.drawImage(im, 0, 0, newImageWidth , newImageHeight , null);
+    g.dispose();
+    image=Rimage;
+    repaint();
+      
+      
+  }
   public Image getImage()
   {
       return image;
