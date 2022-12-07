@@ -5,6 +5,7 @@
 package EditorMain;
 import EditorMain.DrawRect;
 import Membership.PurchaseForm;
+import Scraper.*;
 import SocialGallery.GalleryImages;
 import SocialGallery.UserImage;
 import Tools.BrushTool;
@@ -175,6 +176,7 @@ public class EditorMain extends javax.swing.JFrame{
         jSeparator1 = new javax.swing.JPopupMenu.Separator();
         saveImgBtn = new javax.swing.JMenuItem();
         uploadImgBtn = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
         printBtn = new javax.swing.JMenuItem();
         jSeparator3 = new javax.swing.JPopupMenu.Separator();
@@ -373,7 +375,7 @@ public class EditorMain extends javax.swing.JFrame{
                     .addComponent(fillCheck)
                     .addComponent(strokeLbl)
                     .addComponent(strokeCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         toolsPanel.add(shapepanel, "shapepanel");
@@ -405,7 +407,7 @@ public class EditorMain extends javax.swing.JFrame{
                 .addGroup(rotatepanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(angleLbl)
                     .addComponent(rotateCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         toolsPanel.add(rotatepanel, "rotatepanel");
@@ -445,7 +447,7 @@ public class EditorMain extends javax.swing.JFrame{
                     .addComponent(settingCombo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(setValLbl)
                     .addComponent(imgadjslider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(18, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         toolsPanel.add(imgadjpanel, "imgadjpanel");
@@ -609,11 +611,11 @@ public class EditorMain extends javax.swing.JFrame{
         jSlider1.addAncestorListener(new javax.swing.event.AncestorListener() {
             public void ancestorAdded(javax.swing.event.AncestorEvent evt) {
             }
-            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
-                jSlider1AncestorRemoved(evt);
-            }
             public void ancestorMoved(javax.swing.event.AncestorEvent evt) {
                 jSlider1AncestorMoved(evt);
+            }
+            public void ancestorRemoved(javax.swing.event.AncestorEvent evt) {
+                jSlider1AncestorRemoved(evt);
             }
         });
         jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -721,6 +723,14 @@ public class EditorMain extends javax.swing.JFrame{
             }
         });
         jMenu1.add(uploadImgBtn);
+
+        jMenuItem1.setText("Search Image");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
         jMenu1.add(jSeparator2);
 
         printBtn.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
@@ -2217,6 +2227,42 @@ public class EditorMain extends javax.swing.JFrame{
             new loginScreen.LoginFrame().setVisible(true);
         }
     }//GEN-LAST:event_logoutBtnActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+         String i=JOptionPane.showInputDialog("Enter Image you want to search");
+         BufferedImage im=null;
+         BasicScrapper temp = new BasicScrapper();
+         try{
+         im=temp.Search(i);
+         }
+         catch(Exception ex)
+         {
+             
+         }
+         JPanel panel = new JPanel();
+        panel.setLayout(new java.awt.GridBagLayout());
+        DrawArea drawArea=new DrawArea(120, 928) ;
+
+        
+        if(im!=null)
+        {
+            
+           
+            drawArea.Drawer(im);
+            drawArea.zoom2(300, 300,im);
+            panel.add(drawArea, new java.awt.GridBagConstraints());
+            JScrollPane j1=new JScrollPane(panel);
+            String name="Untitled "+count;
+
+            jTabbedPane1.addTab(name,j1);
+            jTabbedPane1.setTabComponentAt(count - 1, getTitlePanel(name));
+            jTabbedPane1.setSelectedIndex(count - 1);
+
+            count++;
+        }
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
    
     
 
@@ -2285,6 +2331,7 @@ public class EditorMain extends javax.swing.JFrame{
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
