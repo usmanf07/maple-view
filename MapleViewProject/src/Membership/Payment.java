@@ -40,7 +40,7 @@ public class Payment {
             return result = "Invalid CVV Code";
         
         
-        Stripe.apiKey = "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";
+        Stripe.apiKey = "your key";
         System.out.println("cc: "+cc+"mon: "+mon+"yr: "+yr+"cvv: "+cvv);
         try{
             Map<String, Object> customerParam = new HashMap<>();

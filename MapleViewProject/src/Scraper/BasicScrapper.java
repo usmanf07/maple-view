@@ -43,9 +43,9 @@ public class BasicScrapper {
  List<String> resultUrls;
 
     private static final int num = 5;				// Number of images to save in the current directory
-	private static final String key = "AIzaSyCziPZ3niIitvsE8A7H5Kgx6aq91WnIJq8";	// Google Custom Search API key 
+	private static final String key = "your key";	// Google Custom Search API key 
 	//private static final String qry="aeron";					// Query for the search
-	private static final String cx = "c317930f0b4874d6a";		// The custom search engine ID
+	private static final String cx = "your cx";		// The custom search engine ID
 	private static int errors = 0;						
 	
 	// Returns search results (JSON format) in each call for specified API key, query, start index and custom search engine id (cx).

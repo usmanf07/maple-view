@@ -1533,16 +1533,16 @@ public class EditorMain extends javax.swing.JFrame{
                 .addContainerGap(53, Short.MAX_VALUE))
         );
         
-          /*int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
+          int in = JOptionPane.showConfirmDialog(null, sizePanel, "Image Dimensions",
                         JOptionPane.OK_CANCEL_OPTION,
-                        JOptionPane.PLAIN_MESSAGE);*/
+                        JOptionPane.PLAIN_MESSAGE);
         
-       // if(in == 0 && !widthField.getText().isEmpty() && !heightField.getText().isEmpty())
-        //{
-            //String width = widthField.getText();
-            //String height = heightField.getText();
-            String width = "500";
-            String height = "500";
+       if(in == 0 && !widthField.getText().isEmpty() && !heightField.getText().isEmpty())
+        {
+            String width = widthField.getText();
+            String height = heightField.getText();
+//            String width = "500";
+//            String height = "500";
             if(Integer.parseInt(width) > 0 && Integer.parseInt(height) > 0)
             {
                 baseHeight = Integer.parseInt(height);
@@ -1581,12 +1581,12 @@ public class EditorMain extends javax.swing.JFrame{
             repaint();
             count++;
 
-        //}
+        }
         
-//        else
-//        {
-//            JOptionPane.showMessageDialog(null, "Invalid Dimensions Entered! Try Again");
-//        }
+        else
+        {
+            JOptionPane.showMessageDialog(null, "Invalid Dimensions Entered! Try Again");
+        }
 
     }//GEN-LAST:event_newImgBtnActionPerformed
     
@@ -2260,38 +2260,6 @@ public class EditorMain extends javax.swing.JFrame{
                 }
                 x++;
             }
-            
-            /*
-            try
-            {
-            urls = temp.Search(i);
-            }
-            catch(Exception ex)
-            {
-            
-            }           
-            JPanel panel = new JPanel();
-            panel.setLayout(new java.awt.GridBagLayout());
-            DrawArea drawArea=new DrawArea(120, 928) ;
-            
-            
-            if(im!=null)
-            {
-            
-            
-            drawArea.Drawer(im);
-            drawArea.zoom2(300, 300,im);
-            panel.add(drawArea, new java.awt.GridBagConstraints());
-            JScrollPane j1=new JScrollPane(panel);
-            String name="Untitled "+count;
-
-            jTabbedPane1.addTab(name,j1);
-            jTabbedPane1.setTabComponentAt(count - 1, getTitlePanel(name));
-            jTabbedPane1.setSelectedIndex(count - 1);
-
-            count++;
-            }*/
-            // TODO add your handling code here:
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(null, "Some Results Could Not be Loaded!");
         }
@@ -2302,39 +2270,7 @@ public class EditorMain extends javax.swing.JFrame{
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(EditorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(EditorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(EditorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(EditorMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new EditorMain().setVisible(true);
-                
-            }
-        });
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ConfigPanel;
     private javax.swing.JPanel EditorPanel;

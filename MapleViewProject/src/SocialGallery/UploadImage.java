@@ -5,8 +5,6 @@
 package SocialGallery;
 
 import UserVerification.User;
-import com.mysql.cj.xdevapi.Statement;
-import com.sun.jdi.connect.spi.Connection;
 import java.io.IOException;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
