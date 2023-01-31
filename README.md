@@ -1,5 +1,5 @@
 # MapleView by MapleTech
-- An image editor software based on Java Swing which is not just a simple image editing tool but has really advanced and complex features such as Stripe Payment API
+- An image editor software based on Java Swing which is not just a simple image editing tool but has really advanced and complex features such as Stripe Payment API, Google Image scrapper, Gmail API etc
 - It is a desktop application whose backend is based on Java & Front-end will be based upon Java Swing.
 - It uses MySQL Database which is locally hosted at the moment.
 - Below are some gui screens:
